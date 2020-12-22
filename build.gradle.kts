@@ -18,14 +18,16 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-idea {
-    module {
-        isDownloadJavadoc = false
-        isDownloadSources = false
-    }
-}
-
 allprojects {
+    apply(plugin = "idea")
+
+    idea {
+        module {
+            isDownloadJavadoc = false
+            isDownloadSources = false
+        }
+    }
+
     repositories {
         mavenLocal()
         gradlePluginPortal()
@@ -41,8 +43,8 @@ allprojects {
 }
 
 subprojects {
-    plugins.apply("java-library")
-    plugins.apply("maven-publish")
+    apply(plugin = "java-library")
+    apply(plugin = "maven-publish")
 
     group = "com.zhokhov.jambalaya"
 

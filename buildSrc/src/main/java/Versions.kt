@@ -1,5 +1,9 @@
 object Versions {
 
+    // Languages
+
+    const val kotlin = "1.4.21"
+
     // Libraries
 
     const val spotbugsAnnotations = "4.2.0"
@@ -10,6 +14,7 @@ object Versions {
 
     // Project
 
+    const val jambalayaChecks = "0.1.0"
     const val jambalayaGraphqlJooq = "0.1.0"
     const val jambalayaMicronautGraphql = "0.1.0"
 

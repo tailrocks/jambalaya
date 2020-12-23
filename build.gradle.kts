@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 buildscript {
     repositories {
         mavenLocal()
@@ -11,6 +13,7 @@ plugins {
     java
     idea
     `maven-publish`
+    kotlin("jvm") version Versions.kotlin apply false
 }
 
 java {
@@ -75,6 +78,12 @@ subprojects {
                     }
                 }
             }
+        }
+    }
+
+    tasks.withType<KotlinCompile> {
+        kotlinOptions {
+            jvmTarget = "11"
         }
     }
 

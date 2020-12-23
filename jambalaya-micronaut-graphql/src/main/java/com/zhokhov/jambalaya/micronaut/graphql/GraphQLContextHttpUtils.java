@@ -1,12 +1,15 @@
 package com.zhokhov.jambalaya.micronaut.graphql;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import graphql.GraphQLContext;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.MutableHttpResponse;
 
+import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
+
 /**
- * The helper class to work with {@link graphql.GraphQLContext} instance. The main purpose is to add ability to manage
+ * The helper class to work with {@link GraphQLContext} instance. The main purpose is to add ability to manage
  * cookies and headers inside GraphQL {@link graphql.schema.DataFetcher}.
  *
  * @author Alexey Zhokhov
@@ -24,7 +27,9 @@ public final class GraphQLContextHttpUtils {
      * @return a HttpRequest from GraphQL context object or {@literal null} if no request bound to the context object
      */
     @Nullable
-    public static HttpRequest getRequest(GraphQLContext context) {
+    public static HttpRequest getRequest(@NonNull GraphQLContext context) {
+        checkNotNull(context, "context");
+
         return context.get(HTTP_REQUEST);
     }
 
@@ -34,7 +39,9 @@ public final class GraphQLContextHttpUtils {
      * @param context The GraphQL context object
      * @param request The HTTP request
      */
-    public static synchronized void setRequest(GraphQLContext context, HttpRequest request) {
+    public static synchronized void setRequest(@NonNull GraphQLContext context, HttpRequest request) {
+        checkNotNull(context, "context");
+
         context.put(HTTP_REQUEST, request);
     }
 
@@ -43,7 +50,9 @@ public final class GraphQLContextHttpUtils {
      * @return a HttpRequest from GraphQL context object or {@literal null} if no request bound to the context object
      */
     @Nullable
-    public static MutableHttpResponse<String> getResponse(GraphQLContext context) {
+    public static MutableHttpResponse<String> getResponse(@NonNull GraphQLContext context) {
+        checkNotNull(context, "context");
+
         return context.get(HTTP_RESPONSE);
     }
 
@@ -53,7 +62,9 @@ public final class GraphQLContextHttpUtils {
      * @param context  The GraphQL context object
      * @param response The HTTP response
      */
-    public static synchronized void setResponse(GraphQLContext context, MutableHttpResponse<String> response) {
+    public static synchronized void setResponse(@NonNull GraphQLContext context, MutableHttpResponse<String> response) {
+        checkNotNull(context, "context");
+
         context.put(HTTP_RESPONSE, response);
     }
 

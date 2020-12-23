@@ -3,14 +3,15 @@ package com.zhokhov.jambalaya.graphql.jooq;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import org.jooq.UpdatableRecord;
 
-import java.util.Objects;
+import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
 
 public abstract class PersistableGQL<ID, ENTITY extends UpdatableRecord> {
 
     protected ENTITY entity;
 
     public PersistableGQL(@NonNull ENTITY entity) {
-        Objects.requireNonNull(entity, "entity");
+        checkNotNull(entity, "entity");
+
         this.entity = entity;
     }
 

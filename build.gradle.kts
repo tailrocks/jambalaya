@@ -14,8 +14,8 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 allprojects {
@@ -35,9 +35,9 @@ allprojects {
         mavenCentral()
     }
 
-    if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_1_9)) {
+    if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_11)) {
         tasks.withType<JavaCompile> {
-            options.release.set(8)
+            options.release.set(11)
         }
     }
 }
@@ -49,17 +49,14 @@ subprojects {
     group = "com.zhokhov.jambalaya"
 
     java {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
 
         withJavadocJar()
         withSourcesJar()
     }
 
     dependencies {
-        // SLF4J
-        implementation("org.slf4j:slf4j-api:${Versions.slf4j}")
-
         // SpotBugs
         implementation("com.github.spotbugs:spotbugs-annotations:${Versions.spotbugsAnnotations}")
 

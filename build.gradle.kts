@@ -1,3 +1,4 @@
+import com.jfrog.bintray.gradle.BintrayExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
@@ -13,6 +14,7 @@ plugins {
     java
     idea
     `maven-publish`
+    id("com.jfrog.bintray") version Versions.gradleBintrayPlugin apply false
     kotlin("jvm") version Versions.kotlin apply false
 }
 
@@ -38,23 +40,19 @@ allprojects {
         mavenCentral()
     }
 
-    if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_11)) {
-        tasks.withType<JavaCompile> {
-            options.release.set(11)
-        }
+    tasks.withType<JavaCompile> {
+        options.release.set(11)
     }
 }
 
 subprojects {
     apply(plugin = "java-library")
     apply(plugin = "maven-publish")
+    apply(plugin = "com.jfrog.bintray")
 
     group = "com.zhokhov.jambalaya"
 
     java {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-
         withJavadocJar()
         withSourcesJar()
     }
@@ -89,6 +87,20 @@ subprojects {
                     password = System.getenv("GITHUB_TOKEN")
                 }
             }
+        }
+    }
+
+    configure<BintrayExtension> {
+        user = System.getenv("BINTRAY_USER")
+        key = System.getenv("BINTRAY_KEY")
+        publish = true
+        setPublications("mavenJava")
+        pkg.apply {
+            repo = "jambalaya"
+            name = "jambalaya"
+            userOrg = "expatiat"
+            vcsUrl = "https://github.com/expatiat/jambalaya.git"
+            setLicenses("Apache-2.0")
         }
     }
 

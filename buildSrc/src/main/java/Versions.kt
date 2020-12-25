@@ -4,6 +4,11 @@ object Versions {
 
     const val kotlin = "1.4.21"
 
+    // Gradle plugins
+
+    // https://plugins.gradle.org/plugin/com.jfrog.bintray
+    const val gradleBintrayPlugin = "1.8.5"
+
     // Libraries
 
     const val spotbugsAnnotations = "4.2.0"

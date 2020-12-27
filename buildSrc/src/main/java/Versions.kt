@@ -16,11 +16,13 @@ object Versions {
     const val junit = "5.6.2"
     const val micronautGraphql = "2.2.0"
     const val jooq = "3.14.4"
+    const val protobuf = "3.14.0"
 
     // Project
 
     const val jambalayaChecks = "0.1.0"
     const val jambalayaGraphqlJooq = "0.1.0"
     const val jambalayaMicronautGraphql = "0.1.0"
+    const val jambalayaProtobuf = "0.1.0"
 
 }

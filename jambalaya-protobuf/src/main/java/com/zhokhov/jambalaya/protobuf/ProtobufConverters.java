@@ -36,10 +36,10 @@ public final class ProtobufConverters {
     }
 
     /**
-     * Convert from {@link List<StringValue>} to {@link List<String>}.
+     * Convert from {@link List} of {@link StringValue} to {@link List} of {@link String}.
      *
      * @param source the source value to convert
-     * @return {@literal null} or {@link List<String>}.
+     * @return {@literal null} or {@link List} of {@link String}.
      */
     @Nullable
     public static List<String> toListString(@Nullable List<StringValue> source) {
@@ -52,10 +52,10 @@ public final class ProtobufConverters {
     }
 
     /**
-     * Convert from {@link ProtocolStringList} to {@link List<String>}.
+     * Convert from {@link ProtocolStringList} to {@link List} of {@link String}.
      *
      * @param source the source value to convert
-     * @return {@literal null} or {@link ArrayList<String>}.
+     * @return {@literal null} or {@link List} of {@link String}.
      */
     @Nullable
     public static List<String> toListString(@Nullable ProtocolStringList source) {
@@ -209,10 +209,10 @@ public final class ProtobufConverters {
     }
 
     /**
-     * Convert from {@link List<String>} to {@link List<StringValue>}.
+     * Convert from {@link List} of {@link String} to {@link List} of {@link StringValue}.
      *
      * @param source the source value to convert
-     * @return {@literal null} or {@link List<StringValue>}.
+     * @return {@literal null} or {@link List} of {@link StringValue}.
      */
     @Nullable
     public static List<StringValue> toListStringValue(@Nullable List<String> source) {
@@ -225,7 +225,7 @@ public final class ProtobufConverters {
     }
 
     /**
-     * Convert from {@link List<String>} to {@link ProtocolStringList}.
+     * Convert from {@link List} of {@link String} to {@link ProtocolStringList}.
      *
      * @param source the source value to convert
      * @return {@literal null} or {@link ProtocolStringList}.

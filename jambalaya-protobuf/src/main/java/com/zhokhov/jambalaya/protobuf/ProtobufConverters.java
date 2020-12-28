@@ -24,6 +24,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link StringValue} to {@link String}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or String's value
      */
     @Nullable
@@ -37,6 +38,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link List<StringValue>} to {@link List<String>}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link List<String>}.
      */
     @Nullable
@@ -52,6 +54,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link ProtocolStringList} to {@link List<String>}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link ArrayList<String>}.
      */
     @Nullable
@@ -65,6 +68,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link Int32Value} to {@link Integer}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link Integer}.
      */
     @Nullable
@@ -78,6 +82,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link UInt32Value} to {@link Integer}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link Integer}.
      */
     @Nullable
@@ -91,6 +96,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link Int64Value} to {@link Long}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link Long}.
      */
     @Nullable
@@ -104,6 +110,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link UInt64Value} to {@link Long}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link Long}.
      */
     @Nullable
@@ -117,6 +124,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link FloatValue} to {@link Float}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link Float}.
      */
     @Nullable
@@ -130,6 +138,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link BoolValue} to {@link Boolean}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link Boolean}.
      */
     @Nullable
@@ -143,6 +152,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link Timestamp} to {@link LocalDate}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link LocalDate}.
      */
     @Nullable
@@ -156,6 +166,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link Timestamp} to {@link LocalDateTime}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link LocalDateTime}.
      */
     @Nullable
@@ -169,6 +180,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link Timestamp} to {@link ZonedDateTime}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link ZonedDateTime}.
      */
     @Nullable
@@ -185,6 +197,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link String} to {@link StringValue}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link StringValue}.
      */
     @Nullable
@@ -198,6 +211,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link List<String>} to {@link List<StringValue>}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link List<StringValue>}.
      */
     @Nullable
@@ -213,6 +227,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link List<String>} to {@link ProtocolStringList}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link ProtocolStringList}.
      */
     @Nullable
@@ -226,6 +241,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link Integer} to {@link Int32Value}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link Int32Value}.
      */
     @Nullable
@@ -239,6 +255,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link Integer} to {@link UInt32Value}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link UInt32Value}.
      */
     @Nullable
@@ -252,6 +269,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link Long} to {@link Int64Value}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link Int64Value}.
      */
     @Nullable
@@ -265,6 +283,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link Long} to {@link UInt64Value}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link UInt64Value}.
      */
     @Nullable
@@ -278,6 +297,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link Float} to {@link FloatValue}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link FloatValue}.
      */
     @Nullable
@@ -291,6 +311,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link Boolean} to {@link BoolValue}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link BoolValue}.
      */
     @Nullable
@@ -304,6 +325,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link LocalDate} to {@link Timestamp}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link Timestamp}.
      */
     @Nullable
@@ -319,6 +341,7 @@ public final class ProtobufConverters {
     /**
      * Convert from {@link LocalDateTime} to {@link Timestamp}.
      *
+     * @param source the source value to convert
      * @return {@literal null} or {@link Timestamp}.
      */
     @Nullable

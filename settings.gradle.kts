@@ -1,9 +1,10 @@
 rootProject.name = "jambalaya"
 
 include(
-    "jambalaya-checks",
-    "jambalaya-checks-jooq",
-    "jambalaya-graphql-jooq",
-    "jambalaya-micronaut-graphql",
-    "jambalaya-protobuf"
+        "jambalaya-checks",
+        "jambalaya-checks-jooq",
+        "jambalaya-graphql-jooq",
+        "jambalaya-jsr310",
+        "jambalaya-micronaut-graphql",
+        "jambalaya-protobuf"
 )

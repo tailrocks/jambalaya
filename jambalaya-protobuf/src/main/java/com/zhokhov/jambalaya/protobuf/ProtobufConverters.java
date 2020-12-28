@@ -1,16 +1,30 @@
 package com.zhokhov.jambalaya.protobuf;
 
-import com.google.protobuf.*;
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.FloatValue;
+import com.google.protobuf.Int32Value;
+import com.google.protobuf.Int64Value;
+import com.google.protobuf.LazyStringArrayList;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.StringValue;
+import com.google.protobuf.Timestamp;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt64Value;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Collection of static helper method to convert from gRPC wrappers for primitive (non-message) types to non-primitive
- * Java data types.
+ * The collection of static methods to convert from gRPC wrappers for primitive (non-message) types to non-primitive
+ * Java data types and vice versa.
  *
  * @author Alexey Zhokhov
  */
@@ -189,7 +203,9 @@ public final class ProtobufConverters {
             return null;
         }
 
-        return Instant.ofEpochSecond(source.getSeconds(), source.getNanos()).atZone(ZoneOffset.UTC);
+        return Instant
+                .ofEpochSecond(source.getSeconds(), source.getNanos())
+                .atZone(ZoneOffset.UTC);
     }
 
     // to gRPC types

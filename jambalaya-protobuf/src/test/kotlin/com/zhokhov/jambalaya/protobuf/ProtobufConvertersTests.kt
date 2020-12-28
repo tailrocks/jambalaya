@@ -24,8 +24,8 @@ class ProtobufConvertersTests {
         assertEquals(listOf(), ProtobufConverters.toListString(listOf()))
         assertEquals(listOf(""), ProtobufConverters.toListString(listOf(StringValue.getDefaultInstance())))
         assertEquals(
-            listOf("abc", "xyz"),
-            ProtobufConverters.toListString(listOf(StringValue.of("abc"), StringValue.of("xyz")))
+                listOf("abc", "xyz"),
+                ProtobufConverters.toListString(listOf(StringValue.of("abc"), StringValue.of("xyz")))
         )
     }
 
@@ -93,12 +93,12 @@ class ProtobufConvertersTests {
     fun `convert Timestamp to LocalDate`() {
         assertEquals(null, ProtobufConverters.toLocalDate(null as Timestamp?))
         assertEquals(
-            LocalDate.of(1970, 1, 1),
-            ProtobufConverters.toLocalDate(Timestamp.getDefaultInstance())
+                LocalDate.of(1970, 1, 1),
+                ProtobufConverters.toLocalDate(Timestamp.getDefaultInstance())
         )
         assertEquals(
-            LocalDate.of(1987, 12, 26),
-            ProtobufConverters.toLocalDate(Timestamp.newBuilder().setSeconds(567475200).setNanos(0).build())
+                LocalDate.of(1987, 12, 26),
+                ProtobufConverters.toLocalDate(Timestamp.newBuilder().setSeconds(567475200).setNanos(0).build())
         )
     }
 
@@ -106,16 +106,16 @@ class ProtobufConvertersTests {
     fun `convert Timestamp to LocalDateTime`() {
         assertEquals(null, ProtobufConverters.toLocalDateTime(null as Timestamp?))
         assertEquals(
-            LocalDateTime.of(LocalDate.of(1970, 1, 1), LocalTime.MIDNIGHT),
-            ProtobufConverters.toLocalDateTime(Timestamp.getDefaultInstance())
+                LocalDateTime.of(LocalDate.of(1970, 1, 1), LocalTime.MIDNIGHT),
+                ProtobufConverters.toLocalDateTime(Timestamp.getDefaultInstance())
         )
         assertEquals(
-            LocalDateTime.of(LocalDate.of(1987, 12, 26), LocalTime.MIDNIGHT),
-            ProtobufConverters.toLocalDateTime(Timestamp.newBuilder().setSeconds(567475200).setNanos(0).build())
+                LocalDateTime.of(LocalDate.of(1987, 12, 26), LocalTime.MIDNIGHT),
+                ProtobufConverters.toLocalDateTime(Timestamp.newBuilder().setSeconds(567475200).setNanos(0).build())
         )
         assertEquals(
-            LocalDateTime.of(LocalDate.of(1987, 12, 26), LocalTime.of(11, 12, 13, 14)),
-            ProtobufConverters.toLocalDateTime(Timestamp.newBuilder().setSeconds(567515533).setNanos(14).build())
+                LocalDateTime.of(LocalDate.of(1987, 12, 26), LocalTime.of(11, 12, 13, 14)),
+                ProtobufConverters.toLocalDateTime(Timestamp.newBuilder().setSeconds(567515533).setNanos(14).build())
         )
     }
 
@@ -134,8 +134,8 @@ class ProtobufConvertersTests {
         assertEquals(listOf(), ProtobufConverters.toListStringValue(listOf()))
         assertEquals(listOf(StringValue.of("")), ProtobufConverters.toListStringValue(listOf("")))
         assertEquals(
-            listOf(StringValue.of("abc"), StringValue.of("xyz")),
-            ProtobufConverters.toListStringValue(listOf("abc", "xyz"))
+                listOf(StringValue.of("abc"), StringValue.of("xyz")),
+                ProtobufConverters.toListStringValue(listOf("abc", "xyz"))
         )
     }
 
@@ -144,8 +144,8 @@ class ProtobufConvertersTests {
         assertEquals(null, ProtobufConverters.toProtocolStringList(null as List<String>?))
         assertEquals(LazyStringArrayList.EMPTY, ProtobufConverters.toProtocolStringList(listOf()))
         assertEquals(
-            LazyStringArrayList(listOf("abc", "xyz")),
-            ProtobufConverters.toProtocolStringList(listOf("abc", "xyz"))
+                LazyStringArrayList(listOf("abc", "xyz")),
+                ProtobufConverters.toProtocolStringList(listOf("abc", "xyz"))
         )
     }
 
@@ -201,12 +201,12 @@ class ProtobufConvertersTests {
     fun `convert LocalDate to Timestamp`() {
         assertEquals(null, ProtobufConverters.toTimestamp(null as LocalDate?))
         assertEquals(
-            Timestamp.getDefaultInstance(),
-            ProtobufConverters.toTimestamp(LocalDate.of(1970, 1, 1))
+                Timestamp.getDefaultInstance(),
+                ProtobufConverters.toTimestamp(LocalDate.of(1970, 1, 1))
         )
         assertEquals(
-            Timestamp.newBuilder().setSeconds(567475200).setNanos(0).build(),
-            ProtobufConverters.toTimestamp(LocalDate.of(1987, 12, 26))
+                Timestamp.newBuilder().setSeconds(567475200).setNanos(0).build(),
+                ProtobufConverters.toTimestamp(LocalDate.of(1987, 12, 26))
         )
     }
 
@@ -214,16 +214,16 @@ class ProtobufConvertersTests {
     fun `convert LocalDateTime to Timestamp`() {
         assertEquals(null, ProtobufConverters.toTimestamp(null as LocalDateTime?))
         assertEquals(
-            Timestamp.getDefaultInstance(),
-            ProtobufConverters.toTimestamp(LocalDateTime.of(LocalDate.of(1970, 1, 1), LocalTime.MIDNIGHT))
+                Timestamp.getDefaultInstance(),
+                ProtobufConverters.toTimestamp(LocalDateTime.of(LocalDate.of(1970, 1, 1), LocalTime.MIDNIGHT))
         )
         assertEquals(
-            Timestamp.newBuilder().setSeconds(567475200).setNanos(0).build(),
-            ProtobufConverters.toTimestamp(LocalDateTime.of(LocalDate.of(1987, 12, 26), LocalTime.MIDNIGHT))
+                Timestamp.newBuilder().setSeconds(567475200).setNanos(0).build(),
+                ProtobufConverters.toTimestamp(LocalDateTime.of(LocalDate.of(1987, 12, 26), LocalTime.MIDNIGHT))
         )
         assertEquals(
-            Timestamp.newBuilder().setSeconds(567515533).setNanos(14).build(),
-            ProtobufConverters.toTimestamp(LocalDateTime.of(LocalDate.of(1987, 12, 26), LocalTime.of(11, 12, 13, 14)))
+                Timestamp.newBuilder().setSeconds(567515533).setNanos(14).build(),
+                ProtobufConverters.toTimestamp(LocalDateTime.of(LocalDate.of(1987, 12, 26), LocalTime.of(11, 12, 13, 14)))
         )
     }
 

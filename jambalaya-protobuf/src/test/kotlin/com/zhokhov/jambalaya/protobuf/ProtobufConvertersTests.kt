@@ -1,6 +1,15 @@
 package com.zhokhov.jambalaya.protobuf
 
-import com.google.protobuf.*
+import com.google.protobuf.BoolValue
+import com.google.protobuf.FloatValue
+import com.google.protobuf.Int32Value
+import com.google.protobuf.Int64Value
+import com.google.protobuf.LazyStringArrayList
+import com.google.protobuf.ProtocolStringList
+import com.google.protobuf.StringValue
+import com.google.protobuf.Timestamp
+import com.google.protobuf.UInt32Value
+import com.google.protobuf.UInt64Value
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
 import java.time.LocalDateTime

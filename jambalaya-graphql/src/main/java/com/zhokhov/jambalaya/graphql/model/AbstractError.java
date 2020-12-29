@@ -15,6 +15,10 @@ public abstract class AbstractError<T extends Enum> {
     private final T code;
     private final String message;
 
+    /**
+     * @param code    the code error
+     * @param message the error message
+     */
     public AbstractError(@NonNull T code, @NonNull String message) {
         checkNotNull(code, "code");
         checkNotNull(message, "message");

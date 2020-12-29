@@ -19,7 +19,7 @@ import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
  * <p><b>Sample Usage</b> (Note that the following classes are all
  * made-up.)
  *
- * <pre> {@code
+ * <pre>{@code
  * public class AccountByIdDataLoader extends AbstractMappedDataLoaderAdapter<Long, AccountRecord> {
  *
  *   private final AccountRepository accountRepository;
@@ -28,7 +28,6 @@ import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
  *     this.accountRepository = accountRepository;
  *   }
  *
- *   @Override
  *   protected MappedBatchLoaderWithContext<Long, AccountRecord> getBatchLoader() {
  *     return (keys, batchLoaderEnvironment) -> CompletableFuture.completedFuture(
  *         accountRepository
@@ -41,7 +40,7 @@ import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
  * }
  * }</pre>
  * And use this data loader in the resolver class:
- * <pre> {@code
+ * <pre>{@code
  *
  *   public CompletableFuture<PublicProfile> author(Post post, DataFetchingEnvironment env) {
  *     return accountByIdDataLoader
@@ -57,6 +56,9 @@ import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
  */
 public abstract class AbstractMappedDataLoaderAdapter<K, V> {
 
+    /**
+     * @return new instance of batch loader
+     */
     protected abstract MappedBatchLoaderWithContext<K, V> getBatchLoader();
 
     /**

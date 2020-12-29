@@ -20,6 +20,10 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts') }}
           restore-keys: ${{ runner.os }}-gradle
+      - name: Spotless Check
+        run: ./gradlew spotlessCheck
+      - name: Test
+        run: ./gradlew test
       #- name: Publish to GitHub Packages
       #  run: ./gradlew publish
       #  env:

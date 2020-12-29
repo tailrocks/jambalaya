@@ -14,6 +14,8 @@ plugins {
     java
     idea
     `maven-publish`
+    id("com.adarshr.test-logger") version Versions.gradleTestLoggerPlugin apply false
+    id("net.rdrei.android.buildtimetracker") version Versions.gradleBuildTimeTrackerPlugin
     id("com.jfrog.bintray") version Versions.gradleBintrayPlugin apply false
     id("com.diffplug.spotless") version Versions.gradleSpotlessPlugin
     kotlin("jvm") version Versions.kotlin apply false
@@ -65,6 +67,7 @@ allprojects {
 subprojects {
     apply(plugin = "java-library")
     apply(plugin = "maven-publish")
+    apply(plugin = "com.adarshr.test-logger")
     apply(plugin = "com.jfrog.bintray")
 
     group = "com.zhokhov.jambalaya"

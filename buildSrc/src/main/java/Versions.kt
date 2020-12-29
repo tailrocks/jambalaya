@@ -6,6 +6,12 @@ object Versions {
 
     // Gradle plugins
 
+    // https://plugins.gradle.org/plugin/com.adarshr.test-logger
+    const val gradleTestLoggerPlugin = "2.1.1"
+
+    // https://plugins.gradle.org/plugin/net.rdrei.android.buildtimetracker
+    const val gradleBuildTimeTrackerPlugin = "0.11.0"
+
     // https://plugins.gradle.org/plugin/com.jfrog.bintray
     const val gradleBintrayPlugin = "1.8.5"
 

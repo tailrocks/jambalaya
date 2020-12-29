@@ -18,6 +18,7 @@ object Versions {
     const val jooq = "3.14.4"
     const val protobuf = "3.14.0"
     const val graphQlDataLoader = "2.2.3"
+    const val slugify = "2.4"
 
     // Project
 
@@ -28,5 +29,6 @@ object Versions {
     const val jambalayaJsr310 = "0.1.0"
     const val jambalayaMicronautGraphql = "0.1.0"
     const val jambalayaProtobuf = "0.1.0"
+    const val jambalayaSeo = "0.1.0"
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 original authors
+ * Copyright $YEAR original authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.test.sample;
-
-import java.util.List;
-
-public class TestData {
-
-    public static final Order ORDER = new Order(
-            1L, "123-789-xyz",
-            List.of(
-                    new OrderItem(3L, "3AZ", "Test product"),
-                    new OrderItem(7L, "ABC-1", "Abc Xyz")
-            )
-    );
-
-}

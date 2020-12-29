@@ -9,6 +9,9 @@ object Versions {
     // https://plugins.gradle.org/plugin/com.jfrog.bintray
     const val gradleBintrayPlugin = "1.8.5"
 
+    // https://plugins.gradle.org/plugin/com.diffplug.spotless
+    const val gradleSpotlessPlugin = "5.8.2"
+
     // Libraries
 
     const val spotbugsAnnotations = "4.2.0"

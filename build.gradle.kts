@@ -15,6 +15,7 @@ plugins {
     idea
     `maven-publish`
     id("com.jfrog.bintray") version Versions.gradleBintrayPlugin apply false
+    id("com.diffplug.spotless") version Versions.gradleSpotlessPlugin
     kotlin("jvm") version Versions.kotlin apply false
 }
 
@@ -25,6 +26,7 @@ java {
 
 allprojects {
     apply(plugin = "idea")
+    apply(plugin = "com.diffplug.spotless")
 
     idea {
         module {
@@ -38,6 +40,21 @@ allprojects {
         gradlePluginPortal()
         jcenter()
         mavenCentral()
+    }
+
+    spotless {
+        java {
+            licenseHeaderFile("$rootDir/gradle/licenseHeader.txt")
+            removeUnusedImports()
+            trimTrailingWhitespace()
+            endWithNewline()
+        }
+        kotlin {
+            licenseHeaderFile("$rootDir/gradle/licenseHeader.txt")
+        }
+        kotlinGradle {
+            ktlint()
+        }
     }
 
     tasks.withType<JavaCompile> {

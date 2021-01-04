@@ -26,6 +26,7 @@ class PreconditionsTests {
     private val nullInt: Int? = null
     private val zeroInt: Int = 0
     private val negativeInt: Int = -1
+    private val nullIntCollection: Collection<Int>? = null
 
     @Test
     fun checkNull() {
@@ -222,6 +223,44 @@ class PreconditionsTests {
             Preconditions.checkNegativeOrZero(positiveInt, "arg")
         }.apply {
             assertEquals("The \"arg\" must be negative or zero", message)
+        }
+    }
+
+    @Test
+    fun checkEmpty() {
+        assertDoesNotThrow {
+            Preconditions.checkEmpty(listOf<Int>(), "arg")
+        }
+
+        assertThrows<IllegalArgumentException> {
+            Preconditions.checkEmpty(nullIntCollection, "arg")
+        }.apply {
+            assertEquals("The \"arg\" must be an empty collection", message)
+        }
+
+        assertThrows<IllegalArgumentException> {
+            Preconditions.checkEmpty(listOf(1), "arg")
+        }.apply {
+            assertEquals("The \"arg\" must be an empty collection", message)
+        }
+    }
+
+    @Test
+    fun checkNotEmpty() {
+        assertDoesNotThrow {
+            Preconditions.checkNotEmpty(listOf(1), "arg")
+        }
+
+        assertThrows<IllegalArgumentException> {
+            Preconditions.checkNotEmpty(nullIntCollection, "arg")
+        }.apply {
+            assertEquals("The \"arg\" must not be an empty collection", message)
+        }
+
+        assertThrows<IllegalArgumentException> {
+            Preconditions.checkNotEmpty(listOf<Int>(), "arg")
+        }.apply {
+            assertEquals("The \"arg\" must not be an empty collection", message)
         }
     }
 

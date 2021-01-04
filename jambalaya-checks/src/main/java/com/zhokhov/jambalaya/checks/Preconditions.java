@@ -18,6 +18,8 @@ package com.zhokhov.jambalaya.checks;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
+import java.util.Collection;
+
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -224,7 +226,7 @@ public final class Preconditions {
     }
 
     /**
-     * Ensures that the parameter being validated is {@code null}.
+     * Ensures that the parameter being validated is negative number or equals to zero.
      *
      * @param value    parameter's value
      * @param argument the name of parameter
@@ -240,7 +242,7 @@ public final class Preconditions {
     // Double
 
     /**
-     * Ensures that the parameter being validated is {@code null}.
+     * Ensures that the parameter being validated is positive number.
      *
      * @param value    parameter's value
      * @param argument the name of parameter
@@ -254,7 +256,7 @@ public final class Preconditions {
     }
 
     /**
-     * Ensures that the parameter being validated is {@code null}.
+     * Ensures that the parameter being validated is positive number or equals to zero.
      *
      * @param value    parameter's value
      * @param argument the name of parameter
@@ -268,7 +270,7 @@ public final class Preconditions {
     }
 
     /**
-     * Ensures that the parameter being validated is {@code null}.
+     * Ensures that the parameter being validated is negative number.
      *
      * @param value    parameter's value
      * @param argument the name of parameter
@@ -282,7 +284,7 @@ public final class Preconditions {
     }
 
     /**
-     * Ensures that the parameter being validated is {@code null}.
+     * Ensures that the parameter being validated is negative number or equals to zero.
      *
      * @param value    parameter's value
      * @param argument the name of parameter
@@ -292,6 +294,36 @@ public final class Preconditions {
 
         if (value == null || value > 0) {
             throw new IllegalArgumentException("The \"" + argument + "\" must be negative or zero");
+        }
+    }
+
+    // Collection
+
+    /**
+     * Ensures that the parameter being validated is an empty collection.
+     *
+     * @param value    parameter's value
+     * @param argument the name of parameter
+     */
+    public static void checkEmpty(@Nullable Collection value, @NonNull String argument) {
+        requireNonNull(argument, "argument");
+
+        if (value == null || !value.isEmpty()) {
+            throw new IllegalArgumentException("The \"" + argument + "\" must be an empty collection");
+        }
+    }
+
+    /**
+     * Ensures that the parameter being validated is not an empty collection.
+     *
+     * @param value    parameter's value
+     * @param argument the name of parameter
+     */
+    public static void checkNotEmpty(@Nullable Collection value, @NonNull String argument) {
+        requireNonNull(argument, "argument");
+
+        if (value == null || value.isEmpty()) {
+            throw new IllegalArgumentException("The \"" + argument + "\" must not be an empty collection");
         }
     }
 

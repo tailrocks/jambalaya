@@ -26,8 +26,19 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
+buildtimetracker {
+    reporters {
+        register("summary") {
+            options["ordered"] = "true"
+            options["barstyle"] = "none"
+            options["shortenTaskNames"] = "false"
+        }
+    }
+}
+
 allprojects {
     apply(plugin = "idea")
+    apply(plugin = "net.rdrei.android.buildtimetracker")
     apply(plugin = "com.diffplug.spotless")
 
     idea {

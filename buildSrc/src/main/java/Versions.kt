@@ -39,7 +39,7 @@ object Versions {
     const val jambalayaGraphqlJooq = "0.1.0"
     const val jambalayaJsr310 = "0.1.0"
     const val jambalayaKotlinTest = "0.1.0"
-    const val jambalayaMicronautGraphql = "0.1.0"
+    const val jambalayaMicronautGraphql = "0.1.1"
     const val jambalayaProtobuf = "0.1.0"
     const val jambalayaSeo = "0.1.0"
 

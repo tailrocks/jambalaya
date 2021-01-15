@@ -29,13 +29,14 @@ object Versions {
     const val graphQlDataLoader = "2.2.3"
     const val slugify = "2.4"
     const val apollo = "2.5.2"
+    const val okhttp = "4.9.0"
 
     // Project
 
     const val jambalayaChecks = "0.1.1"
     const val jambalayaChecksJooq = "0.1.0"
     const val jambalayaGraphql = "0.1.0"
-    const val jambalayaGraphqlApollo = "0.1.0"
+    const val jambalayaGraphqlApollo = "0.2.0"
     const val jambalayaGraphqlJooq = "0.1.0"
     const val jambalayaJsr310 = "0.1.0"
     const val jambalayaKotlinTest = "0.1.0"

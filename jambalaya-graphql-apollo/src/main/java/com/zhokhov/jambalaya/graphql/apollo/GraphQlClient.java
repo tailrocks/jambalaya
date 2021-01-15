@@ -18,7 +18,6 @@ package com.zhokhov.jambalaya.graphql.apollo;
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.ApolloClient;
 import com.apollographql.apollo.api.CustomTypeAdapter;
-import com.apollographql.apollo.api.Error;
 import com.apollographql.apollo.api.Mutation;
 import com.apollographql.apollo.api.Query;
 import com.apollographql.apollo.api.Response;
@@ -26,10 +25,13 @@ import com.apollographql.apollo.api.ScalarType;
 import com.apollographql.apollo.exception.ApolloException;
 import com.apollographql.apollo.fetcher.ApolloResponseFetchers;
 import edu.umd.cs.findbugs.annotations.NonNull;
+import edu.umd.cs.findbugs.annotations.Nullable;
+import okhttp3.JavaNetCookieJar;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.net.CookieManager;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -41,7 +43,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import static com.zhokhov.jambalaya.checks.Preconditions.checkNotBlank;
 import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
@@ -53,8 +54,6 @@ import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
  * @author Alexey Zhokhov
  */
 public class GraphQlClient {
-
-    private static final Logger LOG = LoggerFactory.getLogger(GraphQlClient.class);
 
     private static final Map<String, CustomTypeAdapter<?>> CUSTOM_TYPE_ADAPTER_MAP = new HashMap<>();
 
@@ -72,12 +71,26 @@ public class GraphQlClient {
 
     private Duration timeout = Duration.ofSeconds(15);
 
-    public GraphQlClient(@NonNull String serverUrl, @NonNull ScalarType[] scalarTypes) {
+    public GraphQlClient(@NonNull String serverUrl, @NonNull ScalarType[] scalarTypes,
+                         @Nullable OkHttpClient okHttpClient) {
         checkNotBlank(serverUrl, "serverUrl");
+
+        if (okHttpClient == null) {
+            CookieManager cookieHandler = new CookieManager();
+
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+            okHttpClient = new OkHttpClient.Builder()
+                    .cookieJar(new JavaNetCookieJar(cookieHandler))
+                    .addInterceptor(logging)
+                    .build();
+        }
 
         ApolloClient.Builder apolloClientBuilder = ApolloClient.builder()
                 .serverUrl(serverUrl)
-                .defaultResponseFetcher(ApolloResponseFetchers.NETWORK_ONLY);
+                .defaultResponseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
+                .okHttpClient(okHttpClient);
 
         for (ScalarType scalarType : scalarTypes) {
             apolloClientBuilder.addCustomTypeAdapter(scalarType, CUSTOM_TYPE_ADAPTER_MAP.get(scalarType.className()));
@@ -128,16 +141,11 @@ public class GraphQlClient {
         return new ApolloCall.Callback<>() {
             @Override
             public void onResponse(@NotNull Response<T> response) {
-                LOG.debug("Response: {}", response.getData());
-                if (response.getErrors() != null) {
-                    LOG.error("Errors: {}", response.getErrors().stream().map(Error::getMessage).collect(Collectors.toList()));
-                }
                 future.complete(response);
             }
 
             @Override
             public void onFailure(@NotNull ApolloException e) {
-                LOG.error(e.getMessage(), e);
                 future.completeExceptionally(e);
             }
         };

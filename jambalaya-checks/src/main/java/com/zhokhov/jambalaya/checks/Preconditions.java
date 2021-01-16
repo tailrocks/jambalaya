@@ -140,6 +140,13 @@ public final class Preconditions {
     }
 
     /**
+     * @see #checkPositive(Integer, String)
+     */
+    public static void checkPositive(int value, @NonNull String argument) {
+        checkPositive((Integer) value, argument);
+    }
+
+    /**
      * Ensures that the parameter being validated is positive number or equals to zero.
      *
      * @param value    parameter's value
@@ -151,6 +158,13 @@ public final class Preconditions {
         if (value == null || value < 0) {
             throw new IllegalArgumentException("The \"" + argument + "\" must be positive or zero");
         }
+    }
+
+    /**
+     * @see #checkPositiveOrZero(Integer, String)
+     */
+    public static void checkPositiveOrZero(int value, @NonNull String argument) {
+        checkPositiveOrZero((Integer) value, argument);
     }
 
     /**
@@ -168,6 +182,13 @@ public final class Preconditions {
     }
 
     /**
+     * @see #checkNegative(Integer, String)
+     */
+    public static void checkNegative(int value, @NonNull String argument) {
+        checkNegative((Integer) value, argument);
+    }
+
+    /**
      * Ensures that the parameter being validated is negative number or equals to zero.
      *
      * @param value    parameter's value
@@ -179,6 +200,13 @@ public final class Preconditions {
         if (value == null || value > 0) {
             throw new IllegalArgumentException("The \"" + argument + "\" must be negative or zero");
         }
+    }
+
+    /**
+     * @see #checkNegativeOrZero(Integer, String)
+     */
+    public static void checkNegativeOrZero(int value, @NonNull String argument) {
+        checkNegativeOrZero((Integer) value, argument);
     }
 
     // Long
@@ -198,6 +226,13 @@ public final class Preconditions {
     }
 
     /**
+     * @see #checkPositive(Long, String)
+     */
+    public static void checkPositive(long value, @NonNull String argument) {
+        checkPositive((Long) value, argument);
+    }
+
+    /**
      * Ensures that the parameter being validated is positive number or equals to zero.
      *
      * @param value    parameter's value
@@ -209,6 +244,13 @@ public final class Preconditions {
         if (value == null || value < 0) {
             throw new IllegalArgumentException("The \"" + argument + "\" must be positive or zero");
         }
+    }
+
+    /**
+     * @see #checkPositiveOrZero(Long, String)
+     */
+    public static void checkPositiveOrZero(long value, @NonNull String argument) {
+        checkPositiveOrZero((Long) value, argument);
     }
 
     /**
@@ -226,6 +268,13 @@ public final class Preconditions {
     }
 
     /**
+     * @see #checkNegative(Long, String)
+     */
+    public static void checkNegative(long value, @NonNull String argument) {
+        checkNegative((Long) value, argument);
+    }
+
+    /**
      * Ensures that the parameter being validated is negative number or equals to zero.
      *
      * @param value    parameter's value
@@ -237,6 +286,13 @@ public final class Preconditions {
         if (value == null || value > 0) {
             throw new IllegalArgumentException("The \"" + argument + "\" must be negative or zero");
         }
+    }
+
+    /**
+     * @see #checkNegativeOrZero(Long, String)
+     */
+    public static void checkNegativeOrZero(long value, @NonNull String argument) {
+        checkNegativeOrZero((Long) value, argument);
     }
 
     // Double
@@ -256,6 +312,13 @@ public final class Preconditions {
     }
 
     /**
+     * @see #checkPositive(Double, String)
+     */
+    public static void checkPositive(double value, @NonNull String argument) {
+        checkPositive((Double) value, argument);
+    }
+
+    /**
      * Ensures that the parameter being validated is positive number or equals to zero.
      *
      * @param value    parameter's value
@@ -267,6 +330,13 @@ public final class Preconditions {
         if (value == null || value < 0) {
             throw new IllegalArgumentException("The \"" + argument + "\" must be positive or zero");
         }
+    }
+
+    /**
+     * @see #checkPositiveOrZero(Double, String)
+     */
+    public static void checkPositiveOrZero(double value, @NonNull String argument) {
+        checkPositiveOrZero((Double) value, argument);
     }
 
     /**
@@ -284,6 +354,13 @@ public final class Preconditions {
     }
 
     /**
+     * @see #checkNegative(Double, String)
+     */
+    public static void checkNegative(double value, @NonNull String argument) {
+        checkNegative((Double) value, argument);
+    }
+
+    /**
      * Ensures that the parameter being validated is negative number or equals to zero.
      *
      * @param value    parameter's value
@@ -295,6 +372,13 @@ public final class Preconditions {
         if (value == null || value > 0) {
             throw new IllegalArgumentException("The \"" + argument + "\" must be negative or zero");
         }
+    }
+
+    /**
+     * @see #checkNegativeOrZero(Double, String)
+     */
+    public static void checkNegativeOrZero(double value, @NonNull String argument) {
+        checkNegativeOrZero((Double) value, argument);
     }
 
     // Collection

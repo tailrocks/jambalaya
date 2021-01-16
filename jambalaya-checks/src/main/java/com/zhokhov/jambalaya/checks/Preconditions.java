@@ -143,7 +143,11 @@ public final class Preconditions {
      * @see #checkPositive(Integer, String)
      */
     public static void checkPositive(int value, @NonNull String argument) {
-        checkPositive((Integer) value, argument);
+        requireNonNull(argument, "argument");
+
+        if (value < 1) {
+            throw new IllegalArgumentException("The \"" + argument + "\" must be positive");
+        }
     }
 
     /**
@@ -164,7 +168,11 @@ public final class Preconditions {
      * @see #checkPositiveOrZero(Integer, String)
      */
     public static void checkPositiveOrZero(int value, @NonNull String argument) {
-        checkPositiveOrZero((Integer) value, argument);
+        requireNonNull(argument, "argument");
+
+        if (value < 0) {
+            throw new IllegalArgumentException("The \"" + argument + "\" must be positive or zero");
+        }
     }
 
     /**
@@ -185,7 +193,11 @@ public final class Preconditions {
      * @see #checkNegative(Integer, String)
      */
     public static void checkNegative(int value, @NonNull String argument) {
-        checkNegative((Integer) value, argument);
+        requireNonNull(argument, "argument");
+
+        if (value >= 0) {
+            throw new IllegalArgumentException("The \"" + argument + "\" must be negative");
+        }
     }
 
     /**
@@ -206,7 +218,11 @@ public final class Preconditions {
      * @see #checkNegativeOrZero(Integer, String)
      */
     public static void checkNegativeOrZero(int value, @NonNull String argument) {
-        checkNegativeOrZero((Integer) value, argument);
+        requireNonNull(argument, "argument");
+
+        if (value > 0) {
+            throw new IllegalArgumentException("The \"" + argument + "\" must be negative or zero");
+        }
     }
 
     // Long
@@ -229,7 +245,11 @@ public final class Preconditions {
      * @see #checkPositive(Long, String)
      */
     public static void checkPositive(long value, @NonNull String argument) {
-        checkPositive((Long) value, argument);
+        requireNonNull(argument, "argument");
+
+        if (value < 1) {
+            throw new IllegalArgumentException("The \"" + argument + "\" must be positive");
+        }
     }
 
     /**
@@ -250,7 +270,11 @@ public final class Preconditions {
      * @see #checkPositiveOrZero(Long, String)
      */
     public static void checkPositiveOrZero(long value, @NonNull String argument) {
-        checkPositiveOrZero((Long) value, argument);
+        requireNonNull(argument, "argument");
+
+        if (value < 0) {
+            throw new IllegalArgumentException("The \"" + argument + "\" must be positive or zero");
+        }
     }
 
     /**
@@ -271,7 +295,11 @@ public final class Preconditions {
      * @see #checkNegative(Long, String)
      */
     public static void checkNegative(long value, @NonNull String argument) {
-        checkNegative((Long) value, argument);
+        requireNonNull(argument, "argument");
+
+        if (value >= 0) {
+            throw new IllegalArgumentException("The \"" + argument + "\" must be negative");
+        }
     }
 
     /**
@@ -292,7 +320,11 @@ public final class Preconditions {
      * @see #checkNegativeOrZero(Long, String)
      */
     public static void checkNegativeOrZero(long value, @NonNull String argument) {
-        checkNegativeOrZero((Long) value, argument);
+        requireNonNull(argument, "argument");
+
+        if (value > 0) {
+            throw new IllegalArgumentException("The \"" + argument + "\" must be negative or zero");
+        }
     }
 
     // Double
@@ -315,7 +347,11 @@ public final class Preconditions {
      * @see #checkPositive(Double, String)
      */
     public static void checkPositive(double value, @NonNull String argument) {
-        checkPositive((Double) value, argument);
+        requireNonNull(argument, "argument");
+
+        if (value < 1) {
+            throw new IllegalArgumentException("The \"" + argument + "\" must be positive");
+        }
     }
 
     /**
@@ -336,7 +372,11 @@ public final class Preconditions {
      * @see #checkPositiveOrZero(Double, String)
      */
     public static void checkPositiveOrZero(double value, @NonNull String argument) {
-        checkPositiveOrZero((Double) value, argument);
+        requireNonNull(argument, "argument");
+
+        if (value < 0) {
+            throw new IllegalArgumentException("The \"" + argument + "\" must be positive or zero");
+        }
     }
 
     /**
@@ -357,7 +397,11 @@ public final class Preconditions {
      * @see #checkNegative(Double, String)
      */
     public static void checkNegative(double value, @NonNull String argument) {
-        checkNegative((Double) value, argument);
+        requireNonNull(argument, "argument");
+
+        if (value >= 0) {
+            throw new IllegalArgumentException("The \"" + argument + "\" must be negative");
+        }
     }
 
     /**
@@ -378,7 +422,11 @@ public final class Preconditions {
      * @see #checkNegativeOrZero(Double, String)
      */
     public static void checkNegativeOrZero(double value, @NonNull String argument) {
-        checkNegativeOrZero((Double) value, argument);
+        requireNonNull(argument, "argument");
+
+        if (value > 0) {
+            throw new IllegalArgumentException("The \"" + argument + "\" must be negative or zero");
+        }
     }
 
     // Collection

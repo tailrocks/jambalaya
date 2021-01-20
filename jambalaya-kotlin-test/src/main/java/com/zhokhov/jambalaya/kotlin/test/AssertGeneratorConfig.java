@@ -34,8 +34,6 @@ public final class AssertGeneratorConfig {
         DEFAULT_IGNORED_METHODS.add("hashCode");
         DEFAULT_IGNORED_METHODS.add("getClass");
         DEFAULT_IGNORED_METHODS.add("listIterator");
-        DEFAULT_IGNORED_METHODS.add("marshaller");
-        DEFAULT_IGNORED_METHODS.add("__typename");
     }
 
     private static AssertGeneratorConfig DEFAULT_CONFIG = new AssertGeneratorConfig(
@@ -78,7 +76,7 @@ public final class AssertGeneratorConfig {
         return packagesToPrintAllPublicMethods;
     }
 
-    Set<String> getGlobalIgnoredMethods() {
+    public Set<String> getGlobalIgnoredMethods() {
         return globalIgnoredMethods;
     }
 

@@ -8,6 +8,7 @@ include(
         "jambalaya-graphql-jooq",
         "jambalaya-jsr310",
         "jambalaya-kotlin-test",
+        "jambalaya-kotlin-test-graphql-example",
         "jambalaya-micronaut-graphql",
         "jambalaya-protobuf",
         "jambalaya-seo"

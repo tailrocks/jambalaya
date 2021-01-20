@@ -1,0 +1,38 @@
+schema {
+  query: Query
+}
+
+type Query {
+  tableList(input: TableListInput!): TableListPayload!
+}
+
+input TableListInput {
+  databaseName: String!
+}
+
+enum SecurityErrorCode {
+  UNAUTHORIZED
+}
+
+type TableListPayload {
+  data: [Table!]
+  error: TableListPayloadError
+}
+
+type Table {
+  name: String!
+  columns: [TableColumn!]!
+}
+
+type TableColumn {
+  name: String!
+  # column type
+  kind: String!
+}
+
+type SecurityError {
+  code: SecurityErrorCode!
+  message: String!
+}
+
+union TableListPayloadError = SecurityError

@@ -1,0 +1,17 @@
+query tableList($input: TableListInput!) {
+  tableList(input: $input) {
+    data {
+      name
+      columns {
+        name
+        kind
+      }
+    }
+    error {
+      ... on SecurityError {
+        code
+        message
+      }
+    }
+  }
+}

@@ -18,6 +18,9 @@ object Versions {
     // https://plugins.gradle.org/plugin/com.diffplug.spotless
     const val gradleSpotlessPlugin = "5.8.2"
 
+    // https://plugins.gradle.org/plugin/com.apollographql.apollo
+    const val gradleApolloPlugin = "2.5.2"
+
     // Libraries
 
     const val spotbugsAnnotations = "4.2.0"
@@ -39,7 +42,7 @@ object Versions {
     const val jambalayaGraphqlApollo = "0.2.0"
     const val jambalayaGraphqlJooq = "0.1.0"
     const val jambalayaJsr310 = "0.1.0"
-    const val jambalayaKotlinTest = "0.1.0"
+    const val jambalayaKotlinTest = "0.1.1"
     const val jambalayaMicronautGraphql = "0.1.1"
     const val jambalayaProtobuf = "0.1.0"
     const val jambalayaSeo = "0.1.0"

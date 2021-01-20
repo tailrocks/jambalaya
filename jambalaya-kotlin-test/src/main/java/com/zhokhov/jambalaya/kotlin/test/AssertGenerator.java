@@ -15,6 +15,7 @@
  */
 package com.zhokhov.jambalaya.kotlin.test;
 
+import com.zhokhov.jambalaya.kotlin.test.apollo.AssertGeneratorApollo;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
@@ -46,10 +47,12 @@ public final class AssertGenerator {
     }
 
     private final AssertGeneratorConfig config;
+    private final AssertGeneratorApollo assertGeneratorApollo;
 
     public AssertGenerator(@NonNull AssertGeneratorConfig config) {
         requireNonNull(config, "config");
         this.config = config;
+        this.assertGeneratorApollo = new AssertGeneratorApollo(config);
     }
 
     @Nullable
@@ -93,29 +96,33 @@ public final class AssertGenerator {
 
         List<Method> publicMethods;
 
-        if (isScanAllPublicMethods(value)) {
-            // Get the public methods associated with this class.
-            Method[] methods = value.getClass().getMethods();
+        publicMethods = assertGeneratorApollo.detectPublicMethods(value);
 
-            publicMethods = Arrays.stream(methods)
-                    .filter(it -> !it.getReturnType().equals(Void.TYPE)
-                            && it.getParameterCount() == 0
-                            && !config.getGlobalIgnoredMethods().contains(it.getName()))
-                    .collect(Collectors.toList());
-        } else {
-            publicMethods = new ArrayList<>();
+        if (publicMethods == null) {
+            if (isScanAllPublicMethods(value)) {
+                // Get the public methods associated with this class.
+                Method[] methods = value.getClass().getMethods();
 
-            try {
-                final PropertyDescriptor[] propertyDescriptors = Introspector.getBeanInfo(value.getClass()).getPropertyDescriptors();
-                for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
-                    Method readMethod = propertyDescriptor.getReadMethod();
+                publicMethods = Arrays.stream(methods)
+                        .filter(it -> !it.getReturnType().equals(Void.TYPE)
+                                && it.getParameterCount() == 0
+                                && !config.getGlobalIgnoredMethods().contains(it.getName()))
+                        .collect(Collectors.toList());
+            } else {
+                publicMethods = new ArrayList<>();
 
-                    if (readMethod != null && !config.getGlobalIgnoredMethods().contains(readMethod.getName())) {
-                        publicMethods.add(readMethod);
+                try {
+                    final PropertyDescriptor[] propertyDescriptors = Introspector.getBeanInfo(value.getClass()).getPropertyDescriptors();
+                    for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+                        Method readMethod = propertyDescriptor.getReadMethod();
+
+                        if (readMethod != null && !config.getGlobalIgnoredMethods().contains(readMethod.getName())) {
+                            publicMethods.add(readMethod);
+                        }
                     }
+                } catch (IntrospectionException e) {
+                    throw new RuntimeException(e);
                 }
-            } catch (IntrospectionException e) {
-                throw new RuntimeException(e);
             }
         }
 

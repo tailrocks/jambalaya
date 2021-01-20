@@ -76,11 +76,26 @@ allprojects {
     }
 }
 
+val publishingProjects = setOf(
+        "jambalaya-checks",
+        "jambalaya-checks-jooq",
+        "jambalaya-graphql",
+        "jambalaya-graphql-apollo",
+        "jambalaya-graphql-jooq",
+        "jambalaya-jsr310",
+        "jambalaya-kotlin-test",
+        "jambalaya-micronaut-graphql",
+        "jambalaya-protobuf",
+        "jambalaya-seo"
+)
+
 subprojects {
     apply(plugin = "java-library")
-    apply(plugin = "maven-publish")
     apply(plugin = "com.adarshr.test-logger")
-    apply(plugin = "com.jfrog.bintray")
+    if (publishingProjects.contains(project.name)) {
+        apply(plugin = "maven-publish")
+        apply(plugin = "com.jfrog.bintray")
+    }
 
     group = "com.zhokhov.jambalaya"
 
@@ -101,42 +116,44 @@ subprojects {
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${Versions.junit}")
     }
 
-    publishing {
-        publications {
-            create<MavenPublication>("mavenJava") {
-                from(components["java"])
-                versionMapping {
-                    allVariants {
-                        fromResolutionResult()
+    if (publishingProjects.contains(project.name)) {
+        publishing {
+            publications {
+                create<MavenPublication>("mavenJava") {
+                    from(components["java"])
+                    versionMapping {
+                        allVariants {
+                            fromResolutionResult()
+                        }
+                    }
+                }
+            }
+
+            repositories {
+                maven {
+                    name = "GitHubPackages"
+                    url = uri("https://maven.pkg.github.com/expatiat/jambalaya")
+                    credentials {
+                        username = System.getenv("GITHUB_ACTOR")
+                        password = System.getenv("GITHUB_TOKEN")
                     }
                 }
             }
         }
 
-        repositories {
-            maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/expatiat/jambalaya")
-                credentials {
-                    username = System.getenv("GITHUB_ACTOR")
-                    password = System.getenv("GITHUB_TOKEN")
-                }
+        configure<BintrayExtension> {
+            user = System.getenv("BINTRAY_USER")
+            key = System.getenv("BINTRAY_KEY")
+            publish = true
+            override = true
+            setPublications("mavenJava")
+            pkg.apply {
+                repo = "jambalaya"
+                name = "jambalaya"
+                userOrg = "expatiat"
+                vcsUrl = "https://github.com/expatiat/jambalaya.git"
+                setLicenses("Apache-2.0")
             }
-        }
-    }
-
-    configure<BintrayExtension> {
-        user = System.getenv("BINTRAY_USER")
-        key = System.getenv("BINTRAY_KEY")
-        publish = true
-        override = true
-        setPublications("mavenJava")
-        pkg.apply {
-            repo = "jambalaya"
-            name = "jambalaya"
-            userOrg = "expatiat"
-            vcsUrl = "https://github.com/expatiat/jambalaya.git"
-            setLicenses("Apache-2.0")
         }
     }
 

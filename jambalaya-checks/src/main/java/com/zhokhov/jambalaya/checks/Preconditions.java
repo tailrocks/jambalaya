@@ -19,6 +19,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
 
@@ -456,6 +457,36 @@ public final class Preconditions {
 
         if (value == null || value.isEmpty()) {
             throw new IllegalArgumentException("The \"" + argument + "\" must not be an empty collection");
+        }
+    }
+
+    // Map
+
+    /**
+     * Ensures that the parameter being validated is an empty map.
+     *
+     * @param value    parameter's value
+     * @param argument the name of parameter
+     */
+    public static void checkEmpty(@Nullable Map value, @NonNull String argument) {
+        requireNonNull(argument, "argument");
+
+        if (value == null || !value.isEmpty()) {
+            throw new IllegalArgumentException("The \"" + argument + "\" must be an empty map");
+        }
+    }
+
+    /**
+     * Ensures that the parameter being validated is not an empty map.
+     *
+     * @param value    parameter's value
+     * @param argument the name of parameter
+     */
+    public static void checkNotEmpty(@Nullable Map value, @NonNull String argument) {
+        requireNonNull(argument, "argument");
+
+        if (value == null || value.isEmpty()) {
+            throw new IllegalArgumentException("The \"" + argument + "\" must not be an empty map");
         }
     }
 

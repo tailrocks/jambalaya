@@ -27,6 +27,7 @@ class PreconditionsTests {
     private val zeroInt: Int = 0
     private val negativeInt: Int = -1
     private val nullIntCollection: Collection<Int>? = null
+    private val nullIntStringMap: Map<Int, String>? = null
 
     @Test
     fun checkNull() {
@@ -227,7 +228,7 @@ class PreconditionsTests {
     }
 
     @Test
-    fun checkEmpty() {
+    fun checkCollectionEmpty() {
         assertDoesNotThrow {
             Preconditions.checkEmpty(listOf<Int>(), "arg")
         }
@@ -246,7 +247,7 @@ class PreconditionsTests {
     }
 
     @Test
-    fun checkNotEmpty() {
+    fun checkCollectionNotEmpty() {
         assertDoesNotThrow {
             Preconditions.checkNotEmpty(listOf(1), "arg")
         }
@@ -261,6 +262,44 @@ class PreconditionsTests {
             Preconditions.checkNotEmpty(listOf<Int>(), "arg")
         }.apply {
             assertEquals("The \"arg\" must not be an empty collection", message)
+        }
+    }
+
+    @Test
+    fun checkMapEmpty() {
+        assertDoesNotThrow {
+            Preconditions.checkEmpty(mapOf<Int, String>(), "arg")
+        }
+
+        assertThrows<IllegalArgumentException> {
+            Preconditions.checkEmpty(nullIntStringMap, "arg")
+        }.apply {
+            assertEquals("The \"arg\" must be an empty map", message)
+        }
+
+        assertThrows<IllegalArgumentException> {
+            Preconditions.checkEmpty(mapOf(Pair(1, "test")), "arg")
+        }.apply {
+            assertEquals("The \"arg\" must be an empty map", message)
+        }
+    }
+
+    @Test
+    fun checkMapNotEmpty() {
+        assertDoesNotThrow {
+            Preconditions.checkNotEmpty(mapOf(Pair(1, "test")), "arg")
+        }
+
+        assertThrows<IllegalArgumentException> {
+            Preconditions.checkNotEmpty(nullIntStringMap, "arg")
+        }.apply {
+            assertEquals("The \"arg\" must not be an empty map", message)
+        }
+
+        assertThrows<IllegalArgumentException> {
+            Preconditions.checkNotEmpty(mapOf<Int, String>(), "arg")
+        }.apply {
+            assertEquals("The \"arg\" must not be an empty map", message)
         }
     }
 

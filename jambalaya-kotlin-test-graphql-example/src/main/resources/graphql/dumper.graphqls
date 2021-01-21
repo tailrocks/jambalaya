@@ -1,13 +1,22 @@
 schema {
   query: Query
+  mutation: Mutation
 }
 
 type Query {
   tableList(input: TableListInput!): TableListPayload!
 }
 
+type Mutation {
+  tableCreate(input: TableCreateInput!): TableCreatePayload!
+}
+
 input TableListInput {
   databaseName: String!
+}
+
+input TableCreateInput {
+  tableName: String!
 }
 
 enum SecurityErrorCode {
@@ -17,6 +26,11 @@ enum SecurityErrorCode {
 type TableListPayload {
   data: [Table!]
   error: TableListPayloadError
+}
+
+type TableCreatePayload {
+  data: Table
+  error: TableCreatePayloadError
 }
 
 type Table {
@@ -36,3 +50,4 @@ type SecurityError {
 }
 
 union TableListPayloadError = SecurityError
+union TableCreatePayloadError = SecurityError

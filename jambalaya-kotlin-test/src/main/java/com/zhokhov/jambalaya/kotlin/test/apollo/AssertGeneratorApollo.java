@@ -37,6 +37,9 @@ public class AssertGeneratorApollo {
     @Nullable
     private Class queryClass;
 
+    @Nullable
+    private Class mutationClass;
+
     public AssertGeneratorApollo(AssertGeneratorConfig config) {
         this.config = config;
 
@@ -56,6 +59,12 @@ public class AssertGeneratorApollo {
             queryClass = Class.forName("com.apollographql.apollo.api.Query");
         } catch (ClassNotFoundException ignored) {
             queryClass = null;
+        }
+
+        try {
+            mutationClass = Class.forName("com.apollographql.apollo.api.Mutation");
+        } catch (ClassNotFoundException ignored) {
+            mutationClass = null;
         }
     }
 
@@ -101,7 +110,7 @@ public class AssertGeneratorApollo {
         Class declaringClass = value.getClass().getDeclaringClass();
 
         if (declaringClass != null) {
-            if (queryClass.isAssignableFrom(declaringClass)) {
+            if (queryClass.isAssignableFrom(declaringClass) || mutationClass.isAssignableFrom(declaringClass)) {
                 // Get the public methods associated with this class.
                 Method[] methods = value.getClass().getMethods();
 

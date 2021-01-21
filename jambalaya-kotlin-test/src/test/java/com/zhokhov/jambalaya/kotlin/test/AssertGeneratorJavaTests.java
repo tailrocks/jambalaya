@@ -16,7 +16,9 @@
 package com.zhokhov.jambalaya.kotlin.test;
 
 import com.apollographql.apollo.api.Response;
+import com.zhokhov.jambalaya.test.sample.apollo.mutation.TableCreateMutation;
 import com.zhokhov.jambalaya.test.sample.apollo.query.TableListQuery;
+import com.zhokhov.jambalaya.test.sample.apollo.type.TableCreateInput;
 import com.zhokhov.jambalaya.test.sample.apollo.type.TableListInput;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +27,7 @@ import java.util.List;
 public class AssertGeneratorJavaTests {
 
     @Test
-    public void test() {
+    public void queryTest() {
         TableListQuery tableListQuery = TableListQuery.builder()
                 .input(
                         TableListInput.builder()
@@ -50,6 +52,36 @@ public class AssertGeneratorJavaTests {
         TableListQuery.Data data = new TableListQuery.Data(tableList);
 
         Response<TableListQuery.Data> response = (Response) Response.builder(tableListQuery)
+                .data(data)
+                .build();
+
+        AssertGenerator.generate(response, "response");
+    }
+
+    @Test
+    public void mutationTest() {
+        TableCreateMutation tableListQuery = TableCreateMutation.builder()
+                .input(
+                        TableCreateInput.builder()
+                                .tableName("test")
+                                .build()
+                )
+                .build();
+
+        TableCreateMutation.TableCreate tableCreate = new TableCreateMutation.TableCreate(
+                "TableCreatePayload",
+                new TableCreateMutation.Data1("Table", "account",
+                        List.of(
+                                new TableCreateMutation.Column("TableColumn", "id", "int8"),
+                                new TableCreateMutation.Column("TableColumn", "created_date", "timestamp")
+                        )
+                ),
+                null
+        );
+
+        TableCreateMutation.Data data = new TableCreateMutation.Data(tableCreate);
+
+        Response<TableCreateMutation.Data> response = (Response) Response.builder(tableListQuery)
                 .data(data)
                 .build();
 

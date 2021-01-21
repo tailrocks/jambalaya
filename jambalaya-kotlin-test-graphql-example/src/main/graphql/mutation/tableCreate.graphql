@@ -1,0 +1,17 @@
+mutation tableCreate($input: TableCreateInput!) {
+  tableCreate(input: $input) {
+    data {
+      name
+      columns {
+        name
+        kind
+      }
+    }
+    error {
+      ... on SecurityError {
+        code
+        message
+      }
+    }
+  }
+}

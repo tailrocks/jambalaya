@@ -52,10 +52,10 @@ task("generateGraphQLSchema", Exec::class) {
     file("$projectDir/src/main/graphql").mkdirs()
 
     commandLine(
-            apolloCodegenCmd,
-            "introspect-schema",
-            file("$projectDir/src/main/resources/graphql/dumper.graphqls").absolutePath,
-            "--output",
-            file("$projectDir/src/main/graphql/schema.json").absolutePath
+        apolloCodegenCmd,
+        "introspect-schema",
+        file("$projectDir/src/main/resources/graphql/dumper.graphqls").absolutePath,
+        "--output",
+        file("$projectDir/src/main/graphql/schema.json").absolutePath
     )
 }

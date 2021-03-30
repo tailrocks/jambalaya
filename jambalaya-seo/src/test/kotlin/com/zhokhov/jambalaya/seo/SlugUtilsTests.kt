@@ -39,7 +39,10 @@ class SlugUtilsTests {
         assertEquals("kill-bill-vol-1", SlugUtils.generateSlug("Kill Bill: Vol. 1"))
         assertEquals("kill-bill-vol-1", SlugUtils.generateSlug("Kill Bill: Vol. 1--"))
         assertEquals("wall-e", SlugUtils.generateSlug("WALL·E"))
-        assertEquals("star-wars-episode-vi-return-of-the-jedi", SlugUtils.generateSlug("Star Wars: Episode VI - Return of the Jedi"))
+        assertEquals(
+            "star-wars-episode-vi-return-of-the-jedi",
+            SlugUtils.generateSlug("Star Wars: Episode VI - Return of the Jedi")
+        )
         assertEquals("x-men-first-class", SlugUtils.generateSlug("X-Men: First Class"))
         assertEquals("ni-hao-ma", SlugUtils.generateSlug("你好吗？"))
         assertEquals("shalopai", SlugUtils.generateSlug("шалопай"))

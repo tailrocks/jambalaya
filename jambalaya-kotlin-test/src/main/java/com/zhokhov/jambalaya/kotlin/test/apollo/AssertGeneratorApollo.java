@@ -26,17 +26,15 @@ import java.util.stream.Collectors;
 
 public class AssertGeneratorApollo {
 
+    private static final List<String> RESPONSE_PUBLIC_METHODS_NAME =
+            List.of("isFromCache", "hasErrors", "getErrors", "getData");
     private final AssertGeneratorConfig config;
-
     @Nullable
     private Class responseClass;
-
     @Nullable
     private Class operationDataClass;
-
     @Nullable
     private Class queryClass;
-
     @Nullable
     private Class mutationClass;
 
@@ -67,9 +65,6 @@ public class AssertGeneratorApollo {
             mutationClass = null;
         }
     }
-
-    private static final List<String> RESPONSE_PUBLIC_METHODS_NAME =
-            List.of("isFromCache", "hasErrors", "getErrors", "getData");
 
     public List<Method> detectPublicMethods(@NonNull Object value) {
         if (responseClass == null) {

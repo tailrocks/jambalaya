@@ -28,9 +28,6 @@ import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
  */
 public final class SlugUtils {
 
-    private SlugUtils() {
-    }
-
     private static final Slugify SLUGIFY = new Slugify();
 
     static {
@@ -38,6 +35,9 @@ public final class SlugUtils {
         SLUGIFY.withCustomReplacement("'", "");
         SLUGIFY.withCustomReplacement("·", " ");
         SLUGIFY.withTransliterator(true);
+    }
+
+    private SlugUtils() {
     }
 
     /**

@@ -28,6 +28,11 @@ import static java.util.Objects.requireNonNull;
 public final class AssertGeneratorConfig {
 
     public static final Set<String> DEFAULT_IGNORED_METHODS = new HashSet<>();
+    private static AssertGeneratorConfig DEFAULT_CONFIG = new AssertGeneratorConfig(
+            new Indentation(),
+            new HashSet<>(),
+            DEFAULT_IGNORED_METHODS
+    );
 
     static {
         DEFAULT_IGNORED_METHODS.add("toString");
@@ -35,12 +40,6 @@ public final class AssertGeneratorConfig {
         DEFAULT_IGNORED_METHODS.add("getClass");
         DEFAULT_IGNORED_METHODS.add("listIterator");
     }
-
-    private static AssertGeneratorConfig DEFAULT_CONFIG = new AssertGeneratorConfig(
-            new Indentation(),
-            new HashSet<>(),
-            DEFAULT_IGNORED_METHODS
-    );
 
     private final Indentation indentation;
     private final Set<String> packagesToPrintAllPublicMethods;

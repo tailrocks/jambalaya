@@ -36,13 +36,13 @@ final class DateTimeHelper {
 
     static final List<DateTimeFormatter> DATE_FORMATTERS = new CopyOnWriteArrayList<>();
 
-    private DateTimeHelper() {
-    }
-
     static {
         DATE_FORMATTERS.add(DateTimeFormatter.ISO_INSTANT.withZone(ZoneOffset.UTC));
         DATE_FORMATTERS.add(DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(ZoneOffset.UTC));
         DATE_FORMATTERS.add(DateTimeFormatter.ISO_LOCAL_DATE.withZone(ZoneOffset.UTC));
+    }
+
+    private DateTimeHelper() {
     }
 
     // ISO_8601

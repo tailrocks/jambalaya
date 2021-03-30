@@ -37,9 +37,18 @@ import java.util.regex.Pattern;
  */
 public final class DateTimeAdapters {
 
+    public static final CustomTypeAdapter<Date> DATE = new DateAdapter();
+    public static final CustomTypeAdapter<LocalDate> LOCAL_DATE = new LocalDateAdapter();
+    public static final CustomTypeAdapter<LocalDateTime> LOCAL_DATE_TIME = new LocalDateTimeAdapter();
+    public static final CustomTypeAdapter<LocalTime> LOCAL_TIME = new LocalTimeAdapter();
+    public static final CustomTypeAdapter<OffsetDateTime> OFFSET_DATE_TIME = new OffsetDateTimeAdapter();
+    public static final CustomTypeAdapter<YearMonth> YEAR_MONTH = new YearMonthAdapter();
+    public static final CustomTypeAdapter<Duration> DURATION = new DurationAdapter();
     private static final LocalDateTimeConverter converter = new LocalDateTimeConverter(false);
-
     private static final Pattern YEAR_MONTH_PATTERN = Pattern.compile("(\\d{1,4})-(\\d{1,2})");
+
+    private DateTimeAdapters() {
+    }
 
     private static final class DateAdapter implements CustomTypeAdapter<Date> {
         @Override
@@ -128,17 +137,6 @@ public final class DateTimeAdapters {
         public CustomTypeValue<String> encode(Duration value) {
             return new CustomTypeValue.GraphQLString(value.toString());
         }
-    }
-
-    public static final CustomTypeAdapter<Date> DATE = new DateAdapter();
-    public static final CustomTypeAdapter<LocalDate> LOCAL_DATE = new LocalDateAdapter();
-    public static final CustomTypeAdapter<LocalDateTime> LOCAL_DATE_TIME = new LocalDateTimeAdapter();
-    public static final CustomTypeAdapter<LocalTime> LOCAL_TIME = new LocalTimeAdapter();
-    public static final CustomTypeAdapter<OffsetDateTime> OFFSET_DATE_TIME = new OffsetDateTimeAdapter();
-    public static final CustomTypeAdapter<YearMonth> YEAR_MONTH = new YearMonthAdapter();
-    public static final CustomTypeAdapter<Duration> DURATION = new DurationAdapter();
-
-    private DateTimeAdapters() {
     }
 
 }

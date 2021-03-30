@@ -77,16 +77,16 @@ allprojects {
 }
 
 val publishingProjects = setOf(
-        "jambalaya-checks",
-        "jambalaya-checks-jooq",
-        "jambalaya-graphql",
-        "jambalaya-graphql-apollo",
-        "jambalaya-graphql-jooq",
-        "jambalaya-jsr310",
-        "jambalaya-kotlin-test",
-        "jambalaya-micronaut-graphql",
-        "jambalaya-protobuf",
-        "jambalaya-seo"
+    "jambalaya-checks",
+    "jambalaya-checks-jooq",
+    "jambalaya-graphql",
+    "jambalaya-graphql-apollo",
+    "jambalaya-graphql-jooq",
+    "jambalaya-jsr310",
+    "jambalaya-kotlin-test",
+    "jambalaya-micronaut-graphql",
+    "jambalaya-protobuf",
+    "jambalaya-seo"
 )
 
 subprojects {

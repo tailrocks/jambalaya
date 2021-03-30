@@ -1,14 +1,4 @@
-import com.jfrog.bintray.gradle.BintrayExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-buildscript {
-    repositories {
-        mavenLocal()
-        gradlePluginPortal()
-        jcenter()
-        mavenCentral()
-    }
-}
 
 plugins {
     java
@@ -16,7 +6,6 @@ plugins {
     `maven-publish`
     id("com.adarshr.test-logger") version Versions.gradleTestLoggerPlugin apply false
     id("net.rdrei.android.buildtimetracker") version Versions.gradleBuildTimeTrackerPlugin
-    id("com.jfrog.bintray") version Versions.gradleBintrayPlugin apply false
     id("com.diffplug.spotless") version Versions.gradleSpotlessPlugin
     kotlin("jvm") version Versions.kotlin apply false
 }
@@ -41,18 +30,13 @@ allprojects {
     apply(plugin = "net.rdrei.android.buildtimetracker")
     apply(plugin = "com.diffplug.spotless")
 
+    apply(from = "${project.rootDir}/gradle/dependencyUpdates.gradle.kts")
+
     idea {
         module {
             isDownloadJavadoc = false
             isDownloadSources = false
         }
-    }
-
-    repositories {
-        mavenLocal()
-        gradlePluginPortal()
-        jcenter()
-        mavenCentral()
     }
 
     spotless {
@@ -94,7 +78,6 @@ subprojects {
     apply(plugin = "com.adarshr.test-logger")
     if (publishingProjects.contains(project.name)) {
         apply(plugin = "maven-publish")
-        apply(plugin = "com.jfrog.bintray")
     }
 
     group = "com.zhokhov.jambalaya"
@@ -138,21 +121,6 @@ subprojects {
                         password = System.getenv("GITHUB_TOKEN")
                     }
                 }
-            }
-        }
-
-        configure<BintrayExtension> {
-            user = System.getenv("BINTRAY_USER")
-            key = System.getenv("BINTRAY_KEY")
-            publish = true
-            override = true
-            setPublications("mavenJava")
-            pkg.apply {
-                repo = "jambalaya"
-                name = "jambalaya"
-                userOrg = "expatiat"
-                vcsUrl = "https://github.com/expatiat/jambalaya.git"
-                setLicenses("Apache-2.0")
             }
         }
     }

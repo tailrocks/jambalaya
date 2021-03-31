@@ -9,3 +9,15 @@ dependencies {
     api("com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}")
     api("org.slf4j:slf4j-api:${Versions.slf4j}")
 }
+
+// POM name/description fix
+publishing {
+    publications {
+        (getByName("mavenJava") as MavenPublication).apply {
+            pom {
+                name.set(project.name)
+                description.set(project.description)
+            }
+        }
+    }
+}

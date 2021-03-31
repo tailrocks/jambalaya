@@ -122,8 +122,6 @@ subprojects {
                         }
                     }
                     pom {
-                        name.set(project.name)
-                        description.set(project.description)
                         url.set(projectScmUrl)
                         licenses {
                             license {
@@ -179,6 +177,10 @@ subprojects {
 nexusPublishing {
     repositories {
         sonatype {
+            // only for users registered in Sonatype after 24 Feb 2021
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+
             username.set(System.getenv("OSSRH_USER") ?: return@sonatype)
             password.set(System.getenv("OSSRH_PASSWORD") ?: return@sonatype)
         }

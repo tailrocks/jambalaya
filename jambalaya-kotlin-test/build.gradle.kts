@@ -3,6 +3,7 @@ plugins {
 }
 
 version = Versions.jambalayaKotlinTest
+description = "Kotlin Test utils."
 
 dependencies {
     testImplementation(project(":jambalaya-kotlin-test-graphql-example"))

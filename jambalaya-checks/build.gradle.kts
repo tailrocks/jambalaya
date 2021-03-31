@@ -3,6 +3,7 @@ plugins {
 }
 
 version = Versions.jambalayaChecks
+description = "Preconditions."
 
 dependencies {
     // Kotlin

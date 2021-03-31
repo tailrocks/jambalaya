@@ -3,6 +3,7 @@ plugins {
 }
 
 version = Versions.jambalayaSeo
+description = "SEO utils."
 
 dependencies {
     api(project(":jambalaya-checks"))

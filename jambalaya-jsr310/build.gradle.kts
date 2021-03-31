@@ -3,6 +3,7 @@ plugins {
 }
 
 version = Versions.jambalayaJsr310
+description = "JSR 310 utils."
 
 dependencies {
     // Kotlin

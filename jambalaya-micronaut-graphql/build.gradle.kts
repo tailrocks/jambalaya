@@ -1,4 +1,5 @@
 version = Versions.jambalayaMicronautGraphql
+description = "Micronaut GraphQL utils."
 
 dependencies {
     api(project(":jambalaya-checks"))

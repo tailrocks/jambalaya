@@ -1,4 +1,5 @@
 version = Versions.jambalayaGraphqlApollo
+description = "GraphQL Apollo client."
 
 dependencies {
     api(project(":jambalaya-checks"))

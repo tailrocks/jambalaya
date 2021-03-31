@@ -1,4 +1,5 @@
 version = Versions.jambalayaChecksJooq
+description = "jOOQ preconditions."
 
 dependencies {
     api(project(":jambalaya-checks"))

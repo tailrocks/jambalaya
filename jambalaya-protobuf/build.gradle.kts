@@ -3,6 +3,7 @@ plugins {
 }
 
 version = Versions.jambalayaProtobuf
+description = "Protobuf utils."
 
 dependencies {
     api(project(":jambalaya-checks"))

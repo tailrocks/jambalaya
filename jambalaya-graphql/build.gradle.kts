@@ -1,4 +1,5 @@
 version = Versions.jambalayaGraphql
+description = "GraphQL utils."
 
 dependencies {
     api(project(":jambalaya-checks"))

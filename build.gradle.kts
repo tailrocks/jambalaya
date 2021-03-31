@@ -42,7 +42,7 @@ allprojects {
 
     apply(from = "${project.rootDir}/gradle/dependencyUpdates.gradle.kts")
 
-    group = "com.zhokhov.jambalaya"
+    group = "io.github.expatiat.jambalaya"
 
     idea {
         module {

@@ -21,6 +21,9 @@ object Versions {
     // https://plugins.gradle.org/plugin/com.apollographql.apollo
     const val gradleApolloPlugin = "2.5.5"
 
+    // https://plugins.gradle.org/plugin/io.github.gradle-nexus.publish-plugin
+    const val gradleNexusPublishPlugin = "1.0.0"
+
     // Libraries
 
     const val spotbugsAnnotations = "4.2.2"

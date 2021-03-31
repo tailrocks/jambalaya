@@ -4,9 +4,11 @@ plugins {
     java
     idea
     `maven-publish`
+    signing
     id("com.adarshr.test-logger") version Versions.gradleTestLoggerPlugin apply false
     id("net.rdrei.android.buildtimetracker") version Versions.gradleBuildTimeTrackerPlugin
     id("com.diffplug.spotless") version Versions.gradleSpotlessPlugin
+    id("io.github.gradle-nexus.publish-plugin") version Versions.gradleNexusPublishPlugin
     kotlin("jvm") version Versions.kotlin apply false
 }
 
@@ -25,12 +27,22 @@ buildtimetracker {
     }
 }
 
+val projectLicenseShortName: String by project
+val projectLicenseName: String by project
+val projectLicenseUrl: String by project
+val projectScmUrl: String by project
+val projectScmConnection: String by project
+val projectScmDeveloperConnection: String by project
+val projectIssueManagementUrl: String by project
+
 allprojects {
     apply(plugin = "idea")
     apply(plugin = "net.rdrei.android.buildtimetracker")
     apply(plugin = "com.diffplug.spotless")
 
     apply(from = "${project.rootDir}/gradle/dependencyUpdates.gradle.kts")
+
+    group = "com.zhokhov.jambalaya"
 
     idea {
         module {
@@ -74,13 +86,13 @@ val publishingProjects = setOf(
 )
 
 subprojects {
-    apply(plugin = "java-library")
+    apply(plugin = "java")
     apply(plugin = "com.adarshr.test-logger")
     if (publishingProjects.contains(project.name)) {
+        apply(plugin = "java-library")
         apply(plugin = "maven-publish")
+        apply(plugin = "signing")
     }
-
-    group = "com.zhokhov.jambalaya"
 
     java {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -109,19 +121,44 @@ subprojects {
                             fromResolutionResult()
                         }
                     }
-                }
-            }
-
-            repositories {
-                maven {
-                    name = "GitHubPackages"
-                    url = uri("https://maven.pkg.github.com/expatiat/jambalaya")
-                    credentials {
-                        username = System.getenv("GITHUB_ACTOR")
-                        password = System.getenv("GITHUB_TOKEN")
+                    pom {
+                        name.set(project.name)
+                        description.set(project.description)
+                        url.set(projectScmUrl)
+                        licenses {
+                            license {
+                                name.set(projectLicenseName)
+                                url.set(projectLicenseUrl)
+                                distribution.set("repo")
+                            }
+                        }
+                        developers {
+                            developer {
+                                id.set("donbeave")
+                                name.set("Alexey Zhokhov")
+                                email.set("alexey@zhokhov.com")
+                            }
+                        }
+                        scm {
+                            url.set(projectScmUrl)
+                            connection.set(projectScmConnection)
+                            developerConnection.set(projectScmDeveloperConnection)
+                        }
+                        issueManagement {
+                            url.set(projectIssueManagementUrl)
+                        }
                     }
                 }
             }
+        }
+
+        signing {
+            val key = System.getenv("SIGNING_KEY") ?: return@signing
+            val password = System.getenv("SIGNING_PASSWORD") ?: return@signing
+            val publishing: PublishingExtension by project
+
+            useInMemoryPgpKeys(key, password)
+            sign(publishing.publications)
         }
     }
 
@@ -135,6 +172,15 @@ subprojects {
         useJUnitPlatform {
             includeEngines = setOf("junit-jupiter")
             excludeEngines = setOf("junit-vintage")
+        }
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            username.set(System.getenv("OSSRH_USER") ?: return@sonatype)
+            password.set(System.getenv("OSSRH_PASSWORD") ?: return@sonatype)
         }
     }
 }

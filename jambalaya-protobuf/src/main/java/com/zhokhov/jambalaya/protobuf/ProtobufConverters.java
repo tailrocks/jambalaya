@@ -213,7 +213,7 @@ public final class ProtobufConverters {
      * @return {@literal null} or {@link ZonedDateTime}.
      */
     @Nullable
-    private static ZonedDateTime toZonedDateTime(@Nullable Timestamp source) {
+    public static ZonedDateTime toZonedDateTime(@Nullable Timestamp source) {
         if (source == null) {
             return null;
         }

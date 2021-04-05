@@ -26,6 +26,7 @@ include(
     "jambalaya-kotlin-test",
     "jambalaya-kotlin-test-graphql-example",
     "jambalaya-micronaut-graphql",
+    "jambalaya-micronaut-mapstruct-protobuf",
     "jambalaya-protobuf",
     "jambalaya-seo"
 )

@@ -26,6 +26,7 @@ object Versions {
 
     // Libraries
 
+    const val micronaut = "2.4.2"
     const val spotbugsAnnotations = "4.2.2"
     const val slf4j = "1.7.30"
     const val junit = "5.7.1"
@@ -36,6 +37,8 @@ object Versions {
     const val slugify = "2.4"
     const val apollo = "2.5.5"
     const val okhttp = "4.9.1"
+    const val mapstruct = "1.4.2.Final"
+    const val jakartaInjectApi = "1.0.3"
 
     // Project
 
@@ -47,6 +50,7 @@ object Versions {
     const val jambalayaJsr310 = "0.2.0"
     const val jambalayaKotlinTest = "0.2.0"
     const val jambalayaMicronautGraphql = "0.2.0"
+    const val jambalayaMicronautMapstructProtobuf = "0.1.0"
     const val jambalayaProtobuf = "0.2.1"
     const val jambalayaSeo = "0.2.0"
 

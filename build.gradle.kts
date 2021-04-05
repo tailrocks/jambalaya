@@ -81,6 +81,7 @@ val publishingProjects = setOf(
     "jambalaya-jsr310",
     "jambalaya-kotlin-test",
     "jambalaya-micronaut-graphql",
+    "jambalaya-micronaut-mapstruct-protobuf",
     "jambalaya-protobuf",
     "jambalaya-seo"
 )

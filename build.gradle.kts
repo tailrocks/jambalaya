@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     java
     idea
@@ -9,7 +7,6 @@ plugins {
     id("net.rdrei.android.buildtimetracker") version Versions.gradleBuildTimeTrackerPlugin
     id("com.diffplug.spotless") version Versions.gradleSpotlessPlugin
     id("io.github.gradle-nexus.publish-plugin") version Versions.gradleNexusPublishPlugin
-    kotlin("jvm") version Versions.kotlin apply false
 }
 
 java {
@@ -168,12 +165,6 @@ subprojects {
 
             useInMemoryPgpKeys(key, password)
             sign(publishing.publications)
-        }
-    }
-
-    tasks.withType<KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = "11"
         }
     }
 

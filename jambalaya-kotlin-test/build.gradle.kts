@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm")
+    kotlin("jvm") version Versions.kotlin
 }
 
 version = Versions.jambalayaKotlinTest
@@ -22,5 +22,11 @@ publishing {
                 description.set(project.description)
             }
         }
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "11"
     }
 }

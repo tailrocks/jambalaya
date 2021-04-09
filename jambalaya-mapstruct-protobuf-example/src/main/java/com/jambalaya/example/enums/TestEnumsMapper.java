@@ -22,7 +22,6 @@ import org.mapstruct.ReportingPolicy;
 
 import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
 
-
 @Mapper(
         injectionStrategy = CONSTRUCTOR,
         collectionMappingStrategy = CollectionMappingStrategy.SETTER_PREFERRED,
@@ -33,10 +32,18 @@ public interface TestEnumsMapper {
 
     ChangeType toGrpcChangeType(MyChangeType myChangeType);
 
+    MyChangeType toMyChangeType(ChangeType changeType);
+
     FooBar toGrpcFooBar(MyFooBar myFooBar);
+
+    MyFooBar toMyFooBar(FooBar fooBar);
 
     SlotFillingStatus toGrpcSlotFillingStatus(MySlotFillingStatus mySlotFillingStatus);
 
+    MySlotFillingStatus toMySlotFillingStatus(SlotFillingStatus slotFillingStatus);
+
     AccessReasonEnum.AccessReason toGrpcAccessReason(MyAccessReason myAccessReason);
+
+    MyAccessReason toMyAccessReason(AccessReasonEnum.AccessReason accessReason);
 
 }

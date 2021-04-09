@@ -23,7 +23,7 @@ public class PaymentMethodRecord {
     private Long id;
     private LocalDateTime createdDate;
     private Long version;
-    private PaymentMethodCardBrand cardBrand;
+    private MyPaymentMethodCardBrand cardBrand;
     private LocalDate cardExpirationDate;
     private String cardNumber;
     private String cardHolderName;
@@ -55,11 +55,11 @@ public class PaymentMethodRecord {
         return this;
     }
 
-    public PaymentMethodCardBrand getCardBrand() {
+    public MyPaymentMethodCardBrand getCardBrand() {
         return cardBrand;
     }
 
-    public PaymentMethodRecord setCardBrand(PaymentMethodCardBrand cardBrand) {
+    public PaymentMethodRecord setCardBrand(MyPaymentMethodCardBrand cardBrand) {
         this.cardBrand = cardBrand;
         return this;
     }

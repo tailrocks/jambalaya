@@ -41,6 +41,8 @@ public interface PaymentMethodMapper {
     @Mapping(target = "expirationYear", source = "cardExpirationDate.monthValue")
     PaymentMethodCard toPaymentMethodCard(PaymentMethodRecord paymentMethodRecord);
 
-    com.jambalaya.example.enums.PaymentMethodCardBrand toGrpcPaymentMethodCardBrand(PaymentMethodCardBrand paymentMethodCardBrand);
+    PaymentMethodCardBrand toGrpcPaymentMethodCardBrand(MyPaymentMethodCardBrand myPaymentMethodCardBrand);
+
+    MyPaymentMethodCardBrand toMyPaymentMethodCardBrand(PaymentMethodCardBrand paymentMethodCardBrand);
 
 }

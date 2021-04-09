@@ -39,6 +39,7 @@ import java.util.List;
  * @author Alexey Zhokhov
  */
 @Mapper(
+        // TODO use MappingConstants.ComponentModel.JSR330
         componentModel = "jsr330"
 )
 public class ProtobufConvertersMapper {

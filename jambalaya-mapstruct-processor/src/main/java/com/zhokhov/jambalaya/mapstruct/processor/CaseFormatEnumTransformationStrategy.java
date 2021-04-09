@@ -34,44 +34,64 @@ public class CaseFormatEnumTransformationStrategy implements EnumTransformationS
         switch (configuration) {
             case JambalayaMappingConstants.LOWER_HYPHEN_TO_LOWER_UNDERSCORE:
                 return CaseFormat.LOWER_HYPHEN.to(CaseFormat.LOWER_UNDERSCORE, value);
+
             case JambalayaMappingConstants.LOWER_HYPHEN_TO_LOWER_CAMEL:
                 return CaseFormat.LOWER_HYPHEN.to(CaseFormat.LOWER_CAMEL, value);
+
             case JambalayaMappingConstants.LOWER_HYPHEN_TO_UPPER_CAMEL:
                 return CaseFormat.LOWER_HYPHEN.to(CaseFormat.UPPER_CAMEL, value);
+
             case JambalayaMappingConstants.LOWER_HYPHEN_TO_UPPER_UNDERSCORE:
                 return CaseFormat.LOWER_HYPHEN.to(CaseFormat.UPPER_UNDERSCORE, value);
+
             case JambalayaMappingConstants.LOWER_UNDERSCORE_TO_LOWER_HYPHEN:
                 return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_HYPHEN, value);
+
             case JambalayaMappingConstants.LOWER_UNDERSCORE_TO_LOWER_CAMEL:
                 return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, value);
+
             case JambalayaMappingConstants.LOWER_UNDERSCORE_TO_UPPER_CAMEL:
                 return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, value);
+
             case JambalayaMappingConstants.LOWER_UNDERSCORE_TO_UPPER_UNDERSCORE:
                 return CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_UNDERSCORE, value);
+
             case JambalayaMappingConstants.LOWER_CAMEL_TO_LOWER_HYPHEN:
                 return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_HYPHEN, value);
+
             case JambalayaMappingConstants.LOWER_CAMEL_TO_LOWER_UNDERSCORE:
                 return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, value);
+
             case JambalayaMappingConstants.LOWER_CAMEL_TO_UPPER_CAMEL:
                 return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, value);
+
             case JambalayaMappingConstants.LOWER_CAMEL_TO_UPPER_UNDERSCORE:
                 return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, value);
+
             case JambalayaMappingConstants.UPPER_CAMEL_TO_LOWER_HYPHEN:
                 return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_HYPHEN, value);
+
             case JambalayaMappingConstants.UPPER_CAMEL_TO_LOWER_UNDERSCORE:
                 return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, value);
+
             case JambalayaMappingConstants.UPPER_CAMEL_TO_LOWER_CAMEL:
                 return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, value);
+
             case JambalayaMappingConstants.UPPER_CAMEL_TO_UPPER_UNDERSCORE:
                 return CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, value);
+
             case JambalayaMappingConstants.UPPER_UNDERSCORE_TO_LOWER_HYPHEN:
                 return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_HYPHEN, value);
+
             case JambalayaMappingConstants.UPPER_UNDERSCORE_TO_LOWER_UNDERSCORE:
                 return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_UNDERSCORE, value);
+
             case JambalayaMappingConstants.UPPER_UNDERSCORE_TO_LOWER_CAMEL:
                 return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, value);
+
             case JambalayaMappingConstants.UPPER_UNDERSCORE_TO_UPPER_CAMEL:
                 return CaseFormat.UPPER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, value);
+
             default:
                 throw new RuntimeException("Unknown configuration: " + configuration);
         }

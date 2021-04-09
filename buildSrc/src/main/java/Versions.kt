@@ -24,6 +24,9 @@ object Versions {
     // https://plugins.gradle.org/plugin/io.github.gradle-nexus.publish-plugin
     const val gradleNexusPublishPlugin = "1.0.0"
 
+    // https://plugins.gradle.org/plugin/com.google.protobuf
+    const val gradleProtobufPlugin = "0.8.15"
+
     // Libraries
 
     const val micronaut = "2.4.2"
@@ -39,6 +42,9 @@ object Versions {
     const val okhttp = "4.9.1"
     const val mapstruct = "1.4.2.Final"
     const val jakartaInjectApi = "1.0.3"
+    const val jakartaAnnotationApi = "1.3.5"
+    const val grpc = "1.33.1"
+    const val guava = "30.1.1-jre"
 
     // Project
 
@@ -49,6 +55,7 @@ object Versions {
     const val jambalayaGraphqlJooq = "0.2.0"
     const val jambalayaJsr310 = "0.2.0"
     const val jambalayaKotlinTest = "0.2.0"
+    const val jambalayaMapstructProtobuf = "0.1.0"
     const val jambalayaMicronautGraphql = "0.2.0"
     const val jambalayaMicronautMapstructProtobuf = "0.1.0"
     const val jambalayaProtobuf = "0.2.1"

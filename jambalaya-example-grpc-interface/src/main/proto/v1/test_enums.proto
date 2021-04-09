@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package com.jambalaya.example.enums;
+
+option java_multiple_files = true;
+
+enum ChangeType {
+  UNKNOWN_CHANGE_TYPE = 0;
+  CREATE = 1;
+  UPDATE = 2;
+  DELETE = 3;
+}
+
+enum FooBar {
+  FOO_BAR_UNSPECIFIED = 0;
+  FIRST_VALUE = 1;
+  SECOND_VALUE = 2;
+}
+
+enum SlotFillingStatus {
+  UNSPECIFIED = 0;
+  INITIALIZED = 1;
+  COLLECTING = 2;
+  FINAL = 4;
+}
+
+message AccessReasonEnum {
+  enum AccessReason {
+    UNSPECIFIED = 0;
+    UNKNOWN = 1;
+    OWNED = 2;
+    SHARED = 3;
+    LICENSED = 4;
+    SUBSCRIBED = 5;
+    AFFILIATED = 6;
+  }
+}

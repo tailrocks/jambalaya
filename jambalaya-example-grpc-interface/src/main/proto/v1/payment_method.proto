@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package com.jambalaya.example;
+
+option java_multiple_files = true;
+
+service PaymentMethodService {
+  rpc getOne(GetOneRequest) returns (PaymentMethod);
+}
+
+message GetOneRequest {
+  uint64 id = 1;
+}
+
+message PaymentMethod {
+  uint64 id = 1;
+  string stripe_payment_method_id = 3;
+  PaymentMethodCard card = 4;
+}
+
+message PaymentMethodCard {
+  PaymentMethodCardBrand brand = 1;
+  string number = 2;
+  uint32 expiration_year = 3;
+  uint32 expiration_month = 4;
+  string card_holder_name = 5;
+}
+
+enum PaymentMethodCardBrand {
+  PAYMENT_METHOD_CARD_BRAND_UNSPECIFIED = 0;
+  PAYMENT_METHOD_CARD_BRAND_VISA = 1;
+  PAYMENT_METHOD_CARD_BRAND_MASTER_CARD = 2;
+}

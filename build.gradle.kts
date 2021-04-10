@@ -105,7 +105,7 @@ subprojects {
 
     dependencies {
         // SpotBugs
-        implementation("com.github.spotbugs:spotbugs-annotations:${Versions.spotbugsAnnotations}")
+        implementation("com.github.spotbugs:spotbugs-annotations:${Versions.spotbugs}")
 
         // JUnit
         testImplementation("org.junit.jupiter:junit-jupiter-api:${Versions.junit}")

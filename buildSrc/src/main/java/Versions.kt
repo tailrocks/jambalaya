@@ -65,7 +65,6 @@ object Versions {
     const val jambalayaMapstruct = "0.1.0"
     const val jambalayaMapstructJooqProcessor = "0.1.0"
     const val jambalayaMapstructProcessor = "0.1.0"
-    const val jambalayaMapstructProtobufProcessor = "0.1.0"
     const val jambalayaMicronautGraphql = "0.2.0"
     const val jambalayaMicronautMapstructProtobuf = "0.1.0"
     const val jambalayaProtobuf = "0.2.1"

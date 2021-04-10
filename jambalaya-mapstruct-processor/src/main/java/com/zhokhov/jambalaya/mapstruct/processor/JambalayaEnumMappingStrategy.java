@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.mapstruct.protobuf.processor;
+package com.zhokhov.jambalaya.mapstruct.processor;
 
 import com.google.common.base.CaseFormat;
 import org.mapstruct.MappingConstants;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  *
  * @author Alexey Zhokhov
  */
-public class ProtobufEnumMappingStrategy extends DefaultEnumMappingStrategy {
+public class JambalayaEnumMappingStrategy extends DefaultEnumMappingStrategy {
 
     private static final String PROTOCOL_MESSAGE_ENUM = "com.google.protobuf.ProtocolMessageEnum";
 

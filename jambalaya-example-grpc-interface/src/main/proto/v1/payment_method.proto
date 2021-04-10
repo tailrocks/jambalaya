@@ -2,14 +2,23 @@ syntax = "proto3";
 
 package com.jambalaya.example;
 
+import "google/protobuf/wrappers.proto";
+
 option java_multiple_files = true;
 
 service PaymentMethodService {
-  rpc getOne(GetOneRequest) returns (PaymentMethod);
+  rpc create (PaymentMethodInput) returns (PaymentMethod);
 }
 
-message GetOneRequest {
-  uint64 id = 1;
+message PaymentMethodInput {
+  PaymentMethodCardInput card = 2;
+}
+
+message PaymentMethodCardInput {
+  google.protobuf.StringValue number = 1;
+  google.protobuf.UInt32Value expiration_year = 2;
+  google.protobuf.UInt32Value expiration_month = 3;
+  google.protobuf.StringValue card_holder_name = 4;
 }
 
 message PaymentMethod {
@@ -29,5 +38,5 @@ message PaymentMethodCard {
 enum PaymentMethodCardBrand {
   PAYMENT_METHOD_CARD_BRAND_UNSPECIFIED = 0;
   PAYMENT_METHOD_CARD_BRAND_VISA = 1;
-  PAYMENT_METHOD_CARD_BRAND_MASTER_CARD = 2;
+  PAYMENT_METHOD_CARD_BRAND_MASTERCARD = 2;
 }

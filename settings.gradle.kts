@@ -29,7 +29,6 @@ include(
     "jambalaya-mapstruct",
     "jambalaya-mapstruct-processor",
     "jambalaya-mapstruct-processors-example",
-    "jambalaya-mapstruct-protobuf-processor",
     "jambalaya-micronaut-graphql",
     "jambalaya-micronaut-mapstruct-protobuf",
     "jambalaya-protobuf",

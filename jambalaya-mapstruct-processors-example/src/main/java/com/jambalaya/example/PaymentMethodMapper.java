@@ -15,19 +15,29 @@
  */
 package com.jambalaya.example;
 
+import com.jambalaya.example.jooq.tables.records.PaymentMethodRecord;
+import com.zhokhov.jambalaya.micronaut.mapstruct.protobuf.ProtobufConvertersMapper;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
+
+import java.time.LocalDate;
 
 import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
 
 @Mapper(
+        componentModel = "jsr330",
         injectionStrategy = CONSTRUCTOR,
         collectionMappingStrategy = CollectionMappingStrategy.SETTER_PREFERRED,
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
-        unmappedTargetPolicy = ReportingPolicy.ERROR
+        unmappedTargetPolicy = ReportingPolicy.ERROR,
+        uses = {
+                ProtobufConvertersMapper.class
+        }
 )
 public interface PaymentMethodMapper {
 
@@ -44,5 +54,29 @@ public interface PaymentMethodMapper {
     PaymentMethodCardBrand toGrpcPaymentMethodCardBrand(MyPaymentMethodCardBrand myPaymentMethodCardBrand);
 
     MyPaymentMethodCardBrand toMyPaymentMethodCardBrand(PaymentMethodCardBrand paymentMethodCardBrand);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "lastModifiedDate", ignore = true)
+    @Mapping(target = "version", ignore = true)
+    @Mapping(target = "stripePaymentMethodId", ignore = true)
+    @Mapping(target = "cardBrand", ignore = true)
+    @Mapping(target = "cardExpirationDate", source = "card", qualifiedByName = "toCardExpirationDate")
+    @Mapping(target = "cardNumber", source = "card.number")
+    @Mapping(target = "cardHolderName", source = "card.cardHolderName")
+    PaymentMethodRecord toPaymentMethodRecord(PaymentMethodInput paymentMethodInput,
+                                              @MappingTarget PaymentMethodRecord paymentMethodRecord);
+
+    @Named("toCardExpirationDate")
+    static LocalDate toCardExpirationDate(PaymentMethodCardInput paymentMethodCardInput) {
+        if (paymentMethodCardInput.hasExpirationYear() && paymentMethodCardInput.hasExpirationMonth()) {
+            return LocalDate.of(
+                    paymentMethodCardInput.getExpirationYear().getValue(),
+                    paymentMethodCardInput.getExpirationMonth().getValue(),
+                    1
+            );
+        }
+        return null;
+    }
 
 }

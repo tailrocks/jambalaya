@@ -49,7 +49,7 @@ public final class SlugUtils {
     public static String generateSlug(@NonNull String text) {
         checkNotNull(text, "text");
 
-        text = text.strip().trim().toLowerCase();
+        text = text.trim().toLowerCase();
         text = normalizeSlug(text);
 
         return SLUGIFY.slugify(text);

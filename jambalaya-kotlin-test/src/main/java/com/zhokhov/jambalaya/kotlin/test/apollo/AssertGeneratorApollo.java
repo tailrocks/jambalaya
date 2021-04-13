@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 public class AssertGeneratorApollo {
 
     private static final List<String> RESPONSE_PUBLIC_METHODS_NAME =
-            List.of("isFromCache", "hasErrors", "getErrors", "getData");
+            Arrays.asList("isFromCache", "hasErrors", "getErrors", "getData");
     private final AssertGeneratorConfig config;
     @Nullable
     private Class responseClass;

@@ -6,6 +6,8 @@ version = Versions.jambalayaChecks
 description = "Preconditions."
 
 dependencies {
+    api("com.google.guava:guava:${Versions.guava}")
+
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))
     testImplementation(kotlin("test-junit5"))
@@ -25,6 +27,6 @@ publishing {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "1.8"
     }
 }

@@ -55,19 +55,19 @@ object Versions {
 
     // Project
 
-    const val jambalayaChecks = "0.2.0"
-    const val jambalayaChecksJooq = "0.2.0"
-    const val jambalayaGraphql = "0.2.0"
-    const val jambalayaGraphqlApollo = "0.3.0"
-    const val jambalayaGraphqlJooq = "0.2.0"
-    const val jambalayaJsr310 = "0.2.0"
-    const val jambalayaKotlinTest = "0.2.0"
-    const val jambalayaMapstruct = "0.1.0"
-    const val jambalayaMapstructJooqProcessor = "0.1.0"
-    const val jambalayaMapstructProcessor = "0.1.0"
-    const val jambalayaMicronautGraphql = "0.2.0"
-    const val jambalayaMicronautMapstructProtobuf = "0.1.0"
-    const val jambalayaProtobuf = "0.2.1"
-    const val jambalayaSeo = "0.2.1"
+    const val jambalayaChecks = "0.3.0"
+    const val jambalayaChecksJooq = "0.3.0"
+    const val jambalayaGraphql = "0.3.0"
+    const val jambalayaGraphqlApollo = "0.4.0"
+    const val jambalayaGraphqlJooq = "0.3.0"
+    const val jambalayaJsr310 = "0.3.0"
+    const val jambalayaKotlinTest = "0.3.0"
+    const val jambalayaMapstruct = "0.2.0"
+    const val jambalayaMapstructJooqProcessor = "0.2.0"
+    const val jambalayaMapstructProcessor = "0.2.0"
+    const val jambalayaMicronautGraphql = "0.3.0"
+    const val jambalayaMicronautMapstructProtobuf = "0.2.0"
+    const val jambalayaProtobuf = "0.3.0"
+    const val jambalayaSeo = "0.3.0"
 
 }

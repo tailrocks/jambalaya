@@ -30,7 +30,6 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -364,9 +363,7 @@ public final class ProtobufConverters {
         if (source == null) {
             return null;
         }
-        return Timestamp.newBuilder()
-                .setSeconds(source.toEpochSecond(LocalTime.MIDNIGHT, ZoneOffset.UTC))
-                .build();
+        return toTimestamp(source.atStartOfDay(ZoneOffset.UTC).toLocalDateTime());
     }
 
     /**

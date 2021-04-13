@@ -10,8 +10,8 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 buildtimetracker {
@@ -65,7 +65,7 @@ allprojects {
     }
 
     tasks.withType<JavaCompile> {
-        options.release.set(11)
+        options.release.set(8)
     }
 }
 
@@ -95,8 +95,8 @@ subprojects {
     }
 
     java {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
 
         withJavadocJar()
         withSourcesJar()

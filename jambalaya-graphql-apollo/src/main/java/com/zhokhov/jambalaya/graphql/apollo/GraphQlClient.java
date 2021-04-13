@@ -138,7 +138,7 @@ public class GraphQlClient {
     }
 
     private <T> ApolloCall.Callback<T> createCallback(CompletableFuture<Response<T>> future) {
-        return new ApolloCall.Callback<>() {
+        return new ApolloCall.Callback<T>() {
             @Override
             public void onResponse(@NotNull Response<T> response) {
                 future.complete(response);

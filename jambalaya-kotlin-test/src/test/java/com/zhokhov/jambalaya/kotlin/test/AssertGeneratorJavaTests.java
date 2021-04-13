@@ -22,7 +22,7 @@ import com.zhokhov.jambalaya.test.sample.apollo.type.TableCreateInput;
 import com.zhokhov.jambalaya.test.sample.apollo.type.TableListInput;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.Arrays;
 
 public class AssertGeneratorJavaTests {
 
@@ -38,9 +38,9 @@ public class AssertGeneratorJavaTests {
 
         TableListQuery.TableList tableList = new TableListQuery.TableList(
                 "TableListPayload",
-                List.of(
+                Arrays.asList(
                         new TableListQuery.Data1("Table", "account",
-                                List.of(
+                                Arrays.asList(
                                         new TableListQuery.Column("TableColumn", "id", "int8"),
                                         new TableListQuery.Column("TableColumn", "created_date", "timestamp")
                                 )
@@ -71,7 +71,7 @@ public class AssertGeneratorJavaTests {
         TableCreateMutation.TableCreate tableCreate = new TableCreateMutation.TableCreate(
                 "TableCreatePayload",
                 new TableCreateMutation.Data1("Table", "account",
-                        List.of(
+                        Arrays.asList(
                                 new TableCreateMutation.Column("TableColumn", "id", "int8"),
                                 new TableCreateMutation.Column("TableColumn", "created_date", "timestamp")
                         )

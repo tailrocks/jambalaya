@@ -15,6 +15,7 @@
  */
 package com.jambalaya.example;
 
+import com.jambalaya.example.dto.MyFindRequest;
 import com.jambalaya.example.jooq.tables.records.PaymentMethodRecord;
 import com.zhokhov.jambalaya.micronaut.mapstruct.protobuf.ProtobufConvertersMapper;
 import org.mapstruct.CollectionMappingStrategy;
@@ -40,6 +41,8 @@ import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
         }
 )
 public interface PaymentMethodMapper {
+
+    FindRequest toFindRequest(MyFindRequest myFindRequest);
 
     @Mapping(target = "stripePaymentMethodId", ignore = true)
     @Mapping(target = "card", source = "paymentMethodRecord")

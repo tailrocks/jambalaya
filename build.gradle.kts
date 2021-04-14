@@ -59,9 +59,6 @@ allprojects {
         kotlin {
             licenseHeaderFile("$rootDir/gradle/licenseHeader.txt")
         }
-        kotlinGradle {
-            ktlint()
-        }
     }
 
     tasks.withType<JavaCompile> {

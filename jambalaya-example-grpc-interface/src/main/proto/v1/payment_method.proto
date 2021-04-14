@@ -7,7 +7,19 @@ import "google/protobuf/wrappers.proto";
 option java_multiple_files = true;
 
 service PaymentMethodService {
+  rpc findOne (FindRequest) returns (PaymentMethod);
+
   rpc create (PaymentMethodInput) returns (PaymentMethod);
+}
+
+message FindRequest {
+  repeated Criteria criteria = 1;
+
+  message Criteria {
+    repeated uint64 id = 1;
+    repeated string name = 2;
+    repeated PaymentMethodCardBrand brand = 3;
+  }
 }
 
 message PaymentMethodInput {

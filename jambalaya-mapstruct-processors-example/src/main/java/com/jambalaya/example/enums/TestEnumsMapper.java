@@ -15,6 +15,7 @@
  */
 package com.jambalaya.example.enums;
 
+import com.jambalaya.example.PaymentMethodCardBrand;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.EnumMapping;
 import org.mapstruct.Mapper;
@@ -25,6 +26,7 @@ import static com.zhokhov.jambalaya.mapstruct.JambalayaMappingConstants.CASE_FOR
 import static com.zhokhov.jambalaya.mapstruct.JambalayaMappingConstants.LOWER_CAMEL_TO_UPPER_UNDERSCORE;
 import static com.zhokhov.jambalaya.mapstruct.JambalayaMappingConstants.LOWER_UNDERSCORE_TO_UPPER_UNDERSCORE;
 import static com.zhokhov.jambalaya.mapstruct.JambalayaMappingConstants.UPPER_CAMEL_TO_UPPER_UNDERSCORE;
+import static com.zhokhov.jambalaya.mapstruct.JambalayaMappingConstants.UPPER_UNDERSCORE_TO_UPPER_CAMEL;
 import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
 
 @Mapper(
@@ -51,13 +53,34 @@ public interface TestEnumsMapper {
 
     MyFooBar toMyFooBar(FooBar fooBar);
 
-    @EnumMapping(nameTransformationStrategy = CASE_FORMAT_TRANSFORMATION, configuration = LOWER_CAMEL_TO_UPPER_UNDERSCORE)
+    @EnumMapping(
+            nameTransformationStrategy = CASE_FORMAT_TRANSFORMATION,
+            configuration = LOWER_CAMEL_TO_UPPER_UNDERSCORE
+    )
     FooBar toGrpcFooBar(MyFooBarCamelCase myFooBarCamelCase);
 
-    @EnumMapping(nameTransformationStrategy = CASE_FORMAT_TRANSFORMATION, configuration = UPPER_CAMEL_TO_UPPER_UNDERSCORE)
+    @EnumMapping(
+            nameTransformationStrategy = CASE_FORMAT_TRANSFORMATION,
+            configuration = UPPER_CAMEL_TO_UPPER_UNDERSCORE
+    )
     FooBar toGrpcFooBar(MyFooBarPascalCase myFooBarPascalCase);
 
-    @EnumMapping(nameTransformationStrategy = CASE_FORMAT_TRANSFORMATION, configuration = LOWER_UNDERSCORE_TO_UPPER_UNDERSCORE)
+    @EnumMapping(
+            nameTransformationStrategy = CASE_FORMAT_TRANSFORMATION,
+            configuration = LOWER_UNDERSCORE_TO_UPPER_UNDERSCORE
+    )
     FooBar toGrpcFooBar(MyFooBarSnakeCase myFooBarSnakeCase);
+
+    @EnumMapping(
+            nameTransformationStrategy = CASE_FORMAT_TRANSFORMATION,
+            configuration = UPPER_CAMEL_TO_UPPER_UNDERSCORE
+    )
+    PaymentMethodCardBrand toGrpcPaymentMethodCardBrand(PaymentMethodCardBrandPascalCase paymentMethodCardBrandPascalCase);
+
+    @EnumMapping(
+            nameTransformationStrategy = CASE_FORMAT_TRANSFORMATION,
+            configuration = UPPER_UNDERSCORE_TO_UPPER_CAMEL
+    )
+    PaymentMethodCardBrandPascalCase toPaymentMethodCardBrandPascalCase(PaymentMethodCardBrand paymentMethodCardBrand);
 
 }

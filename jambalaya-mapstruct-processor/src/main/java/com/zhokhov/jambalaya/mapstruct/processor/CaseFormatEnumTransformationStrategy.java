@@ -17,6 +17,7 @@ package com.zhokhov.jambalaya.mapstruct.processor;
 
 import com.google.common.base.CaseFormat;
 import com.zhokhov.jambalaya.mapstruct.JambalayaMappingConstants;
+import org.mapstruct.MappingConstants;
 import org.mapstruct.ap.spi.EnumTransformationStrategy;
 
 /**
@@ -31,6 +32,10 @@ public class CaseFormatEnumTransformationStrategy implements EnumTransformationS
 
     @Override
     public String transform(String value, String configuration) {
+        if (isSpecialConstant(value)) {
+            return value;
+        }
+
         switch (configuration) {
             case JambalayaMappingConstants.LOWER_HYPHEN_TO_LOWER_UNDERSCORE:
                 return CaseFormat.LOWER_HYPHEN.to(CaseFormat.LOWER_UNDERSCORE, value);
@@ -95,6 +100,17 @@ public class CaseFormatEnumTransformationStrategy implements EnumTransformationS
             default:
                 throw new RuntimeException("Unknown configuration: " + configuration);
         }
+    }
+
+    private boolean isSpecialConstant(String value) {
+        if (value.equals(MappingConstants.NULL)) {
+            return true;
+        } else if (value.equals(MappingConstants.ANY_REMAINING)) {
+            return true;
+        } else if (value.equals(MappingConstants.ANY_UNMAPPED)) {
+            return true;
+        }
+        return false;
     }
 
 }

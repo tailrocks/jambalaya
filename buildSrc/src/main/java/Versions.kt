@@ -64,7 +64,7 @@ object Versions {
     const val jambalayaKotlinTest = "0.3.0"
     const val jambalayaMapstruct = "0.2.0"
     const val jambalayaMapstructJooqProcessor = "0.2.0"
-    const val jambalayaMapstructProcessor = "0.2.0"
+    const val jambalayaMapstructProcessor = "0.2.1"
     const val jambalayaMicronautGraphql = "0.3.0"
     const val jambalayaMicronautMapstructProtobuf = "0.2.0"
     const val jambalayaProtobuf = "0.3.0"

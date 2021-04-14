@@ -18,6 +18,7 @@ package com.jambalaya.example;
 public enum MyPaymentMethodCardBrand {
 
     VISA,
-    MASTERCARD
+    MASTERCARD,
+    AMERICAN_EXPRESS
 
 }

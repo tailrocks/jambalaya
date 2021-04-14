@@ -66,12 +66,12 @@ public class JambalayaEnumMappingStrategy extends DefaultEnumMappingStrategy {
                 return MappingConstants.NULL;
             }
 
-            List<String> targetEnumValues = enumType.getEnclosedElements().stream()
+            List<String> sourceEnumValues = enumType.getEnclosedElements().stream()
                     .filter(it -> it.getKind() == ElementKind.ENUM_CONSTANT)
                     .map(it -> it.getSimpleName().toString())
                     .collect(Collectors.toList());
 
-            if (isUnspecifiedOrUnknown(sourceEnumValue) && targetEnumValues.get(0).equals(sourceEnumValue)) {
+            if (isUnspecifiedOrUnknown(sourceEnumValue) && sourceEnumValues.get(0).equals(sourceEnumValue)) {
                 return MappingConstants.NULL;
             } else {
                 String enumPrefix = getEnumPrefix(enumType);

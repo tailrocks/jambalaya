@@ -1,7 +1,6 @@
 package com.zhokhov.jambalaya.tenancy;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
-import io.micronaut.core.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ public class Tenant {
     private String defaultTenant;
 
     public Tenant(@Nullable String tenantString) {
-        if (StringUtils.isEmpty(tenantString)) {
+        if (!StringUtils.hasText(tenantString)) {
             this.tenantString = DEFAULT;
             defaultTenant = DEFAULT;
         } else {
@@ -40,7 +39,7 @@ public class Tenant {
             for (String part : parts) {
                 part = part.trim();
 
-                if (StringUtils.isNotEmpty(part)) {
+                if (StringUtils.hasText(part)) {
                     if (part.contains("=")) {
                         String[] kv = part.split("=");
 

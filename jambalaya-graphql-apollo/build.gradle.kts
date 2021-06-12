@@ -1,3 +1,8 @@
+plugins {
+    `java-library`
+    `maven-publish`
+}
+
 version = Versions.jambalayaGraphqlApollo
 description = "GraphQL Apollo client."
 

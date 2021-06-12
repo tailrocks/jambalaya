@@ -52,6 +52,7 @@ object Versions {
     const val okhttp = "4.9.1"
     const val mapstruct = "1.4.2.Final"
     const val guava = "30.1.1-jre"
+    const val opentelemetry = "1.3.0"
 
     // Project
 
@@ -67,7 +68,9 @@ object Versions {
     const val jambalayaMapstructProcessor = "0.2.1"
     const val jambalayaMicronautGraphql = "0.3.0"
     const val jambalayaMicronautMapstructProtobuf = "0.2.0"
+    const val jambalayaOpentelemetry = "0.1.0"
     const val jambalayaProtobuf = "0.3.0"
     const val jambalayaSeo = "0.3.0"
+    const val jambalayaTenancy = "0.1.0"
 
 }

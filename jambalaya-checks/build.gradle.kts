@@ -1,4 +1,6 @@
 plugins {
+    `java-library`
+    `maven-publish`
     kotlin("jvm") version Versions.kotlin
 }
 

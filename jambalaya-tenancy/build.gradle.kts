@@ -3,14 +3,8 @@ plugins {
     `maven-publish`
 }
 
-version = Versions.jambalayaChecksJooq
-description = "jOOQ preconditions."
-
-dependencies {
-    api(project(":jambalaya-checks"))
-
-    implementation("org.jooq:jooq:${Versions.jooq}")
-}
+version = Versions.jambalayaTenancy
+description = "Micronaut Tenancy."
 
 // POM name/description fix
 publishing {

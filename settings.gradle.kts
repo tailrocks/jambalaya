@@ -31,6 +31,8 @@ include(
     "jambalaya-mapstruct-processors-example",
     "jambalaya-micronaut-graphql",
     "jambalaya-micronaut-mapstruct-protobuf",
+    "jambalaya-opentelemetry",
     "jambalaya-protobuf",
-    "jambalaya-seo"
+    "jambalaya-seo",
+    "jambalaya-tenancy"
 )

@@ -3,13 +3,11 @@ plugins {
     `maven-publish`
 }
 
-version = Versions.jambalayaChecksJooq
-description = "jOOQ preconditions."
+version = Versions.jambalayaOpentelemetry
+description = "Micronaut OpenTelemetry."
 
 dependencies {
-    api(project(":jambalaya-checks"))
-
-    implementation("org.jooq:jooq:${Versions.jooq}")
+    implementation("io.opentelemetry:opentelemetry-api:${Versions.opentelemetry}")
 }
 
 // POM name/description fix

@@ -1,3 +1,8 @@
+plugins {
+    `java-library`
+    `maven-publish`
+}
+
 version = Versions.jambalayaMapstructProcessor
 description = "MapStruct smart SPI."
 

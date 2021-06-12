@@ -1,3 +1,8 @@
+plugins {
+    `java-library`
+    `maven-publish`
+}
+
 version = Versions.jambalayaMapstruct
 description = "MapStruct utils."
 

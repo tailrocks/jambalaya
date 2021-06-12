@@ -66,28 +66,11 @@ allprojects {
     }
 }
 
-val publishingProjects = setOf(
-    "jambalaya-checks",
-    "jambalaya-checks-jooq",
-    "jambalaya-graphql",
-    "jambalaya-graphql-apollo",
-    "jambalaya-graphql-jooq",
-    "jambalaya-jsr310",
-    "jambalaya-kotlin-test",
-    "jambalaya-mapstruct",
-    "jambalaya-mapstruct-processor",
-    "jambalaya-micronaut-graphql",
-    "jambalaya-micronaut-mapstruct-protobuf",
-    "jambalaya-protobuf",
-    "jambalaya-seo"
-)
-
 subprojects {
     apply(plugin = "java")
     apply(plugin = "com.adarshr.test-logger")
-    if (publishingProjects.contains(project.name)) {
-        apply(plugin = "java-library")
-        apply(plugin = "maven-publish")
+
+    plugins.withId("maven-publish") {
         apply(plugin = "signing")
     }
 
@@ -108,7 +91,7 @@ subprojects {
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${Versions.junit}")
     }
 
-    if (publishingProjects.contains(project.name)) {
+    plugins.withId("maven-publish") {
         publishing {
             publications {
                 create<MavenPublication>("mavenJava") {

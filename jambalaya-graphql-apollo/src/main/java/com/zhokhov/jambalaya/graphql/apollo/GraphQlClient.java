@@ -42,6 +42,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 import static com.zhokhov.jambalaya.checks.Preconditions.checkNotBlank;
@@ -72,7 +73,7 @@ public class GraphQlClient {
     private Duration timeout = Duration.ofSeconds(15);
 
     public GraphQlClient(@NonNull String serverUrl, @NonNull ScalarType[] scalarTypes,
-                         @Nullable OkHttpClient okHttpClient) {
+                         @Nullable OkHttpClient okHttpClient, @Nullable Executor executor) {
         checkNotBlank(serverUrl, "serverUrl");
 
         if (okHttpClient == null) {
@@ -91,6 +92,10 @@ public class GraphQlClient {
                 .serverUrl(serverUrl)
                 .defaultResponseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
                 .okHttpClient(okHttpClient);
+
+        if (executor != null) {
+            apolloClientBuilder.dispatcher(executor);
+        }
 
         for (ScalarType scalarType : scalarTypes) {
             apolloClientBuilder.addCustomTypeAdapter(scalarType, CUSTOM_TYPE_ADAPTER_MAP.get(scalarType.className()));

@@ -4,7 +4,11 @@ plugins {
 }
 
 version = Versions.jambalayaTenancy
-description = "Micronaut Tenancy."
+description = "Tenancy."
+
+dependencies {
+    api(project(":jambalaya-opentelemetry"))
+}
 
 // POM name/description fix
 publishing {

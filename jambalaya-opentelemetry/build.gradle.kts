@@ -4,10 +4,10 @@ plugins {
 }
 
 version = Versions.jambalayaOpentelemetry
-description = "Micronaut OpenTelemetry."
+description = "OpenTelemetry."
 
 dependencies {
-    implementation("io.opentelemetry:opentelemetry-api:${Versions.opentelemetry}")
+    api("io.opentelemetry:opentelemetry-api:${Versions.opentelemetry}")
 }
 
 // POM name/description fix

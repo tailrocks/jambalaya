@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  */
 public class Tenant {
 
-    private static final String DEFAULT = "default";
+    public static final String DEFAULT = "default";
 
     private final String tenantString;
     private final Map<String, String> tenantMapping = new ConcurrentHashMap<>();

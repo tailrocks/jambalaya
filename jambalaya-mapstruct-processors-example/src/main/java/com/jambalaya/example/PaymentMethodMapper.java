@@ -42,12 +42,25 @@ import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
 )
 public interface PaymentMethodMapper {
 
+    @Named("toCardExpirationDate")
+    static LocalDate toCardExpirationDate(PaymentMethodCardInput paymentMethodCardInput) {
+        if (paymentMethodCardInput.hasExpirationYear() && paymentMethodCardInput.hasExpirationMonth()) {
+            return LocalDate.of(
+                    paymentMethodCardInput.getExpirationYear().getValue(),
+                    paymentMethodCardInput.getExpirationMonth().getValue(),
+                    1
+            );
+        }
+        return null;
+    }
+
     FindRequest toFindRequest(MyFindRequest myFindRequest);
 
     @Mapping(target = "stripePaymentMethodId", ignore = true)
     @Mapping(target = "card", source = "paymentMethodRecord")
     PaymentMethod toPaymentMethod(PaymentMethodRecord paymentMethodRecord);
 
+    @Mapping(target = "updaterLog", ignore = true)
     @Mapping(target = "brand", source = "cardBrand")
     @Mapping(target = "number", source = "cardNumber")
     @Mapping(target = "expirationMonth", source = "cardExpirationDate.year")
@@ -69,17 +82,5 @@ public interface PaymentMethodMapper {
     @Mapping(target = "cardHolderName", source = "card.cardHolderName")
     PaymentMethodRecord toPaymentMethodRecord(PaymentMethodInput paymentMethodInput,
                                               @MappingTarget PaymentMethodRecord paymentMethodRecord);
-
-    @Named("toCardExpirationDate")
-    static LocalDate toCardExpirationDate(PaymentMethodCardInput paymentMethodCardInput) {
-        if (paymentMethodCardInput.hasExpirationYear() && paymentMethodCardInput.hasExpirationMonth()) {
-            return LocalDate.of(
-                    paymentMethodCardInput.getExpirationYear().getValue(),
-                    paymentMethodCardInput.getExpirationMonth().getValue(),
-                    1
-            );
-        }
-        return null;
-    }
 
 }

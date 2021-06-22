@@ -48,7 +48,7 @@ object Versions {
     // @end sync with micronaut
 
     const val slugify = "2.5"
-    const val apollo = "2.5.5"
+    const val apollo = "2.5.9"
     const val okhttp = "4.9.1"
     const val mapstruct = "1.4.2.Final"
     const val guava = "30.1.1-jre"

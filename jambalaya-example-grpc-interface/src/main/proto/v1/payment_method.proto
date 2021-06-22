@@ -45,6 +45,11 @@ message PaymentMethodCard {
   uint32 expiration_year = 3;
   uint32 expiration_month = 4;
   string card_holder_name = 5;
+  repeated AccountUpdaterLog updater_log = 6;
+}
+
+message AccountUpdaterLog {
+  string message = 1;
 }
 
 enum PaymentMethodCardBrand {

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package com.jambalaya.example.product;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
+option java_multiple_files = true;
+
+message Product {
+  google.protobuf.UInt64Value id = 1;
+  ProductDetails details = 6;
+}
+
+message ProductDetails {
+  repeated ProductMedia desktop_media = 1;
+  repeated ProductMedia mobile_media = 2;
+  google.protobuf.StringValue list_source = 3;
+}
+
+message ProductMedia {
+  google.protobuf.StringValue url = 1;
+}

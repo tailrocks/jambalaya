@@ -15,6 +15,7 @@
  */
 package com.zhokhov.jambalaya.mapstruct.processor;
 
+import org.mapstruct.ap.internal.util.Nouns;
 import org.mapstruct.ap.spi.AccessorNamingStrategy;
 import org.mapstruct.ap.spi.DefaultAccessorNamingStrategy;
 import org.mapstruct.ap.spi.MapStructProcessingEnvironment;
@@ -231,6 +232,17 @@ public class JambalayaAccessorNamingStrategy extends DefaultAccessorNamingStrate
             }
         }
         return super.getPropertyName(getterOrSetterMethod);
+    }
+
+    @Override
+    public String getElementName(ExecutableElement adderMethod) {
+        String getElementName = super.getElementName(adderMethod);
+
+        if (isProtobufMessageLiteOrBuilder(adderMethod)) {
+            getElementName = Nouns.singularize(getElementName);
+        }
+
+        return getElementName;
     }
 
     private boolean isListGetterMethod(ExecutableElement method) {

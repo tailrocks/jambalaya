@@ -6,7 +6,7 @@ public class ProductDetailsInput implements java.io.Serializable {
 
     private List<ProductMediaInput> desktopMedia;
     private List<ProductMediaInput> mobileMedia;
-    private String listSource;
+    private List<ProductMediaInput> tests;
 
     public List<ProductMediaInput> getDesktopMedia() {
         return desktopMedia;
@@ -24,11 +24,12 @@ public class ProductDetailsInput implements java.io.Serializable {
         this.mobileMedia = mobileMedia;
     }
 
-    public String getListSource() {
-        return listSource;
+    public List<ProductMediaInput> getTests() {
+        return tests;
     }
 
-    public void setListSource(String listSource) {
-        this.listSource = listSource;
+    public void setTests(List<ProductMediaInput> tests) {
+        this.tests = tests;
     }
+
 }

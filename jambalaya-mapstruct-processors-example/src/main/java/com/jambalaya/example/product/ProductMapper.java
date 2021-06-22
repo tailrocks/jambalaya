@@ -1,9 +1,7 @@
 package com.jambalaya.example.product;
 
-import com.zhokhov.jambalaya.micronaut.mapstruct.protobuf.ProtobufConvertersMapper;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 
@@ -17,14 +15,10 @@ import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
         injectionStrategy = CONSTRUCTOR,
         collectionMappingStrategy = CollectionMappingStrategy.SETTER_PREFERRED,
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
-        unmappedTargetPolicy = ReportingPolicy.ERROR,
-        uses = {
-                ProtobufConvertersMapper.class
-        }
+        unmappedTargetPolicy = ReportingPolicy.ERROR
 )
 public interface ProductMapper {
 
-    @Mapping(target = "id", ignore = true)
-    Product toGrpc(CreateProductInput input);
+    ProductDetails toGrpc(ProductDetailsInput input);
 
 }

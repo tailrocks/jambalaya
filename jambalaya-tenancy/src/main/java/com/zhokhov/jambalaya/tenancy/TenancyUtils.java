@@ -51,9 +51,36 @@ public final class TenancyUtils {
         return new Tenant(tenantString);
     }
 
+    public static <T> T callWithTenant(@Nullable String tenantString, UncheckedCallable<T> callable) {
+        if (!StringUtils.hasText(tenantString)) {
+            tenantString = getStringOrDefault();
+        }
+        try (Scope ignored = setStringClosable(tenantString)) {
+            return callable.call();
+        }
+    }
+
+    public static void runWithTenant(@Nullable String tenantString, Runnable runnable) {
+        if (!StringUtils.hasText(tenantString)) {
+            tenantString = getStringOrDefault();
+        }
+        try (Scope ignored = setStringClosable(tenantString)) {
+            runnable.run();
+        }
+    }
+
     @Nullable
     public static String getString() {
         return Baggage.current().getEntryValue(TENANT_KEY);
+    }
+
+    @Nullable
+    public static String getStringOrDefault() {
+        String tenantString = getString();
+        if (StringUtils.hasText(tenantString)) {
+            return tenantString;
+        }
+        return Tenant.DEFAULT;
     }
 
     public static Context setString(String value) {

@@ -29,18 +29,18 @@ object Versions {
 
     // Libraries
 
-    const val micronaut = "2.5.5"
+    const val micronaut = "2.5.7"
 
     // sync with micronaut
-    // https://repo1.maven.org/maven2/io/micronaut/micronaut-bom/2.5.5/micronaut-bom-2.5.5.pom
+    // https://repo1.maven.org/maven2/io/micronaut/micronaut-bom/2.5.7/micronaut-bom-2.5.7.pom
     // https://repo1.maven.org/maven2/io/micronaut/sql/micronaut-jooq/3.4.0/micronaut-jooq-3.4.0.pom
-    // https://repo1.maven.org/maven2/io/micronaut/graphql/micronaut-graphql/2.2.0/micronaut-graphql-2.2.0.pom
+    // https://repo1.maven.org/maven2/io/micronaut/graphql/micronaut-graphql/2.2.1/micronaut-graphql-2.2.1.pom
     const val slf4j = "1.7.26"
     const val jooq = "3.14.4"
-    const val grpc = "1.33.1"
+    const val grpc = "1.38.0"
     const val spotbugs = "4.0.3"
     const val junit = "5.7.1"
-    const val protobuf = "3.14.0"
+    const val protobuf = "3.17.2"
     const val micronautGraphql = "2.2.1"
     const val graphQlDataLoader = "2.2.3"
     const val jakartaInjectApi = "1.0.3"
@@ -53,6 +53,7 @@ object Versions {
     const val mapstruct = "1.4.2.Final"
     const val guava = "30.1.1-jre"
     const val opentelemetry = "1.3.0"
+    const val opentelemetrySemconv = "1.3.0-alpha"
 
     // Project
 
@@ -62,6 +63,7 @@ object Versions {
     const val jambalayaGraphqlApollo = "0.5.0"
     const val jambalayaGraphqlJooq = "0.4.0"
     const val jambalayaJsr310 = "0.4.0"
+    const val jambalayaJunitOpentelemetry = "0.1.0"
     const val jambalayaKotlinTest = "0.4.0"
     const val jambalayaMapstruct = "0.3.0"
     const val jambalayaMapstructProcessor = "0.3.1"

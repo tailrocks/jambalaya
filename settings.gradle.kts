@@ -24,6 +24,7 @@ include(
     "jambalaya-graphql-apollo",
     "jambalaya-graphql-jooq",
     "jambalaya-jsr310",
+    "jambalaya-junit-opentelemetry",
     "jambalaya-kotlin-test",
     "jambalaya-kotlin-test-graphql-example",
     "jambalaya-mapstruct",

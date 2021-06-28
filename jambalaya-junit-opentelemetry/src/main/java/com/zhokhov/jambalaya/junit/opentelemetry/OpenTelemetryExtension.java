@@ -73,10 +73,10 @@ public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCall
 
     @Override
     public void afterAll(ExtensionContext context) {
-        for (var entry : scopes.entrySet()) {
+        for (Map.Entry<String, Scope> entry : scopes.entrySet()) {
             entry.getValue().close();
         }
-        for (var entry : spans.entrySet()) {
+        for (Map.Entry<String, Span> entry : spans.entrySet()) {
             entry.getValue().end();
         }
         scopes.clear();

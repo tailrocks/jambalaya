@@ -35,8 +35,8 @@ public final class TenancyUtils {
     private TenancyUtils() {
     }
 
-    public static Tenant getOrThrow() {
-        String tenantString = getString();
+    public static Tenant getTenantOrThrow() {
+        String tenantString = getTenantString();
 
         if (tenantString == null) {
             throw new EmptyTenantException();
@@ -45,8 +45,8 @@ public final class TenancyUtils {
         return new Tenant(tenantString);
     }
 
-    public static Tenant getOrDefault() {
-        String tenantString = getString();
+    public static Tenant getTenantOrDefault() {
+        String tenantString = getTenantString();
 
         if (tenantString == null) {
             return Tenant.getDefault();
@@ -67,9 +67,9 @@ public final class TenancyUtils {
         checkNotNull(callable, "callable");
 
         if (!StringUtils.hasText(tenantString)) {
-            tenantString = getStringOrDefault();
+            tenantString = getTenantStringOrDefault();
         }
-        try (Scope ignored = setStringClosable(tenantString)) {
+        try (Scope ignored = setTenantStringClosable(tenantString)) {
             return callable.call();
         }
     }
@@ -86,34 +86,39 @@ public final class TenancyUtils {
         checkNotNull(runnable, "runnable");
 
         if (!StringUtils.hasText(tenantString)) {
-            tenantString = getStringOrDefault();
+            tenantString = getTenantStringOrDefault();
         }
-        try (Scope ignored = setStringClosable(tenantString)) {
+        try (Scope ignored = setTenantStringClosable(tenantString)) {
             runnable.run();
         }
     }
 
     @Nullable
-    public static String getString() {
+    public static String getTenantString() {
         return Baggage.current().getEntryValue(TENANT_KEY);
     }
 
-    @Nullable
-    public static String getStringOrDefault() {
-        String tenantString = getString();
+    public static String getTenantStringOrDefault() {
+        return getTenantStringOrElse(Tenant.DEFAULT);
+    }
+
+    public static String getTenantStringOrElse(@NonNull String other) {
+        checkNotBlank(other, "other");
+
+        String tenantString = getTenantString();
         if (StringUtils.hasText(tenantString)) {
             return tenantString;
         }
-        return Tenant.DEFAULT;
+        return other;
     }
 
-    public static Context setString(@NonNull String value) {
+    public static Context setTenantString(@NonNull String value) {
         checkNotBlank(value, "value");
 
         return BaggageUtils.put(TENANT_KEY, value);
     }
 
-    public static Scope setStringClosable(@NonNull String value) {
+    public static Scope setTenantStringClosable(@NonNull String value) {
         checkNotBlank(value, "value");
 
         return BaggageUtils.putClosable(TENANT_KEY, value);

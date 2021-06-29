@@ -16,10 +16,14 @@
 package com.zhokhov.jambalaya.tenancy;
 
 import com.zhokhov.jambalaya.opentelemetry.BaggageUtils;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import io.opentelemetry.api.baggage.Baggage;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.context.Scope;
+
+import static com.zhokhov.jambalaya.checks.Preconditions.checkNotBlank;
+import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
 
 /**
  * @author Alexey Zhokhov
@@ -51,7 +55,17 @@ public final class TenancyUtils {
         return new Tenant(tenantString);
     }
 
-    public static <T> T callWithTenant(@Nullable String tenantString, UncheckedCallable<T> callable) {
+    public static <T> T callWithDefaultTenant(@NonNull UncheckedCallable<T> callable) {
+        return callWithTenant(Tenant.DEFAULT, callable);
+    }
+
+    public static <T> T callWithTestingTenant(@NonNull UncheckedCallable<T> callable) {
+        return callWithTenant(Tenant.TESTING, callable);
+    }
+
+    public static <T> T callWithTenant(@Nullable String tenantString, @NonNull UncheckedCallable<T> callable) {
+        checkNotNull(callable, "callable");
+
         if (!StringUtils.hasText(tenantString)) {
             tenantString = getStringOrDefault();
         }
@@ -60,7 +74,17 @@ public final class TenancyUtils {
         }
     }
 
-    public static void runWithTenant(@Nullable String tenantString, Runnable runnable) {
+    public static void runWithDefaultTenant(@NonNull Runnable runnable) {
+        runWithTenant(Tenant.DEFAULT, runnable);
+    }
+
+    public static void runWithTestingTenant(@NonNull Runnable runnable) {
+        runWithTenant(Tenant.TESTING, runnable);
+    }
+
+    public static void runWithTenant(@Nullable String tenantString, @NonNull Runnable runnable) {
+        checkNotNull(runnable, "runnable");
+
         if (!StringUtils.hasText(tenantString)) {
             tenantString = getStringOrDefault();
         }
@@ -83,11 +107,15 @@ public final class TenancyUtils {
         return Tenant.DEFAULT;
     }
 
-    public static Context setString(String value) {
+    public static Context setString(@NonNull String value) {
+        checkNotBlank(value, "value");
+
         return BaggageUtils.put(TENANT_KEY, value);
     }
 
-    public static Scope setStringClosable(String value) {
+    public static Scope setStringClosable(@NonNull String value) {
+        checkNotBlank(value, "value");
+
         return BaggageUtils.putClosable(TENANT_KEY, value);
     }
 

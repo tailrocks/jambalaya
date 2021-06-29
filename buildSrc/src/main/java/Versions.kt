@@ -72,6 +72,6 @@ object Versions {
     const val jambalayaOpentelemetry = "0.2.0"
     const val jambalayaProtobuf = "0.4.0"
     const val jambalayaSeo = "0.4.0"
-    const val jambalayaTenancy = "0.2.1"
+    const val jambalayaTenancy = "0.2.2"
 
 }

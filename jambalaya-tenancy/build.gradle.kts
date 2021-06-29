@@ -7,6 +7,7 @@ version = Versions.jambalayaTenancy
 description = "Tenancy."
 
 dependencies {
+    api(project(":jambalaya-checks"))
     api(project(":jambalaya-opentelemetry"))
 }
 

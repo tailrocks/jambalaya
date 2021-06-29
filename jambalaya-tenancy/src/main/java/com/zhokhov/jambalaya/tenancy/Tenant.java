@@ -28,7 +28,11 @@ import java.util.stream.Collectors;
  */
 public class Tenant {
 
+    // Predefined tenant. Default one, can be used in production as a main tenant.
     public static final String DEFAULT = "default";
+
+    // Predefined tenant. Represents testing environment.
+    public static final String TESTING = "testing";
 
     private final String tenantString;
     private final Map<String, String> tenantMapping = new ConcurrentHashMap<>();

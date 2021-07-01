@@ -59,6 +59,10 @@ public class Tenant implements Serializable {
         return new Tenant(DEFAULT, null);
     }
 
+    public static Tenant getTesting() {
+        return new Tenant(TESTING, null);
+    }
+
     public static Tenant parse(@Nullable String tenantString) {
         if (tenantString == null || !StringUtils.hasText(tenantString)) {
             return getDefault();

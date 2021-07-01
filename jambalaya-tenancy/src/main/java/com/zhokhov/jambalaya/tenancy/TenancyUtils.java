@@ -42,7 +42,7 @@ public final class TenancyUtils {
             throw new EmptyTenantException();
         }
 
-        return new Tenant(tenantString);
+        return Tenant.parse(tenantString);
     }
 
     public static Tenant getTenantOrDefault() {
@@ -52,7 +52,7 @@ public final class TenancyUtils {
             return Tenant.getDefault();
         }
 
-        return new Tenant(tenantString);
+        return Tenant.parse(tenantString);
     }
 
     public static <T> T callWithDefaultTenant(@NonNull UncheckedCallable<T> callable) {
@@ -63,10 +63,25 @@ public final class TenancyUtils {
         return callWithTenant(Tenant.TESTING, callable);
     }
 
+    public static <T> T callWithTenantForService(
+            @NonNull String serviceName,
+            @NonNull String tenantName,
+            @NonNull UncheckedCallable<T> callable
+    ) {
+        checkNotBlank(serviceName, "serviceName");
+        checkNotBlank(tenantName, "tenantName");
+
+        String tenantString = getTenantOrDefault()
+                .withService(serviceName, tenantName)
+                .toString();
+
+        return callWithTenant(tenantString, callable);
+    }
+
     public static <T> T callWithTenant(@Nullable String tenantString, @NonNull UncheckedCallable<T> callable) {
         checkNotNull(callable, "callable");
 
-        if (!StringUtils.hasText(tenantString)) {
+        if (tenantString == null || !StringUtils.hasText(tenantString)) {
             tenantString = getTenantStringOrDefault();
         }
         try (Scope ignored = setTenantStringClosable(tenantString)) {
@@ -82,10 +97,25 @@ public final class TenancyUtils {
         runWithTenant(Tenant.TESTING, runnable);
     }
 
+    public static void runWithTenantForService(
+            @NonNull String serviceName,
+            @NonNull String tenantName,
+            @NonNull Runnable runnable
+    ) {
+        checkNotBlank(serviceName, "serviceName");
+        checkNotBlank(tenantName, "tenantName");
+
+        String tenantString = getTenantOrDefault()
+                .withService(serviceName, tenantName)
+                .toString();
+
+        runWithTenant(tenantString, runnable);
+    }
+
     public static void runWithTenant(@Nullable String tenantString, @NonNull Runnable runnable) {
         checkNotNull(runnable, "runnable");
 
-        if (!StringUtils.hasText(tenantString)) {
+        if (tenantString == null || !StringUtils.hasText(tenantString)) {
             tenantString = getTenantStringOrDefault();
         }
         try (Scope ignored = setTenantStringClosable(tenantString)) {

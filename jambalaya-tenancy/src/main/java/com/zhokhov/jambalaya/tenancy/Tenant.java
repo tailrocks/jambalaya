@@ -15,18 +15,25 @@
  */
 package com.zhokhov.jambalaya.tenancy;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
+import javax.annotation.concurrent.Immutable;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import static com.zhokhov.jambalaya.checks.Preconditions.checkNotBlank;
+
 /**
  * @author Alexey Zhokhov
  */
-public class Tenant {
+@Immutable
+public class Tenant implements Serializable {
 
     // Predefined tenant. Default one, can be used in production as a main tenant.
     public static final String DEFAULT = "default";
@@ -34,91 +41,132 @@ public class Tenant {
     // Predefined tenant. Represents testing environment.
     public static final String TESTING = "testing";
 
-    private final String tenantString;
+    private static final long serialVersionUID = 1715942534351608194L;
+
     private final Map<String, String> tenantMapping = new ConcurrentHashMap<>();
-    private String defaultTenant;
+    private final String defaultTenant;
+    private final String tenantString;
 
-    public Tenant(@Nullable String tenantString) {
-        if (!StringUtils.hasText(tenantString)) {
-            this.tenantString = DEFAULT;
-            defaultTenant = DEFAULT;
-        } else {
-            while (tenantString.contains("  ")) {
-                tenantString = tenantString.replace("  ", " ");
-            }
-
-            tenantString = tenantString
-                    .trim()
-                    .replace(" = ", "=")
-                    .replace(" =", "=")
-                    .replace("= ", "=");
-
-            String[] parts = tenantString.trim().split(" ");
-
-            for (String part : parts) {
-                part = part.trim();
-
-                if (StringUtils.hasText(part)) {
-                    if (part.contains("=")) {
-                        String[] kv = part.split("=");
-
-                        if (kv.length != 2) {
-                            throw new IncorrectTenantStringException(tenantString);
-                        }
-
-                        String key = kv[0].trim();
-                        String value = kv[1].trim();
-
-                        if (StringUtils.isEmpty(key)) {
-                            throw new IncorrectTenantStringException(tenantString);
-                        }
-
-                        if (StringUtils.isEmpty(value)) {
-                            throw new IncorrectTenantStringException(tenantString);
-                        }
-
-                        if (tenantMapping.containsKey(key)) {
-                            throw new IncorrectTenantStringException(tenantString);
-                        }
-
-                        tenantMapping.put(key, value);
-                    } else {
-                        if (defaultTenant != null) {
-                            throw new IncorrectTenantStringException(tenantString);
-                        }
-
-                        defaultTenant = part.trim();
-                    }
-                }
-            }
-
-            if (defaultTenant == null) {
-                defaultTenant = DEFAULT;
-            }
-
-            StringBuilder sb = new StringBuilder(defaultTenant);
-
-            List<String> services = new ArrayList<>(tenantMapping.keySet())
-                    .stream().sorted().collect(Collectors.toList());
-
-            for (String service : services) {
-                sb.append(" ").append(service).append("=").append(tenantMapping.get(service));
-            }
-
-            this.tenantString = sb.toString();
+    private Tenant(@NonNull String defaultTenant, @Nullable Map<String, String> tenantMapping) {
+        this.defaultTenant = defaultTenant;
+        if (tenantMapping != null) {
+            this.tenantMapping.putAll(tenantMapping);
         }
+        this.tenantString = generateTenantString();
     }
 
     public static Tenant getDefault() {
-        return new Tenant(null);
+        return new Tenant(DEFAULT, null);
     }
 
-    public String getTenantByService(String service) {
+    public static Tenant parse(@Nullable String tenantString) {
+        if (tenantString == null || !StringUtils.hasText(tenantString)) {
+            return getDefault();
+        } else {
+            return parseTenantString(cleanString(tenantString));
+        }
+    }
+
+    private static Tenant parseTenantString(String tenantString) {
+        String[] parts = tenantString.trim().split(" ");
+
+        String defaultTenant = null;
+        Map<String, String> tenantMapping = new HashMap<>();
+
+        for (String part : parts) {
+            part = part.trim();
+
+            if (StringUtils.hasText(part)) {
+                if (part.contains("=")) {
+                    String[] kv = part.split("=");
+
+                    if (kv.length != 2) {
+                        throw new IncorrectTenantStringException(tenantString);
+                    }
+
+                    String key = kv[0].trim();
+                    String value = kv[1].trim();
+
+                    if (StringUtils.isEmpty(key)) {
+                        throw new IncorrectTenantStringException(tenantString);
+                    }
+
+                    if (StringUtils.isEmpty(value)) {
+                        throw new IncorrectTenantStringException(tenantString);
+                    }
+
+                    if (tenantMapping.containsKey(key)) {
+                        throw new IncorrectTenantStringException(tenantString);
+                    }
+
+                    // TODO check tenant for permitted symbols
+                    tenantMapping.put(key, value);
+                } else {
+                    if (defaultTenant != null) {
+                        throw new IncorrectTenantStringException(tenantString);
+                    }
+
+                    defaultTenant = part.trim();
+                }
+            }
+        }
+
+        return new Tenant(defaultTenant == null ? DEFAULT : defaultTenant, tenantMapping);
+    }
+
+    private static String cleanString(String value) {
+        while (value.contains("  ")) {
+            value = value.replace("  ", " ");
+        }
+
+        value = value
+                .trim()
+                .replace(" = ", "=")
+                .replace(" =", "=")
+                .replace("= ", "=");
+        return value;
+    }
+
+    public String getByService(@NonNull String service) {
+        checkNotBlank(service, "service");
+
         return tenantMapping.getOrDefault(service, defaultTenant);
     }
 
+    public Tenant withDefault(@NonNull String tenantName) {
+        checkNotBlank(tenantName, "tenantName");
+
+        // TODO check tenant for permitted symbols
+        return new Tenant(tenantName, tenantMapping);
+    }
+
+    public Tenant withService(@NonNull String serviceName, @NonNull String tenantName) {
+        checkNotBlank(serviceName, "serviceName");
+        checkNotBlank(tenantName, "tenantName");
+
+        Map<String, String> clonedTenantMapping = new HashMap<>(tenantMapping);
+        clonedTenantMapping.put(serviceName, tenantName);
+
+        // TODO check tenant for permitted symbols
+        return new Tenant(defaultTenant, clonedTenantMapping);
+    }
+
+    @Override
     public String toString() {
         return tenantString;
+    }
+
+    private String generateTenantString() {
+        StringBuilder sb = new StringBuilder(defaultTenant);
+
+        List<String> services = new ArrayList<>(tenantMapping.keySet())
+                .stream().sorted().collect(Collectors.toList());
+
+        for (String service : services) {
+            sb.append(" ").append(service).append("=").append(tenantMapping.get(service));
+        }
+
+        return sb.toString();
     }
 
 }

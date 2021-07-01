@@ -23,84 +23,114 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * @author Alexey Zhokhov
  */
-public class TenantTests {
+class TenantTests {
 
     @Test
-    public void test1() {
-        Tenant tenant = new Tenant(null);
+    void test1() {
+        Tenant tenant = Tenant.parse(null);
 
+        assertEquals("abc", tenant.withDefault("abc").toString());
+        assertEquals("abc", tenant.withDefault("abc").getByService("service1"));
         assertEquals("default", tenant.toString());
-        assertEquals("default", tenant.getTenantByService("service1"));
-        assertEquals("default", tenant.getTenantByService("service2"));
+        assertEquals("default", tenant.getByService("service1"));
+        assertEquals("default", tenant.getByService("service2"));
     }
 
     @Test
-    public void test2() {
-        Tenant tenant = new Tenant("testing");
+    void test2() {
+        Tenant tenant = Tenant.parse(" ");
+
+        assertEquals("abc", tenant.withDefault("abc").toString());
+        assertEquals("abc", tenant.withDefault("abc").getByService("service1"));
+        assertEquals("default", tenant.toString());
+        assertEquals("default", tenant.getByService("service1"));
+        assertEquals("default", tenant.getByService("service2"));
+    }
+
+    @Test
+    void test3() {
+        Tenant tenant = Tenant.parse("   ");
+
+        assertEquals("abc", tenant.withDefault("abc").toString());
+        assertEquals("abc", tenant.withDefault("abc").getByService("service1"));
+        assertEquals("default", tenant.toString());
+        assertEquals("default", tenant.getByService("service1"));
+        assertEquals("default", tenant.getByService("service2"));
+    }
+
+    @Test
+    void test4() {
+        Tenant tenant = Tenant.parse("testing");
+
+        assertEquals("abc", tenant.withDefault("abc").toString());
+        assertEquals("abc", tenant.withDefault("abc").getByService("service1"));
+        assertEquals("testing", tenant.toString());
+        assertEquals("testing", tenant.getByService("service1"));
+        assertEquals("testing", tenant.getByService("service2"));
+    }
+
+    @Test
+    void test5() {
+        Tenant tenant = Tenant.parse("testing ");
 
         assertEquals("testing", tenant.toString());
-        assertEquals("testing", tenant.getTenantByService("service1"));
-        assertEquals("testing", tenant.getTenantByService("service2"));
+        assertEquals("testing", tenant.getByService("service1"));
+        assertEquals("testing", tenant.getByService("service2"));
     }
 
     @Test
-    public void test3() {
-        Tenant tenant = new Tenant("testing ");
+    void test6() {
+        Tenant tenant = Tenant.parse("testing service1=main");
 
-        assertEquals("testing", tenant.toString());
-        assertEquals("testing", tenant.getTenantByService("service1"));
-        assertEquals("testing", tenant.getTenantByService("service2"));
-    }
-
-    @Test
-    public void test4() {
-        Tenant tenant = new Tenant("testing service1=main");
-
+        assertEquals("abc service1=main", tenant.withDefault("abc").toString());
+        assertEquals("main", tenant.withDefault("abc").getByService("service1"));
+        assertEquals("testing service1=main service2=copy", tenant.withService("service2", "copy").toString());
+        assertEquals("testing service1=analog", tenant.withService("service1", "analog").toString());
         assertEquals("testing service1=main", tenant.toString());
-        assertEquals("main", tenant.getTenantByService("service1"));
-        assertEquals("testing", tenant.getTenantByService("service2"));
+        assertEquals("main", tenant.getByService("service1"));
+        assertEquals("testing", tenant.getByService("service2"));
     }
 
     @Test
-    public void test5() {
-        Tenant tenant = new Tenant("service1=main");
+    void test7() {
+        Tenant tenant = Tenant.parse("service1=main");
 
         assertEquals("default service1=main", tenant.toString());
-        assertEquals("main", tenant.getTenantByService("service1"));
-        assertEquals("default", tenant.getTenantByService("service2"));
+        assertEquals("main", tenant.getByService("service1"));
+        assertEquals("default", tenant.getByService("service2"));
     }
 
     @Test
-    public void test6() {
-        Tenant tenant = new Tenant(" service1 = main ");
+    void test8() {
+        Tenant tenant = Tenant.parse(" service1 = main ");
 
         assertEquals("default service1=main", tenant.toString());
-        assertEquals("main", tenant.getTenantByService("service1"));
-        assertEquals("default", tenant.getTenantByService("service2"));
+        assertEquals("main", tenant.getByService("service1"));
+        assertEquals("default", tenant.getByService("service2"));
     }
 
     @Test
-    public void test7() {
+    void test9() {
         IncorrectTenantStringException exception = assertThrows(IncorrectTenantStringException.class, () ->
-                new Tenant("=main")
+                Tenant.parse("=main")
         );
 
         assertEquals("Incorrect tenant string: `=main`", exception.getMessage());
     }
 
     @Test
-    public void test8() {
-        Tenant tenant = new Tenant("x =main");
+    void test10() {
+        Tenant tenant = Tenant.parse("x =main");
 
         assertEquals("default x=main", tenant.toString());
-        assertEquals("main", tenant.getTenantByService("x"));
-        assertEquals("default", tenant.getTenantByService("service2"));
+        assertEquals("main", tenant.getByService("x"));
+        assertEquals("default", tenant.getByService("service2"));
     }
 
     @Test
-    public void test9() {
+    void test11() {
         IncorrectTenantStringException exception = assertThrows(IncorrectTenantStringException.class, () ->
-                new Tenant("x service=")
+                Tenant.parse("x service=")
         );
 
         assertEquals("Incorrect tenant string: `x service=`", exception.getMessage());

@@ -36,5 +36,6 @@ include(
     "jambalaya-protobuf",
     "jambalaya-seo",
     "jambalaya-tenancy",
+    "jambalaya-tenancy-flyway",
     "jambalaya-tenancy-grpc-interface"
 )

@@ -45,6 +45,7 @@ object Versions {
     const val graphQlDataLoader = "2.2.3"
     const val jakartaInjectApi = "1.0.3"
     const val jakartaAnnotationApi = "1.3.5"
+    const val flyway = "7.7.3"
     // @end sync with micronaut
 
     const val slugify = "2.5"
@@ -73,6 +74,7 @@ object Versions {
     const val jambalayaProtobuf = "0.4.0"
     const val jambalayaSeo = "0.4.0"
     const val jambalayaTenancy = "0.4.0"
+    const val jambalayaTenancyFlyway = "0.1.0"
     const val jambalayaTenancyGrpcInterface = "0.1.0"
 
 }

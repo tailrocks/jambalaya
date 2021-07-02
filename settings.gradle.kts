@@ -37,5 +37,6 @@ include(
     "jambalaya-seo",
     "jambalaya-tenancy",
     "jambalaya-tenancy-flyway",
-    "jambalaya-tenancy-grpc-interface"
+    "jambalaya-tenancy-grpc-interface",
+    "jambalaya-tenancy-jooq"
 )

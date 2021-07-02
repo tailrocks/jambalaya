@@ -76,5 +76,6 @@ object Versions {
     const val jambalayaTenancy = "0.4.0"
     const val jambalayaTenancyFlyway = "0.1.0"
     const val jambalayaTenancyGrpcInterface = "0.1.0"
+    const val jambalayaTenancyJooq = "0.1.0"
 
 }

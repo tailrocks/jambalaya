@@ -2,7 +2,7 @@ object Versions {
 
     // Languages
 
-    const val kotlin = "1.5.10"
+    const val kotlin = "1.5.20"
 
     // Gradle plugins
 
@@ -16,7 +16,7 @@ object Versions {
     const val gradleBuildTimeTrackerPlugin = "0.11.0"
 
     // https://plugins.gradle.org/plugin/com.diffplug.spotless
-    const val gradleSpotlessPlugin = "5.13.0"
+    const val gradleSpotlessPlugin = "5.14.0"
 
     // https://plugins.gradle.org/plugin/com.apollographql.apollo
     const val gradleApolloPlugin = "2.5.9"

@@ -35,5 +35,6 @@ include(
     "jambalaya-opentelemetry",
     "jambalaya-protobuf",
     "jambalaya-seo",
-    "jambalaya-tenancy"
+    "jambalaya-tenancy",
+    "jambalaya-tenancy-grpc-interface"
 )

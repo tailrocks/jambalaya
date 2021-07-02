@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package com.zhokhov.jambalaya.grpc.v1.tenant;
+
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+
+// TODO move to jambalaya
+service TenantService {
+  // Provision a single new tenant.
+  rpc provision (ProvisionTenantRequest) returns (ProvisionTenantResponse);
+
+  // Drop an existing tenant.
+  rpc drop (DropTenantRequest) returns (DropTenantResponse);
+}
+
+/*
+ * REQUESTS
+ */
+
+message ProvisionTenantRequest {
+  // The name of tenant. Required field.
+  google.protobuf.StringValue name = 1;
+
+  // The template used to create a new template. Optional, can be used only if the current backend supports templating.
+  google.protobuf.StringValue template = 2;
+}
+
+message DropTenantRequest {
+  // The name of tenant.
+  google.protobuf.StringValue name = 1;
+}
+
+/*
+ * RESPONSES
+ */
+
+message ProvisionTenantResponse {
+  // The status.
+  TenantStatus status = 1;
+}
+
+message DropTenantResponse {
+  // The status.
+  TenantStatus status = 1;
+}
+
+/*
+ * ENUMS
+ */
+
+enum TenantStatus {
+  TENANT_STATUS_UNSPECIFIED = 0;
+  TENANT_STATUS_CREATED = 1;
+  TENANT_STATUS_DROPPED = 2;
+}

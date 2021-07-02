@@ -9,11 +9,6 @@ plugins {
     id("com.google.protobuf") version Versions.gradleProtobufPlugin
 }
 
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
-
 dependencies {
     implementation("io.grpc:grpc-protobuf:${Versions.grpc}")
     implementation("io.grpc:grpc-services:${Versions.grpc}")

@@ -73,5 +73,6 @@ object Versions {
     const val jambalayaProtobuf = "0.4.0"
     const val jambalayaSeo = "0.4.0"
     const val jambalayaTenancy = "0.4.0"
+    const val jambalayaTenancyGrpcInterface = "0.1.0"
 
 }

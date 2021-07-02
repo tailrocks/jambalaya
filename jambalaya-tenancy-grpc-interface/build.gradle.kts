@@ -10,10 +10,8 @@ plugins {
     id("com.google.protobuf") version Versions.gradleProtobufPlugin
 }
 
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
+version = Versions.jambalayaTenancyGrpcInterface
+description = "Tenancy gRPC interface."
 
 dependencies {
     implementation("io.grpc:grpc-protobuf:${Versions.grpc}")
@@ -21,6 +19,18 @@ dependencies {
     implementation("io.grpc:grpc-stub:${Versions.grpc}")
     implementation("io.grpc:grpc-netty:${Versions.grpc}")
     implementation("jakarta.annotation:jakarta.annotation-api:${Versions.jakartaAnnotationApi}")
+}
+
+// POM name/description fix
+publishing {
+    publications {
+        (getByName("mavenJava") as MavenPublication).apply {
+            pom {
+                name.set(project.name)
+                description.set(project.description)
+            }
+        }
+    }
 }
 
 protobuf {

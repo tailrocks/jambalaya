@@ -34,9 +34,43 @@ import static com.zhokhov.jambalaya.tenancy.TenancyUtils.setTenantStringClosable
 public class TenantExtension implements InvocationInterceptor {
 
     @Override
+    public void interceptBeforeAllMethod(Invocation<Void> invocation,
+                                         ReflectiveInvocationContext<Method> invocationContext,
+                                         ExtensionContext extensionContext) throws Throwable {
+        proceedWithTenant(invocation, invocationContext, extensionContext);
+    }
+
+    @Override
+    public void interceptAfterAllMethod(Invocation<Void> invocation,
+                                        ReflectiveInvocationContext<Method> invocationContext,
+                                        ExtensionContext extensionContext) throws Throwable {
+        proceedWithTenant(invocation, invocationContext, extensionContext);
+    }
+
+    @Override
+    public void interceptBeforeEachMethod(Invocation<Void> invocation,
+                                          ReflectiveInvocationContext<Method> invocationContext,
+                                          ExtensionContext extensionContext) throws Throwable {
+        proceedWithTenant(invocation, invocationContext, extensionContext);
+    }
+
+    @Override
+    public void interceptAfterEachMethod(Invocation<Void> invocation,
+                                         ReflectiveInvocationContext<Method> invocationContext,
+                                         ExtensionContext extensionContext) throws Throwable {
+        proceedWithTenant(invocation, invocationContext, extensionContext);
+    }
+
+    @Override
     public void interceptTestMethod(Invocation<Void> invocation,
                                     ReflectiveInvocationContext<Method> invocationContext,
                                     ExtensionContext extensionContext) throws Throwable {
+        proceedWithTenant(invocation, invocationContext, extensionContext);
+    }
+
+    private void proceedWithTenant(Invocation<Void> invocation,
+                                   ReflectiveInvocationContext<Method> invocationContext,
+                                   ExtensionContext extensionContext) throws Throwable {
         Optional<ActiveTenant> activeTenant = AnnotationSupport.findAnnotation(
                 extensionContext.getRequiredTestClass(),
                 ActiveTenant.class
@@ -47,10 +81,10 @@ public class TenantExtension implements InvocationInterceptor {
 
         if (StringUtils.isNotEmpty(tenantString)) {
             try (Scope ignored = setTenantStringClosable(tenantString)) {
-                InvocationInterceptor.super.interceptTestMethod(invocation, invocationContext, extensionContext);
+                invocation.proceed();
             }
         } else {
-            InvocationInterceptor.super.interceptTestMethod(invocation, invocationContext, extensionContext);
+            invocation.proceed();
         }
     }
 

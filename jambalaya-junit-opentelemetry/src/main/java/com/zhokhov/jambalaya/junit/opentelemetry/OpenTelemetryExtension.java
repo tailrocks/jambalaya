@@ -102,40 +102,36 @@ public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCall
     public void interceptBeforeAllMethod(Invocation<Void> invocation,
                                          ReflectiveInvocationContext<Method> invocationContext,
                                          ExtensionContext extensionContext) throws Throwable {
-        interceptMethod("@BeforeAll: ", invocationContext, () ->
-                InvocationInterceptor.super.interceptBeforeAllMethod(invocation, invocationContext, extensionContext)
-        );
+        interceptMethod("@BeforeAll: ", invocation, invocationContext, extensionContext);
     }
 
     @Override
     public void interceptAfterAllMethod(Invocation<Void> invocation,
                                         ReflectiveInvocationContext<Method> invocationContext,
                                         ExtensionContext extensionContext) throws Throwable {
-        interceptMethod("@AfterAll: ", invocationContext, () ->
-                InvocationInterceptor.super.interceptAfterAllMethod(invocation, invocationContext, extensionContext)
-        );
+        interceptMethod("@AfterAll: ", invocation, invocationContext, extensionContext);
     }
 
     @Override
     public void interceptBeforeEachMethod(Invocation<Void> invocation,
                                           ReflectiveInvocationContext<Method> invocationContext,
                                           ExtensionContext extensionContext) throws Throwable {
-        interceptMethod("@BeforeEach: ", invocationContext, () ->
-                InvocationInterceptor.super.interceptBeforeEachMethod(invocation, invocationContext, extensionContext)
-        );
+        interceptMethod("@BeforeEach: ", invocation, invocationContext, extensionContext);
     }
 
     @Override
     public void interceptAfterEachMethod(Invocation<Void> invocation,
                                          ReflectiveInvocationContext<Method> invocationContext,
                                          ExtensionContext extensionContext) throws Throwable {
-        interceptMethod("@AfterEach: ", invocationContext, () ->
-                InvocationInterceptor.super.interceptAfterEachMethod(invocation, invocationContext, extensionContext)
-        );
+        interceptMethod("@AfterEach: ", invocation, invocationContext, extensionContext);
     }
 
-    private void interceptMethod(String prefix, ReflectiveInvocationContext<Method> invocationContext,
-                                 CheckedRunnable runnable) throws Throwable {
+    private void interceptMethod(
+            String prefix,
+            Invocation<Void> invocation,
+            ReflectiveInvocationContext<Method> invocationContext,
+            ExtensionContext extensionContext
+    ) throws Throwable {
         String spanName = prefix + invocationContext.getExecutable().getName();
 
         Span span = startSpan(spanName);
@@ -148,7 +144,7 @@ public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCall
         out.println(">> " + spanName);
 
         try (Scope ignored = span.makeCurrent()) {
-            runnable.run();
+            invocation.proceed();
         } catch (Throwable t) {
             span.recordException(t);
             span.setStatus(StatusCode.ERROR);

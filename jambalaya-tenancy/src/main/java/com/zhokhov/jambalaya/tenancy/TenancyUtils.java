@@ -22,6 +22,9 @@ import io.opentelemetry.api.baggage.Baggage;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.context.Scope;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 import static com.zhokhov.jambalaya.checks.Preconditions.checkNotBlank;
 import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
 
@@ -125,7 +128,7 @@ public final class TenancyUtils {
 
     @Nullable
     public static String getTenantString() {
-        return Baggage.current().getEntryValue(TENANT_KEY);
+        return decode(Baggage.current().getEntryValue(TENANT_KEY));
     }
 
     public static String getTenantStringOrDefault() {
@@ -145,13 +148,27 @@ public final class TenancyUtils {
     public static Context setTenantString(@NonNull String value) {
         checkNotBlank(value, "value");
 
-        return BaggageUtils.put(TENANT_KEY, value);
+        return BaggageUtils.put(TENANT_KEY, encode(value));
     }
 
     public static Scope setTenantStringClosable(@NonNull String value) {
         checkNotBlank(value, "value");
 
-        return BaggageUtils.putClosable(TENANT_KEY, value);
+        return BaggageUtils.putClosable(TENANT_KEY, encode(value));
+    }
+
+    private static String encode(String value) {
+        if (value == null) {
+            return null;
+        }
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(value.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private static String decode(String value) {
+        if (value == null) {
+            return null;
+        }
+        return new String(Base64.getUrlDecoder().decode(value));
     }
 
 }

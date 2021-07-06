@@ -30,18 +30,20 @@ import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import static io.opentelemetry.semconv.trace.attributes.SemanticAttributes.CODE_FUNCTION;
 import static io.opentelemetry.semconv.trace.attributes.SemanticAttributes.CODE_NAMESPACE;
 import static io.opentelemetry.semconv.trace.attributes.SemanticAttributes.THREAD_ID;
 import static io.opentelemetry.semconv.trace.attributes.SemanticAttributes.THREAD_NAME;
-import static java.lang.System.out;
 
 /**
  * @author Alexey Zhokhov
  */
 public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCallback, AfterAllCallback,
         InvocationInterceptor {
+
+    private static final Logger logger = Logger.getLogger(OpenTelemetryExtension.class.getName());
 
     private static Tracer tracer;
 
@@ -67,8 +69,11 @@ public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCall
         span.setAttribute(CODE_FUNCTION, context.getRequiredTestMethod().getName());
         span.setAttribute(CODE_NAMESPACE, context.getRequiredTestClass().getName());
 
-        out.println(context.getRequiredTestClass().getSimpleName() + " > " + context.getDisplayName());
-        out.println("Trace ID: " + span.getSpanContext().getTraceId());
+        logger.info(() ->
+                String.format("Run test %s > %s", context.getRequiredTestClass().getSimpleName(),
+                        context.getDisplayName()));
+        logger.info(() ->
+                String.format("Trace ID: %s", span.getSpanContext().getTraceId()));
 
         spans.put(context.getUniqueId(), span);
         scopes.put(context.getUniqueId(), span.makeCurrent());
@@ -141,7 +146,8 @@ public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCall
         span.setAttribute(CODE_FUNCTION, invocationContext.getExecutable().getName());
         span.setAttribute(CODE_NAMESPACE, invocationContext.getTargetClass().getName());
 
-        out.println(">> " + spanName);
+        logger.info(() ->
+                String.format(">>  %s", spanName));
 
         try (Scope ignored = span.makeCurrent()) {
             invocation.proceed();

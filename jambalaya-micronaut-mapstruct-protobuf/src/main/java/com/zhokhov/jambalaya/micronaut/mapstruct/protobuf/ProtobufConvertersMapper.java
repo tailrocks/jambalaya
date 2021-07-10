@@ -33,14 +33,17 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
+
 /**
- * The MapStruct mapper for converting
+ * The MapStruct mapper for converting protobuf types to Java types and vice-versa.
  *
  * @author Alexey Zhokhov
  */
 @Mapper(
         // TODO use MappingConstants.ComponentModel.JSR330
-        componentModel = "jsr330"
+        componentModel = "jsr330",
+        injectionStrategy = CONSTRUCTOR
 )
 public class ProtobufConvertersMapper {
 

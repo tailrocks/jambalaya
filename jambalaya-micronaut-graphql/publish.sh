@@ -4,4 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-../gradlew publish --info --stacktrace
+../gradlew clean publish --info --stacktrace

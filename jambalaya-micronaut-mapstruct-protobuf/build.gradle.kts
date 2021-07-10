@@ -1,6 +1,7 @@
 plugins {
     `java-library`
     `maven-publish`
+    kotlin("jvm") version Versions.kotlin
 }
 
 version = Versions.jambalayaMicronautMapstructProtobuf
@@ -19,6 +20,10 @@ dependencies {
 
     // Jakarta
     compileOnly("jakarta.inject:jakarta.inject-api:${Versions.jakartaInjectApi}")
+
+    // Kotlin
+    testImplementation(kotlin("stdlib-jdk8"))
+    testImplementation(kotlin("test-junit5"))
 }
 
 // POM name/description fix
@@ -30,5 +35,11 @@ publishing {
                 description.set(project.description)
             }
         }
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }

@@ -12,6 +12,8 @@ dependencies {
 
     api("com.google.protobuf:protobuf-java:${Versions.protobuf}")
 
+    api("com.google.api.grpc:proto-google-common-protos:${Versions.commonProtos}")
+
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))
     testImplementation(kotlin("test-junit5"))

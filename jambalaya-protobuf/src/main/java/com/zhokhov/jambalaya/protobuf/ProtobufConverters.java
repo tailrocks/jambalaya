@@ -25,8 +25,11 @@ import com.google.protobuf.StringValue;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.UInt32Value;
 import com.google.protobuf.UInt64Value;
+import com.google.type.Money;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,6 +38,9 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.zhokhov.jambalaya.checks.Preconditions.checkNotBlank;
+import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
 
 /**
  * The collection of static methods to convert from gRPC wrappers for primitive (non-message) types to non-primitive
@@ -47,7 +53,11 @@ public final class ProtobufConverters {
     private ProtobufConverters() {
     }
 
-    // to Java types
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                                                                                                //
+    // to Java types                                                                                                  //
+    //                                                                                                                //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Convert from {@link StringValue} to {@link String}.
@@ -222,7 +232,67 @@ public final class ProtobufConverters {
                 .atZone(ZoneOffset.UTC);
     }
 
-    // to gRPC types
+    /**
+     * Convert from {@link com.google.type.Date} to {@link LocalDate}.
+     *
+     * @param source the source value to convert
+     * @return {@literal null} or {@link LocalDate}.
+     */
+    @Nullable
+    public static LocalDate toLocalDate(@Nullable com.google.type.Date source) {
+        if (source == null) {
+            return null;
+        }
+        if (source.equals(com.google.type.Date.getDefaultInstance())) {
+            return null;
+        }
+        return LocalDate.of(source.getYear(), source.getMonth(), source.getDay());
+    }
+
+    /**
+     * Convert from {@link com.google.type.DateTime} to {@link LocalDateTime}.
+     *
+     * @param source the source value to convert
+     * @return {@literal null} or {@link LocalDate}.
+     */
+    @Nullable
+    public static LocalDateTime toLocalDateTime(@Nullable com.google.type.DateTime source) {
+        if (source == null) {
+            return null;
+        }
+        if (source.equals(com.google.type.DateTime.getDefaultInstance())) {
+            return null;
+        }
+        return LocalDateTime.of(
+                source.getYear(), source.getMonth(), source.getDay(),
+                source.getHours(), source.getMinutes(), source.getSeconds(),
+                source.getNanos()
+        );
+    }
+
+    /**
+     * Convert from {@link Money} to {@link BigDecimal}.
+     *
+     * @param source the source value to convert
+     * @return {@literal null} or {@link BigDecimal}.
+     */
+    @Nullable
+    public static BigDecimal toBigDecimal(@Nullable Money source) {
+        if (source == null) {
+            return null;
+        }
+        if (source.getNanos() > 0) {
+            return new BigDecimal(source.getUnits() + "." + source.getNanos());
+        } else {
+            return new BigDecimal(source.getUnits());
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //                                                                                                                //
+    // to gRPC types                                                                                                  //
+    //                                                                                                                //
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Convert from {@link String} to {@link StringValue}.
@@ -380,6 +450,77 @@ public final class ProtobufConverters {
         return Timestamp.newBuilder()
                 .setSeconds(source.toEpochSecond(ZoneOffset.UTC))
                 .setNanos(source.getNano())
+                .build();
+    }
+
+    /**
+     * Convert from {@link LocalDate} to {@link com.google.type.Date}.
+     *
+     * @param source the source value to convert
+     * @return {@literal null} or {@link com.google.type.Date}.
+     */
+    @Nullable
+    public static com.google.type.Date toDate(@Nullable LocalDate source) {
+        if (source == null) {
+            return null;
+        }
+        return com.google.type.Date.newBuilder()
+                .setYear(source.getYear())
+                .setMonth(source.getMonth().getValue())
+                .setDay(source.getDayOfMonth())
+                .build();
+    }
+
+    /**
+     * Convert from {@link LocalDateTime} to {@link com.google.type.DateTime}.
+     *
+     * @param source the source value to convert
+     * @return {@literal null} or {@link com.google.type.DateTime}.
+     */
+    @Nullable
+    public static com.google.type.DateTime toDateTime(@Nullable LocalDateTime source) {
+        if (source == null) {
+            return null;
+        }
+        return com.google.type.DateTime.newBuilder()
+                .setYear(source.getYear())
+                .setMonth(source.getMonth().getValue())
+                .setDay(source.getDayOfMonth())
+                .setHours(source.getHour())
+                .setMinutes(source.getMinute())
+                .setSeconds(source.getSecond())
+                .setNanos(source.getNano())
+                .build();
+    }
+
+    /**
+     * Convert from {@link com.google.type.Date} to {@link LocalDate}.
+     *
+     * @param source the source value to convert
+     * @return {@literal null} or {@link LocalDate}.
+     */
+    @Nullable
+    public static Money toMoney(@Nullable BigDecimal source) {
+        if (source == null) {
+            return null;
+        }
+        return toMoney(source, "USD");
+    }
+
+    /**
+     * Convert from {@link com.google.type.Date} to {@link LocalDate}.
+     *
+     * @param source the source value to convert
+     * @return {@literal null} or {@link Money}.
+     */
+    public static Money toMoney(@NonNull BigDecimal source, @NonNull String currencyCode) {
+        checkNotNull(source, "source");
+        checkNotBlank(currencyCode, "currencyCode");
+
+        return Money.newBuilder()
+                .setCurrencyCode(currencyCode)
+                .setUnits(source.longValue())
+                .setNanos(source.remainder(BigDecimal.ONE).movePointRight(source.scale()).intValue())
                 .build();
     }
 

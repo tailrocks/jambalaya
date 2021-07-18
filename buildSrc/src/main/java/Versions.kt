@@ -55,6 +55,7 @@ object Versions {
     const val guava = "30.1.1-jre"
     const val opentelemetry = "1.3.0"
     const val opentelemetrySemconv = "1.3.0-alpha"
+    const val commonProtos = "2.3.2"
 
     // Project
 
@@ -71,7 +72,7 @@ object Versions {
     const val jambalayaMicronautGraphql = "0.4.0"
     const val jambalayaMicronautMapstructProtobuf = "0.3.1"
     const val jambalayaOpentelemetry = "0.2.0"
-    const val jambalayaProtobuf = "0.4.0"
+    const val jambalayaProtobuf = "0.4.1"
     const val jambalayaSeo = "0.4.0"
     const val jambalayaTenancy = "0.4.1"
     const val jambalayaTenancyFlyway = "0.1.1"

@@ -25,7 +25,11 @@ import com.google.protobuf.StringValue
 import com.google.protobuf.Timestamp
 import com.google.protobuf.UInt32Value
 import com.google.protobuf.UInt64Value
+import com.google.type.Date
+import com.google.type.DateTime
+import com.google.type.Money
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -138,8 +142,101 @@ class ProtobufConvertersTests {
             ProtobufConverters.toLocalDateTime(Timestamp.newBuilder().setSeconds(567475200).setNanos(0).build())
         )
         assertEquals(
-            LocalDateTime.of(LocalDate.of(1987, 12, 26), LocalTime.of(11, 12, 13, 14)),
+            LocalDateTime.of(
+                LocalDate.of(1987, 12, 26),
+                LocalTime.of(11, 12, 13, 14)
+            ),
             ProtobufConverters.toLocalDateTime(Timestamp.newBuilder().setSeconds(567515533).setNanos(14).build())
+        )
+    }
+
+    @Test
+    fun `convert Date to LocalDate`() {
+        assertEquals(null, ProtobufConverters.toLocalDate(null as Date?))
+        assertEquals(null, ProtobufConverters.toLocalDate(Date.getDefaultInstance()))
+        assertEquals(
+            LocalDate.of(1970, 1, 1),
+            ProtobufConverters.toLocalDate(Date.newBuilder().setYear(1970).setMonth(1).setDay(1).build())
+        )
+        assertEquals(
+            LocalDate.of(1987, 12, 26),
+            ProtobufConverters.toLocalDate(Date.newBuilder().setYear(1987).setMonth(12).setDay(26).build())
+        )
+    }
+
+    @Test
+    fun `convert DateTime to LocalDateTime`() {
+        assertEquals(null, ProtobufConverters.toLocalDateTime(null as DateTime?))
+        assertEquals(null, ProtobufConverters.toLocalDateTime(DateTime.getDefaultInstance()))
+        assertEquals(
+            LocalDateTime.of(LocalDate.of(1970, 1, 1), LocalTime.MIDNIGHT),
+            ProtobufConverters.toLocalDateTime(
+                DateTime.newBuilder().setYear(1970).setMonth(1).setDay(1).build()
+            )
+        )
+        assertEquals(
+            LocalDateTime.of(LocalDate.of(1987, 12, 26), LocalTime.MIDNIGHT),
+            ProtobufConverters.toLocalDateTime(
+                DateTime.newBuilder().setYear(1987).setMonth(12).setDay(26).build()
+            )
+        )
+        assertEquals(
+            LocalDateTime.of(
+                LocalDate.of(1987, 12, 26),
+                LocalTime.of(11, 12, 13, 14)
+            ),
+            ProtobufConverters.toLocalDateTime(
+                DateTime.newBuilder()
+                    .setYear(1987)
+                    .setMonth(12)
+                    .setDay(26)
+                    .setHours(11)
+                    .setMinutes(12)
+                    .setSeconds(13)
+                    .setNanos(14)
+                    .build()
+            )
+        )
+    }
+
+    @Test
+    fun `convert Money to BigDecimal`() {
+        assertEquals(null, ProtobufConverters.toBigDecimal(null))
+        assertEquals(
+            BigDecimal.ZERO,
+            ProtobufConverters.toBigDecimal(Money.newBuilder().setCurrencyCode("USD").build())
+        )
+        assertEquals(
+            BigDecimal.ONE,
+            ProtobufConverters.toBigDecimal(Money.newBuilder().setCurrencyCode("USD").setUnits(1).build())
+        )
+        assertEquals(
+            BigDecimal.TEN,
+            ProtobufConverters.toBigDecimal(Money.newBuilder().setCurrencyCode("USD").setUnits(10).build())
+        )
+        assertEquals(
+            BigDecimal.valueOf(123.456789),
+            ProtobufConverters.toBigDecimal(
+                Money.newBuilder().setCurrencyCode("USD").setUnits(123).setNanos(456789).build()
+            )
+        )
+        assertEquals(
+            BigDecimal.valueOf(123.456789000),
+            ProtobufConverters.toBigDecimal(
+                Money.newBuilder().setCurrencyCode("USD").setUnits(123).setNanos(456789).build()
+            )
+        )
+        assertEquals(
+            BigDecimal.valueOf(123.456789000),
+            ProtobufConverters.toBigDecimal(
+                Money.newBuilder().setCurrencyCode("HKD").setUnits(123).setNanos(456789).build()
+            )
+        )
+        assertEquals(
+            BigDecimal("123.456789"),
+            ProtobufConverters.toBigDecimal(
+                Money.newBuilder().setCurrencyCode("HKD").setUnits(123).setNanos(456789).build()
+            )
         )
     }
 
@@ -239,15 +336,97 @@ class ProtobufConvertersTests {
         assertEquals(null, ProtobufConverters.toTimestamp(null as LocalDateTime?))
         assertEquals(
             Timestamp.getDefaultInstance(),
-            ProtobufConverters.toTimestamp(LocalDateTime.of(LocalDate.of(1970, 1, 1), LocalTime.MIDNIGHT))
+            ProtobufConverters.toTimestamp(
+                LocalDateTime.of(LocalDate.of(1970, 1, 1), LocalTime.MIDNIGHT)
+            )
         )
         assertEquals(
             Timestamp.newBuilder().setSeconds(567475200).setNanos(0).build(),
-            ProtobufConverters.toTimestamp(LocalDateTime.of(LocalDate.of(1987, 12, 26), LocalTime.MIDNIGHT))
+            ProtobufConverters.toTimestamp(
+                LocalDateTime.of(LocalDate.of(1987, 12, 26), LocalTime.MIDNIGHT)
+            )
         )
         assertEquals(
             Timestamp.newBuilder().setSeconds(567515533).setNanos(14).build(),
-            ProtobufConverters.toTimestamp(LocalDateTime.of(LocalDate.of(1987, 12, 26), LocalTime.of(11, 12, 13, 14)))
+            ProtobufConverters.toTimestamp(
+                LocalDateTime.of(
+                    LocalDate.of(1987, 12, 26),
+                    LocalTime.of(11, 12, 13, 14)
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `convert LocalDate to Date`() {
+        assertEquals(null, ProtobufConverters.toDate(null as LocalDate?))
+        assertEquals(
+            Date.newBuilder().setYear(1970).setMonth(1).setDay(1).build(),
+            ProtobufConverters.toDate(LocalDate.of(1970, 1, 1))
+        )
+        assertEquals(
+            Date.newBuilder().setYear(1987).setMonth(12).setDay(26).build(),
+            ProtobufConverters.toDate(LocalDate.of(1987, 12, 26))
+        )
+    }
+
+    @Test
+    fun `convert LocalDateTime to DateTime`() {
+        assertEquals(null, ProtobufConverters.toDateTime(null as LocalDateTime?))
+        assertEquals(
+            DateTime.newBuilder().setYear(1970).setMonth(1).setDay(1).build(),
+            ProtobufConverters.toDateTime(
+                LocalDateTime.of(LocalDate.of(1970, 1, 1), LocalTime.MIDNIGHT)
+            )
+        )
+        assertEquals(
+            DateTime.newBuilder().setYear(1987).setMonth(12).setDay(26).build(),
+            ProtobufConverters.toDateTime(
+                LocalDateTime.of(LocalDate.of(1987, 12, 26), LocalTime.MIDNIGHT)
+            )
+        )
+        assertEquals(
+            DateTime.newBuilder()
+                .setYear(1987)
+                .setMonth(12)
+                .setDay(26)
+                .setHours(11)
+                .setMinutes(12)
+                .setSeconds(13)
+                .setNanos(14)
+                .build(),
+            ProtobufConverters.toDateTime(
+                LocalDateTime.of(
+                    LocalDate.of(1987, 12, 26),
+                    LocalTime.of(11, 12, 13, 14)
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `convert BigDecimal to Money`() {
+        assertEquals(null, ProtobufConverters.toMoney(null))
+        assertEquals(Money.newBuilder().setCurrencyCode("USD").build(), ProtobufConverters.toMoney(BigDecimal.ZERO))
+        assertEquals(
+            Money.newBuilder().setCurrencyCode("USD").setUnits(1).build(),
+            ProtobufConverters.toMoney(BigDecimal.ONE)
+        )
+        assertEquals(
+            Money.newBuilder().setCurrencyCode("USD").setUnits(10).build(),
+            ProtobufConverters.toMoney(BigDecimal.TEN)
+        )
+        assertEquals(
+            Money.newBuilder().setCurrencyCode("USD").setUnits(123).setNanos(456789).build(),
+            ProtobufConverters.toMoney(BigDecimal.valueOf(123.456789))
+        )
+        assertEquals(
+            Money.newBuilder().setCurrencyCode("USD").setUnits(123).setNanos(456789).build(),
+            ProtobufConverters.toMoney(BigDecimal.valueOf(123.456789000))
+        )
+        assertEquals(
+            Money.newBuilder().setCurrencyCode("HKD").setUnits(123).setNanos(456789).build(),
+            ProtobufConverters.toMoney(BigDecimal.valueOf(123.456789000), "HKD")
         )
     }
 

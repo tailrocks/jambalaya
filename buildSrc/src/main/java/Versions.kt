@@ -64,7 +64,7 @@ object Versions {
     const val jambalayaGraphqlApollo = "0.5.0"
     const val jambalayaGraphqlJooq = "0.4.0"
     const val jambalayaJsr310 = "0.4.0"
-    const val jambalayaJunitOpentelemetry = "0.1.2"
+    const val jambalayaJunitOpentelemetry = "0.1.3"
     const val jambalayaKotlinTest = "0.4.0"
     const val jambalayaMapstruct = "0.3.0"
     const val jambalayaMapstructProcessor = "0.3.1"

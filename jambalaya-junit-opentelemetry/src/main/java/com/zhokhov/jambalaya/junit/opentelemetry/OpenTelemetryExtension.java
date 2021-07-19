@@ -69,14 +69,14 @@ public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCall
         span.setAttribute(CODE_FUNCTION, context.getRequiredTestMethod().getName());
         span.setAttribute(CODE_NAMESPACE, context.getRequiredTestClass().getName());
 
+        spans.put(context.getUniqueId(), span);
+        scopes.put(context.getUniqueId(), span.makeCurrent());
+
         logger.info(() ->
                 String.format("Run test %s > %s", context.getRequiredTestClass().getSimpleName(),
                         context.getDisplayName()));
         logger.info(() ->
                 String.format("Trace ID: %s", span.getSpanContext().getTraceId()));
-
-        spans.put(context.getUniqueId(), span);
-        scopes.put(context.getUniqueId(), span.makeCurrent());
     }
 
     @Override

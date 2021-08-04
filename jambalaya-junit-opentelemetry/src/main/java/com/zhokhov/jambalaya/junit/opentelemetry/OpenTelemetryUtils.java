@@ -22,6 +22,8 @@ import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
 
+import java.util.function.Supplier;
+
 import static java.lang.System.out;
 
 /**
@@ -60,27 +62,27 @@ public final class OpenTelemetryUtils {
         invokeRunnable(THEN_PREFIX, description, runnable);
     }
 
-    public static <T> T GIVEN_(UncheckedCallable<T> callable) {
+    public static <T> T GIVEN_(Supplier<T> callable) {
         return WHEN_(null, callable);
     }
 
-    public static <T> T GIVEN_(@Nullable String description, UncheckedCallable<T> callable) {
+    public static <T> T GIVEN_(@Nullable String description, Supplier<T> callable) {
         return invokeCallable(GIVEN_PREFIX, description, callable);
     }
 
-    public static <T> T WHEN_(UncheckedCallable<T> callable) {
+    public static <T> T WHEN_(Supplier<T> callable) {
         return WHEN_(null, callable);
     }
 
-    public static <T> T WHEN_(@Nullable String description, UncheckedCallable<T> callable) {
+    public static <T> T WHEN_(@Nullable String description, Supplier<T> callable) {
         return invokeCallable(WHEN_PREFIX, description, callable);
     }
 
-    public static <T> T THEN_(UncheckedCallable<T> callable) {
+    public static <T> T THEN_(Supplier<T> callable) {
         return THEN_(null, callable);
     }
 
-    public static <T> T THEN_(@Nullable String description, UncheckedCallable<T> callable) {
+    public static <T> T THEN_(@Nullable String description, Supplier<T> callable) {
         return invokeCallable(THEN_PREFIX, description, callable);
     }
 
@@ -98,11 +100,11 @@ public final class OpenTelemetryUtils {
         }
     }
 
-    private static <T> T invokeCallable(String prefix, @Nullable String description, UncheckedCallable<T> callable) {
+    private static <T> T invokeCallable(String prefix, @Nullable String description, Supplier<T> callable) {
         Span span = startSpan(prefix, description);
 
         try (Scope ignored = span.makeCurrent()) {
-            return callable.call();
+            return callable.get();
         } catch (Throwable t) {
             span.recordException(t);
             span.setStatus(StatusCode.ERROR);

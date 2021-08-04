@@ -24,6 +24,7 @@ import io.opentelemetry.context.Scope;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.function.Supplier;
 
 import static com.zhokhov.jambalaya.checks.Preconditions.checkNotBlank;
 import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
@@ -58,18 +59,18 @@ public final class TenancyUtils {
         return Tenant.parse(tenantString);
     }
 
-    public static <T> T callWithDefaultTenant(@NonNull UncheckedCallable<T> callable) {
+    public static <T> T callWithDefaultTenant(@NonNull Supplier<T> callable) {
         return callWithTenant(Tenant.DEFAULT, callable);
     }
 
-    public static <T> T callWithTestingTenant(@NonNull UncheckedCallable<T> callable) {
+    public static <T> T callWithTestingTenant(@NonNull Supplier<T> callable) {
         return callWithTenant(Tenant.TESTING, callable);
     }
 
     public static <T> T callWithTenantForService(
             @NonNull String serviceName,
             @NonNull String tenantName,
-            @NonNull UncheckedCallable<T> callable
+            @NonNull Supplier<T> callable
     ) {
         checkNotBlank(serviceName, "serviceName");
         checkNotBlank(tenantName, "tenantName");
@@ -81,14 +82,14 @@ public final class TenancyUtils {
         return callWithTenant(tenantString, callable);
     }
 
-    public static <T> T callWithTenant(@Nullable String tenantString, @NonNull UncheckedCallable<T> callable) {
+    public static <T> T callWithTenant(@Nullable String tenantString, @NonNull Supplier<T> callable) {
         checkNotNull(callable, "callable");
 
         if (tenantString == null || !StringUtils.hasText(tenantString)) {
             tenantString = getTenantStringOrDefault();
         }
         try (Scope ignored = setTenantStringClosable(tenantString)) {
-            return callable.call();
+            return callable.get();
         }
     }
 

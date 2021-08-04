@@ -9,7 +9,13 @@ plugins {
     id("io.github.gradle-nexus.publish-plugin") version Versions.gradleNexusPublishPlugin
 }
 
+val javaVersion = 16
+
 java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(javaVersion))
+    }
+
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
 }
@@ -75,6 +81,10 @@ subprojects {
     }
 
     java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(javaVersion))
+        }
+
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
 

@@ -4,7 +4,6 @@ plugins {
     `maven-publish`
     signing
     id("com.adarshr.test-logger") version Versions.gradleTestLoggerPlugin apply false
-    id("net.rdrei.android.buildtimetracker") version Versions.gradleBuildTimeTrackerPlugin
     id("com.diffplug.spotless") version Versions.gradleSpotlessPlugin
     id("io.github.gradle-nexus.publish-plugin") version Versions.gradleNexusPublishPlugin
 }
@@ -20,16 +19,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-buildtimetracker {
-    reporters {
-        register("summary") {
-            options["ordered"] = "true"
-            options["barstyle"] = "none"
-            options["shortenTaskNames"] = "false"
-        }
-    }
-}
-
 val projectLicenseShortName: String by project
 val projectLicenseName: String by project
 val projectLicenseUrl: String by project
@@ -40,7 +29,6 @@ val projectIssueManagementUrl: String by project
 
 allprojects {
     apply(plugin = "idea")
-    apply(plugin = "net.rdrei.android.buildtimetracker")
     apply(plugin = "com.diffplug.spotless")
 
     apply(from = "${project.rootDir}/gradle/dependencyUpdates.gradle.kts")
@@ -93,12 +81,15 @@ subprojects {
     }
 
     dependencies {
+        // Micronaut
+        implementation(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+
         // SpotBugs
-        implementation("com.github.spotbugs:spotbugs-annotations:${Versions.spotbugs}")
+        implementation("com.github.spotbugs:spotbugs-annotations")
 
         // JUnit
-        testImplementation("org.junit.jupiter:junit-jupiter-api:${Versions.junit}")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${Versions.junit}")
+        testImplementation("org.junit.jupiter:junit-jupiter-api")
+        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     }
 
     plugins.withId("maven-publish") {

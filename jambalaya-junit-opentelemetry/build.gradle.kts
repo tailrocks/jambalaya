@@ -8,11 +8,13 @@ description = "JUnit OpenTelemetry extension."
 
 dependencies {
     // OpenTelemetry
-    api("io.opentelemetry:opentelemetry-api:${Versions.opentelemetry}")
-    api("io.opentelemetry:opentelemetry-semconv:${Versions.opentelemetrySemconv}")
+    implementation(platform("io.opentelemetry:opentelemetry-bom:${Versions.opentelemetry}"))
+    implementation(platform("io.opentelemetry:opentelemetry-bom-alpha:${Versions.opentelemetryAlpha}"))
+    api("io.opentelemetry:opentelemetry-api")
+    api("io.opentelemetry:opentelemetry-semconv")
 
     // JUnit
-    api("org.junit.jupiter:junit-jupiter-api:${Versions.junit}")
+    api("org.junit.jupiter:junit-jupiter-api")
 }
 
 // POM name/description fix

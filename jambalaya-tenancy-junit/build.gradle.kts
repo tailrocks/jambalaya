@@ -10,7 +10,7 @@ dependencies {
     api(project(":jambalaya-tenancy"))
 
     // JUnit
-    api("org.junit.jupiter:junit-jupiter-api:${Versions.junit}")
+    api("org.junit.jupiter:junit-jupiter-api")
 }
 
 // POM name/description fix

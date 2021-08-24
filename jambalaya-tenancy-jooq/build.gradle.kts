@@ -10,7 +10,10 @@ dependencies {
     api(project(":jambalaya-checks"))
     api(project(":jambalaya-tenancy"))
 
-    api("org.jooq:jooq:${Versions.jooq}")
+    // Micronaut
+    implementation(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+
+    api("org.jooq:jooq")
 }
 
 // POM name/description fix

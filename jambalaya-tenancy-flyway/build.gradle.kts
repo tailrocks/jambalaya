@@ -9,8 +9,8 @@ description = "Tenancy Flyway."
 dependencies {
     api(project(":jambalaya-checks"))
 
-    api("org.flywaydb:flyway-core:${Versions.flyway}")
-    api("org.slf4j:slf4j-api:${Versions.slf4j}")
+    api("org.flywaydb:flyway-core")
+    api("org.slf4j:slf4j-api")
 }
 
 // POM name/description fix

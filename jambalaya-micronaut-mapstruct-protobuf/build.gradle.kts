@@ -15,15 +15,20 @@ dependencies {
     api("org.mapstruct:mapstruct:${Versions.mapstruct}")
 
     // Micronaut
-    annotationProcessor("io.micronaut:micronaut-inject-java:${Versions.micronaut}")
-    compileOnly("io.micronaut:micronaut-inject-java:${Versions.micronaut}")
+    implementation(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+    annotationProcessor(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+    annotationProcessor("io.micronaut:micronaut-inject-java")
+    compileOnly("io.micronaut:micronaut-inject-java")
 
     // Jakarta
-    compileOnly("jakarta.inject:jakarta.inject-api:${Versions.jakartaInjectApi}")
+    compileOnly("jakarta.inject:jakarta.inject-api")
 
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))
     testImplementation(kotlin("test-junit5"))
+
+    // TODO remove me later
+    compileOnly("javax.inject:javax.inject:1")
 }
 
 // POM name/description fix

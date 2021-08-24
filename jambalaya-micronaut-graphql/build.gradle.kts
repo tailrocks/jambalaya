@@ -9,7 +9,7 @@ description = "Micronaut GraphQL utils."
 dependencies {
     api(project(":jambalaya-checks"))
 
-    implementation("io.micronaut.graphql:micronaut-graphql:${Versions.micronautGraphql}")
+    implementation("io.micronaut.graphql:micronaut-graphql")
 }
 
 // POM name/description fix

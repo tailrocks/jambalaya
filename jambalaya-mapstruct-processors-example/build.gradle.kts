@@ -3,13 +3,18 @@ dependencies {
     implementation(project(":jambalaya-mapstruct"))
     implementation(project(":jambalaya-micronaut-mapstruct-protobuf"))
 
+    // Micronaut
+    implementation(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+
     annotationProcessor("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
     annotationProcessor(project(":jambalaya-mapstruct-processor"))
     implementation("org.mapstruct:mapstruct:${Versions.mapstruct}")
 
     implementation("com.google.protobuf:protobuf-java:${Versions.protobuf}")
-    implementation("org.jooq:jooq:${Versions.jooq}")
-    implementation("jakarta.inject:jakarta.inject-api:${Versions.jakartaInjectApi}")
+    implementation("org.jooq:jooq")
+
+    // TODO remove me later
+    compileOnly("javax.inject:javax.inject:1")
 }
 
 tasks {

@@ -9,7 +9,10 @@ description = "jOOQ preconditions."
 dependencies {
     api(project(":jambalaya-checks"))
 
-    implementation("org.jooq:jooq:${Versions.jooq}")
+    // Micronaut
+    implementation(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+
+    implementation("org.jooq:jooq")
 }
 
 // POM name/description fix

@@ -7,7 +7,8 @@ version = Versions.jambalayaOpentelemetry
 description = "OpenTelemetry."
 
 dependencies {
-    api("io.opentelemetry:opentelemetry-api:${Versions.opentelemetry}")
+    api(platform("io.opentelemetry:opentelemetry-bom:${Versions.opentelemetry}"))
+    api("io.opentelemetry:opentelemetry-api")
 }
 
 // POM name/description fix

@@ -9,10 +9,13 @@ description = "GraphQL Apollo client."
 dependencies {
     api(project(":jambalaya-checks"))
 
+    // Micronaut
+    implementation(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+
     api("com.apollographql.apollo:apollo-runtime:${Versions.apollo}")
     api("com.squareup.okhttp3:okhttp-urlconnection:${Versions.okhttp}")
     api("com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}")
-    api("org.slf4j:slf4j-api:${Versions.slf4j}")
+    api("org.slf4j:slf4j-api")
 }
 
 // POM name/description fix

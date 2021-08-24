@@ -103,6 +103,15 @@ subprojects {
                         }
                     }
                     pom {
+                        // TODO temp fix: https://github.com/gradle/gradle/issues/10861
+                        withXml {
+                            val root = asNode()
+                            val nodes = root["dependencyManagement"] as groovy.util.NodeList
+                            if (nodes.isNotEmpty()) {
+                                root.remove(nodes.first() as groovy.util.Node)
+                            }
+                        }
+                        // @end temp fix
                         url.set(projectScmUrl)
                         licenses {
                             license {

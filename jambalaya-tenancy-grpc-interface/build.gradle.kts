@@ -19,6 +19,9 @@ dependencies {
     implementation("io.grpc:grpc-stub:${Versions.grpc}")
     implementation("io.grpc:grpc-netty:${Versions.grpc}")
     implementation("jakarta.annotation:jakarta.annotation-api")
+
+    // TODO remove me later
+    implementation("javax.annotation:javax.annotation-api")
 }
 
 // POM name/description fix

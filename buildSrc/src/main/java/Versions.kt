@@ -13,7 +13,7 @@ object Versions {
     const val gradleTestLoggerPlugin = "3.0.0"
 
     // https://plugins.gradle.org/plugin/com.diffplug.spotless
-    const val gradleSpotlessPlugin = "5.14.3"
+    const val gradleSpotlessPlugin = "5.15.0"
 
     // https://plugins.gradle.org/plugin/com.apollographql.apollo
     const val gradleApolloPlugin = "2.5.9"

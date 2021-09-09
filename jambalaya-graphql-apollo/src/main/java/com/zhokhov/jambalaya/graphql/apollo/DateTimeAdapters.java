@@ -117,8 +117,15 @@ public final class DateTimeAdapters {
     private static final class YearMonthAdapter implements CustomTypeAdapter<YearMonth> {
         @Override
         public YearMonth decode(CustomTypeValue<?> value) {
-            Matcher m = YEAR_MONTH_PATTERN.matcher(value.value.toString());
-            return YearMonth.of(Integer.parseInt(m.group(1)), Integer.parseInt(m.group(2)));
+            String stringValue = value.value.toString();
+
+            Matcher m = YEAR_MONTH_PATTERN.matcher(stringValue);
+
+            if (m.find()) {
+                return YearMonth.of(Integer.parseInt(m.group(1)), Integer.parseInt(m.group(2)));
+            } else {
+                throw new RuntimeException("Incorrect value: " + stringValue);
+            }
         }
 
         @Override

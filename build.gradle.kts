@@ -8,7 +8,7 @@ plugins {
     id("io.github.gradle-nexus.publish-plugin") version Versions.gradleNexusPublishPlugin
 }
 
-val javaVersion = 16
+val javaVersion = 17
 
 java {
     toolchain {
@@ -106,9 +106,11 @@ subprojects {
                         // TODO temp fix: https://github.com/gradle/gradle/issues/10861
                         withXml {
                             val root = asNode()
-                            val nodes = root["dependencyManagement"] as groovy.util.NodeList
-                            if (nodes.isNotEmpty()) {
+                            var nodes = root["dependencyManagement"] as groovy.util.NodeList
+                            while (nodes.isNotEmpty()) {
                                 root.remove(nodes.first() as groovy.util.Node)
+
+                                nodes = root["dependencyManagement"] as groovy.util.NodeList
                             }
                         }
                         // @end temp fix

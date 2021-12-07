@@ -24,6 +24,8 @@ import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.api.ScalarType;
 import com.apollographql.apollo.exception.ApolloException;
 import com.apollographql.apollo.fetcher.ApolloResponseFetchers;
+import com.apollographql.apollo.subscription.SubscriptionTransport;
+import com.apollographql.apollo.subscription.WebSocketSubscriptionTransport;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import okhttp3.JavaNetCookieJar;
@@ -72,7 +74,7 @@ public class GraphQlClient {
 
     private Duration timeout = Duration.ofSeconds(15);
 
-    public GraphQlClient(@NonNull String serverUrl, @NonNull ScalarType[] scalarTypes,
+    public GraphQlClient(@NonNull String serverUrl, @NonNull String webSocketUrl, @NonNull ScalarType[] scalarTypes,
                          @Nullable OkHttpClient okHttpClient, @Nullable Executor executor) {
         checkNotBlank(serverUrl, "serverUrl");
 
@@ -88,10 +90,16 @@ public class GraphQlClient {
                     .build();
         }
 
+        SubscriptionTransport.Factory subscriptionTransportFactory = new WebSocketSubscriptionTransport.Factory(
+                webSocketUrl,
+                okHttpClient
+        );
+
         ApolloClient.Builder apolloClientBuilder = ApolloClient.builder()
                 .serverUrl(serverUrl)
                 .defaultResponseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
-                .okHttpClient(okHttpClient);
+                .okHttpClient(okHttpClient)
+                .subscriptionTransportFactory(subscriptionTransportFactory);
 
         if (executor != null) {
             apolloClientBuilder.dispatcher(executor);

@@ -13,7 +13,7 @@ object Versions {
     const val gradleTestLoggerPlugin = "3.1.0"
 
     // https://plugins.gradle.org/plugin/com.diffplug.spotless
-    const val gradleSpotlessPlugin = "6.0.0"
+    const val gradleSpotlessPlugin = "6.0.4"
 
     // https://plugins.gradle.org/plugin/com.apollographql.apollo
     const val gradleApolloPlugin = "2.5.11"
@@ -29,7 +29,7 @@ object Versions {
     const val micronaut = "3.2.0"
 
     // sync with micronaut
-    // https://repo1.maven.org/maven2/io/micronaut/micronaut-bom/3.2.0/micronaut-bom-3.2.0.pom
+    // https://repo1.maven.org/maven2/io/micronaut/micronaut-bom/3.2.1/micronaut-bom-3.2.1.pom
     const val grpc = "1.39.0"
     const val protobuf = "3.17.2"
 
@@ -43,7 +43,7 @@ object Versions {
     const val mapstruct = "1.4.2.Final"
     const val guava = "31.0.1-jre"
     const val opentelemetry = "1.9.1"
-    const val opentelemetryAlpha = "1.5.0-alpha"
+    const val opentelemetryAlpha = "1.9.1-alpha"
     const val commonProtos = "2.6.0"
 
     // Project
@@ -54,7 +54,7 @@ object Versions {
     const val jambalayaGraphqlApollo = "0.7.0"
     const val jambalayaGraphqlJooq = "0.6.0"
     const val jambalayaJsr310 = "0.6.0"
-    const val jambalayaJunitOpentelemetry = "0.3.0"
+    const val jambalayaJunitOpentelemetry = "0.4.0"
     const val jambalayaKotlinTest = "0.6.0"
     const val jambalayaMapstruct = "0.5.0"
     const val jambalayaMapstructProcessor = "0.5.0"

@@ -15,9 +15,14 @@
  */
 package com.zhokhov.jambalaya.graphql.apollo;
 
-import com.apollographql.apollo.api.CustomTypeAdapter;
-import com.apollographql.apollo.api.CustomTypeValue;
+import com.apollographql.apollo3.api.Adapter;
+import com.apollographql.apollo3.api.CustomScalarAdapters;
+import com.apollographql.apollo3.api.CustomScalarType;
+import com.apollographql.apollo3.api.json.JsonReader;
+import com.apollographql.apollo3.api.json.JsonWriter;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -37,87 +42,168 @@ import java.util.regex.Pattern;
  */
 public final class DateTimeAdapters {
 
-    public static final CustomTypeAdapter<Date> DATE = new DateAdapter();
-    public static final CustomTypeAdapter<LocalDate> LOCAL_DATE = new LocalDateAdapter();
-    public static final CustomTypeAdapter<LocalDateTime> LOCAL_DATE_TIME = new LocalDateTimeAdapter();
-    public static final CustomTypeAdapter<LocalTime> LOCAL_TIME = new LocalTimeAdapter();
-    public static final CustomTypeAdapter<OffsetDateTime> OFFSET_DATE_TIME = new OffsetDateTimeAdapter();
-    public static final CustomTypeAdapter<YearMonth> YEAR_MONTH = new YearMonthAdapter();
-    public static final CustomTypeAdapter<Duration> DURATION = new DurationAdapter();
+    @NotNull
+    public static final Adapter<Date> DATE = new DateAdapter();
+
+    @NotNull
+    public static final Adapter<LocalDate> LOCAL_DATE = new LocalDateAdapter();
+
+    @NotNull
+    public static final Adapter<LocalDateTime> LOCAL_DATE_TIME = new LocalDateTimeAdapter();
+
+    @NotNull
+    public static final Adapter<LocalTime> LOCAL_TIME = new LocalTimeAdapter();
+
+    @NotNull
+    public static final Adapter<OffsetDateTime> OFFSET_DATE_TIME = new OffsetDateTimeAdapter();
+
+    @NotNull
+    public static final Adapter<YearMonth> YEAR_MONTH = new YearMonthAdapter();
+
+    @NotNull
+    public static final Adapter<Duration> DURATION = new DurationAdapter();
+
+    @NotNull
+    public static final CustomScalarAdapters CUSTOM_TYPE_ADAPTER_MAP;
+
+    static {
+        CUSTOM_TYPE_ADAPTER_MAP = new CustomScalarAdapters.Builder()
+                .add(
+                        new CustomScalarType(Date.class.getSimpleName(), Date.class.getName()),
+                        DateTimeAdapters.DATE
+                )
+                .add(
+                        new CustomScalarType(LocalDate.class.getSimpleName(), LocalDate.class.getName()),
+                        DateTimeAdapters.LOCAL_DATE
+                )
+                .add(
+                        new CustomScalarType(LocalDateTime.class.getSimpleName(), LocalDateTime.class.getName()),
+                        DateTimeAdapters.LOCAL_DATE_TIME
+                )
+                .add(
+                        new CustomScalarType(LocalTime.class.getSimpleName(), LocalTime.class.getName()),
+                        DateTimeAdapters.LOCAL_TIME
+                )
+                .add(
+                        new CustomScalarType(OffsetDateTime.class.getSimpleName(), OffsetDateTime.class.getName()),
+                        DateTimeAdapters.OFFSET_DATE_TIME
+                )
+                .add(
+                        new CustomScalarType(YearMonth.class.getSimpleName(), YearMonth.class.getName()),
+                        DateTimeAdapters.YEAR_MONTH
+                )
+                .add(
+                        new CustomScalarType(Duration.class.getSimpleName(), Duration.class.getName()),
+                        DateTimeAdapters.DURATION
+                )
+                .build();
+    }
+
     private static final LocalDateTimeConverter converter = new LocalDateTimeConverter(false);
     private static final Pattern YEAR_MONTH_PATTERN = Pattern.compile("(\\d{1,4})-(\\d{1,2})");
 
     private DateTimeAdapters() {
     }
 
-    private static final class DateAdapter implements CustomTypeAdapter<Date> {
+    private static final class DateAdapter implements Adapter<Date> {
+
         @Override
-        public Date decode(CustomTypeValue<?> value) {
-            LocalDateTime localDateTime = DateTimeHelper.parseDate(value.value.toString());
+        public Date fromJson(@NotNull JsonReader jsonReader,
+                             @NotNull CustomScalarAdapters customScalarAdapters) throws IOException {
+            LocalDateTime localDateTime = DateTimeHelper.parseDate(jsonReader.nextString());
 
             return DateTimeHelper.toDate(localDateTime);
         }
 
         @Override
-        public CustomTypeValue<String> encode(Date value) {
-            return new CustomTypeValue.GraphQLString(DateTimeHelper.toISOString(value));
+        public void toJson(@NotNull JsonWriter jsonWriter,
+                           @NotNull CustomScalarAdapters customScalarAdapters,
+                           Date date) throws IOException {
+            jsonWriter.value(DateTimeHelper.toISOString(date));
         }
+
     }
 
-    private static final class LocalDateAdapter implements CustomTypeAdapter<LocalDate> {
+    private static final class LocalDateAdapter implements Adapter<LocalDate> {
+
         @Override
-        public LocalDate decode(CustomTypeValue<?> value) {
-            LocalDateTime localDateTime = converter.parseDate(value.value.toString());
+        public LocalDate fromJson(@NotNull JsonReader jsonReader,
+                                  @NotNull CustomScalarAdapters customScalarAdapters) throws IOException {
+            LocalDateTime localDateTime = converter.parseDate(jsonReader.nextString());
+
+            if (localDateTime == null) {
+                return null;
+            }
 
             return localDateTime.toLocalDate();
         }
 
         @Override
-        public CustomTypeValue<String> encode(LocalDate value) {
-            return new CustomTypeValue.GraphQLString(converter.formatDate(value, DateTimeFormatter.ISO_LOCAL_DATE));
+        public void toJson(@NotNull JsonWriter jsonWriter,
+                           @NotNull CustomScalarAdapters customScalarAdapters,
+                           LocalDate localDate) throws IOException {
+            jsonWriter.value(converter.formatDate(localDate, DateTimeFormatter.ISO_LOCAL_DATE));
         }
+
     }
 
-    private static final class LocalDateTimeAdapter implements CustomTypeAdapter<LocalDateTime> {
+    private static final class LocalDateTimeAdapter implements Adapter<LocalDateTime> {
+
         @Override
-        public LocalDateTime decode(CustomTypeValue<?> value) {
-            return converter.parseDate(value.value.toString());
+        public LocalDateTime fromJson(@NotNull JsonReader jsonReader,
+                                      @NotNull CustomScalarAdapters customScalarAdapters) throws IOException {
+            return converter.parseDate(jsonReader.nextString());
         }
 
         @Override
-        public CustomTypeValue<String> encode(LocalDateTime value) {
-            return new CustomTypeValue.GraphQLString(converter.formatDate(value, DateTimeFormatter.ISO_INSTANT));
+        public void toJson(@NotNull JsonWriter jsonWriter,
+                           @NotNull CustomScalarAdapters customScalarAdapters,
+                           LocalDateTime localDateTime) throws IOException {
+            jsonWriter.value(converter.formatDate(localDateTime, DateTimeFormatter.ISO_INSTANT));
         }
+
     }
 
-    private static final class LocalTimeAdapter implements CustomTypeAdapter<LocalTime> {
+    private static final class LocalTimeAdapter implements Adapter<LocalTime> {
+
         @Override
-        public LocalTime decode(CustomTypeValue<?> value) {
-            return LocalTime.parse(value.value.toString(), DateTimeFormatter.ISO_LOCAL_TIME.withZone(ZoneOffset.UTC));
+        public LocalTime fromJson(@NotNull JsonReader jsonReader,
+                                  @NotNull CustomScalarAdapters customScalarAdapters) throws IOException {
+            return LocalTime.parse(jsonReader.nextString(), DateTimeFormatter.ISO_LOCAL_TIME.withZone(ZoneOffset.UTC));
         }
 
         @Override
-        public CustomTypeValue<String> encode(LocalTime value) {
-            return new CustomTypeValue.GraphQLString(DateTimeHelper.toISOString(value));
+        public void toJson(@NotNull JsonWriter jsonWriter,
+                           @NotNull CustomScalarAdapters customScalarAdapters,
+                           LocalTime localTime) throws IOException {
+            jsonWriter.value(DateTimeHelper.toISOString(localTime));
         }
+
     }
 
-    private static final class OffsetDateTimeAdapter implements CustomTypeAdapter<OffsetDateTime> {
+    private static final class OffsetDateTimeAdapter implements Adapter<OffsetDateTime> {
+
         @Override
-        public OffsetDateTime decode(CustomTypeValue<?> value) {
-            return OffsetDateTime.parse(value.value.toString(), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+        public OffsetDateTime fromJson(@NotNull JsonReader jsonReader,
+                                       @NotNull CustomScalarAdapters customScalarAdapters) throws IOException {
+            return OffsetDateTime.parse(jsonReader.nextString(), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         }
 
         @Override
-        public CustomTypeValue<String> encode(OffsetDateTime value) {
-            return new CustomTypeValue.GraphQLString(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(value));
+        public void toJson(@NotNull JsonWriter jsonWriter,
+                           @NotNull CustomScalarAdapters customScalarAdapters,
+                           OffsetDateTime offsetDateTime) throws IOException {
+            jsonWriter.value(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(offsetDateTime));
         }
+
     }
 
-    private static final class YearMonthAdapter implements CustomTypeAdapter<YearMonth> {
+    private static final class YearMonthAdapter implements Adapter<YearMonth> {
+
         @Override
-        public YearMonth decode(CustomTypeValue<?> value) {
-            String stringValue = value.value.toString();
+        public YearMonth fromJson(@NotNull JsonReader jsonReader,
+                                  @NotNull CustomScalarAdapters customScalarAdapters) throws IOException {
+            String stringValue = jsonReader.nextString();
 
             Matcher m = YEAR_MONTH_PATTERN.matcher(stringValue);
 
@@ -129,21 +215,29 @@ public final class DateTimeAdapters {
         }
 
         @Override
-        public CustomTypeValue<String> encode(YearMonth value) {
-            return new CustomTypeValue.GraphQLString(value.toString());
+        public void toJson(@NotNull JsonWriter jsonWriter,
+                           @NotNull CustomScalarAdapters customScalarAdapters,
+                           YearMonth yearMonth) throws IOException {
+            jsonWriter.value(yearMonth.toString());
         }
+
     }
 
-    private static final class DurationAdapter implements CustomTypeAdapter<Duration> {
+    private static final class DurationAdapter implements Adapter<Duration> {
+
         @Override
-        public Duration decode(CustomTypeValue<?> value) {
-            return Duration.parse(value.value.toString());
+        public Duration fromJson(@NotNull JsonReader jsonReader,
+                                 @NotNull CustomScalarAdapters customScalarAdapters) throws IOException {
+            return Duration.parse(jsonReader.nextString());
         }
 
         @Override
-        public CustomTypeValue<String> encode(Duration value) {
-            return new CustomTypeValue.GraphQLString(value.toString());
+        public void toJson(@NotNull JsonWriter jsonWriter,
+                           @NotNull CustomScalarAdapters customScalarAdapters,
+                           Duration duration) throws IOException {
+            jsonWriter.value(duration.toString());
         }
+
     }
 
 }

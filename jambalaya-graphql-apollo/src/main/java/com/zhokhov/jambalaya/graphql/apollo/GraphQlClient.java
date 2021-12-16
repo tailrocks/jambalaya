@@ -15,19 +15,17 @@
  */
 package com.zhokhov.jambalaya.graphql.apollo;
 
-import com.apollographql.apollo.ApolloCall;
-import com.apollographql.apollo.ApolloClient;
-import com.apollographql.apollo.api.CustomTypeAdapter;
-import com.apollographql.apollo.api.Mutation;
-import com.apollographql.apollo.api.Query;
-import com.apollographql.apollo.api.Response;
-import com.apollographql.apollo.api.ScalarType;
-import com.apollographql.apollo.exception.ApolloException;
-import com.apollographql.apollo.fetcher.ApolloResponseFetchers;
-import com.apollographql.apollo.subscription.SubscriptionTransport;
-import com.apollographql.apollo.subscription.WebSocketSubscriptionTransport;
+import com.apollographql.apollo3.ApolloClient;
+import com.apollographql.apollo3.api.ApolloResponse;
+import com.apollographql.apollo3.api.Operation;
+import com.apollographql.apollo3.api.Query;
+import com.apollographql.apollo3.api.ScalarType;
+import com.apollographql.apollo3.network.http.DefaultHttpEngine;
+import com.apollographql.apollo3.network.ws.WebSocketNetworkTransport;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
+import kotlin.coroutines.Continuation;
+import kotlin.coroutines.CoroutineContext;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -35,20 +33,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.net.CookieManager;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.YearMonth;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import java.util.concurrent.TimeUnit;
 
 import static com.zhokhov.jambalaya.checks.Preconditions.checkNotBlank;
 import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
+import static com.zhokhov.jambalaya.graphql.apollo.DateTimeAdapters.CUSTOM_TYPE_ADAPTER_MAP;
 
 /**
  * Simple GraphQL client which utilizes Apollo GraphQL client inside with out-of-box supports graphql-java-datetime
@@ -57,18 +46,6 @@ import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
  * @author Alexey Zhokhov
  */
 public class GraphQlClient {
-
-    private static final Map<String, CustomTypeAdapter<?>> CUSTOM_TYPE_ADAPTER_MAP = new HashMap<>();
-
-    static {
-        CUSTOM_TYPE_ADAPTER_MAP.put(Date.class.getName(), DateTimeAdapters.DATE);
-        CUSTOM_TYPE_ADAPTER_MAP.put(LocalDate.class.getName(), DateTimeAdapters.LOCAL_DATE);
-        CUSTOM_TYPE_ADAPTER_MAP.put(LocalDateTime.class.getName(), DateTimeAdapters.LOCAL_DATE_TIME);
-        CUSTOM_TYPE_ADAPTER_MAP.put(LocalTime.class.getName(), DateTimeAdapters.LOCAL_TIME);
-        CUSTOM_TYPE_ADAPTER_MAP.put(OffsetDateTime.class.getName(), DateTimeAdapters.OFFSET_DATE_TIME);
-        CUSTOM_TYPE_ADAPTER_MAP.put(YearMonth.class.getName(), DateTimeAdapters.YEAR_MONTH);
-        CUSTOM_TYPE_ADAPTER_MAP.put(Duration.class.getName(), DateTimeAdapters.DURATION);
-    }
 
     private final ApolloClient apolloClient;
 
@@ -90,23 +67,19 @@ public class GraphQlClient {
                     .build();
         }
 
-        SubscriptionTransport.Factory subscriptionTransportFactory = new WebSocketSubscriptionTransport.Factory(
-                webSocketUrl,
-                okHttpClient
-        );
-
-        ApolloClient.Builder apolloClientBuilder = ApolloClient.builder()
+        ApolloClient.Builder apolloClientBuilder = new ApolloClient.Builder()
                 .serverUrl(serverUrl)
-                .defaultResponseFetcher(ApolloResponseFetchers.NETWORK_ONLY)
-                .okHttpClient(okHttpClient)
-                .subscriptionTransportFactory(subscriptionTransportFactory);
+                .httpEngine(new DefaultHttpEngine(okHttpClient))
+                .subscriptionNetworkTransport(
+                        new WebSocketNetworkTransport.Builder()
+                                .serverUrl(webSocketUrl)
+                                .build()
+                )
+                .customScalarAdapters(CUSTOM_TYPE_ADAPTER_MAP);
 
+        // FIXME
         if (executor != null) {
-            apolloClientBuilder.dispatcher(executor);
-        }
-
-        for (ScalarType scalarType : scalarTypes) {
-            apolloClientBuilder.addCustomTypeAdapter(scalarType, CUSTOM_TYPE_ADAPTER_MAP.get(scalarType.className()));
+            //apolloClientBuilder.requestedDispatcher()
         }
 
         apolloClient = apolloClientBuilder.build();
@@ -126,18 +99,28 @@ public class GraphQlClient {
         this.timeout = timeout;
     }
 
-    public <D extends Query.Data, T, V extends Query.Variables> Response<T> blockingQuery(
-            @NotNull Query<D, T, V> query
+    // FIXME
+    public <D extends Operation.Data & Query.Data> ApolloResponse<D> blockingQuery(
+            @NotNull Query<D> query
     ) throws Exception {
-        CompletableFuture<Response<T>> future = new CompletableFuture<>();
+        apolloClient.query(query).execute(new Continuation<ApolloResponse<D>>() {
+            @Override
+            public void resumeWith(@NotNull Object o) {
 
-        apolloClient
-                .query(query)
-                .enqueue(createCallback(future));
+            }
 
-        return future.get(timeout.getSeconds(), TimeUnit.SECONDS);
+            @NotNull
+            @Override
+            public CoroutineContext getContext() {
+                return null;
+            }
+        });
+
+        return null;
     }
 
+    // FIXME
+    /*
     public <D extends Mutation.Data, T, V extends Mutation.Variables> Response<T> blockingMutate(
             @NotNull Mutation<D, T, V> mutation
     ) throws Exception {
@@ -163,5 +146,6 @@ public class GraphQlClient {
             }
         };
     }
+     */
 
 }

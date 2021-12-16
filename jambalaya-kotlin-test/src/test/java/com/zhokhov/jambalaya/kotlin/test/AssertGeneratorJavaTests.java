@@ -15,9 +15,7 @@
  */
 package com.zhokhov.jambalaya.kotlin.test;
 
-import com.apollographql.apollo.api.Response;
-import com.zhokhov.jambalaya.test.sample.apollo.mutation.TableCreateMutation;
-import com.zhokhov.jambalaya.test.sample.apollo.query.TableListQuery;
+import com.zhokhov.jambalaya.test.sample.apollo.TableListQuery;
 import com.zhokhov.jambalaya.test.sample.apollo.type.TableCreateInput;
 import com.zhokhov.jambalaya.test.sample.apollo.type.TableListInput;
 import org.junit.jupiter.api.Test;
@@ -28,21 +26,15 @@ public class AssertGeneratorJavaTests {
 
     @Test
     public void queryTest() {
-        TableListQuery tableListQuery = TableListQuery.builder()
-                .input(
-                        TableListInput.builder()
-                                .databaseName("test")
-                                .build()
-                )
-                .build();
+        TableListQuery tableListQuery = new TableListQuery(new TableListInput("test"));
 
         TableListQuery.TableList tableList = new TableListQuery.TableList(
                 "TableListPayload",
                 Arrays.asList(
                         new TableListQuery.Data1("Table", "account",
                                 Arrays.asList(
-                                        new TableListQuery.Column("TableColumn", "id", "int8"),
-                                        new TableListQuery.Column("TableColumn", "created_date", "timestamp")
+                                        new TableListQuery.Column("TableColumn", "id"),
+                                        new TableListQuery.Column("TableColumn", "created_date")
                                 )
                         )
                 ),

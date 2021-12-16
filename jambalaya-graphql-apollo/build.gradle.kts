@@ -13,9 +13,14 @@ dependencies {
     // Micronaut
     implementation(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
 
-    api("com.apollographql.apollo:apollo-runtime:${Versions.apollo}")
+    // Apollo
+    api("com.apollographql.apollo3:apollo-runtime:${Versions.apollo}")
+
+    // OkHttp
     api("com.squareup.okhttp3:okhttp-urlconnection:${Versions.okhttp}")
     api("com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}")
+
+    // SLF4J
     api("org.slf4j:slf4j-api")
 
     // Kotlin
@@ -32,11 +37,5 @@ publishing {
                 description.set(project.description)
             }
         }
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }

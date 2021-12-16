@@ -2,20 +2,19 @@ import org.apache.tools.ant.taskdefs.condition.Os
 
 plugins {
     `java-library`
-    id("com.apollographql.apollo") version Versions.gradleApolloPlugin
+    id("com.apollographql.apollo3") version Versions.gradleApolloPlugin
 }
 
 dependencies {
-    api("com.apollographql.apollo:apollo-runtime:${Versions.apollo}")
+    api("com.apollographql.apollo3:apollo-runtime:${Versions.apollo}")
 }
 
 apollo {
     generateKotlinModels.set(false)
 
-    onCompilationUnit {
-        schemaFile.set(file("$projectDir/src/main/graphql/schema.json"))
-        rootPackageName.set("com.zhokhov.jambalaya.test.sample.apollo")
-    }
+    packageName.set("com.zhokhov.jambalaya.test.sample.apollo")
+
+    schemaFile.set(file("$projectDir/src/main/graphql/schema.json"))
 }
 
 tasks {

@@ -38,9 +38,9 @@ object Versions {
     // @end sync with micronaut
 
     const val slugify = "2.5"
-    const val apollo = "3.0.0"
+    const val apollo = "3.0.0-rc02" // TODO change to release
     const val okhttp = "4.9.3"
-    const val mapstruct = "1.4.2.Final"
+    const val mapstruct = "1.5.0.Beta2"
     const val guava = "31.0.1-jre"
     const val opentelemetry = "1.9.1"
     const val opentelemetryAlpha = "1.9.1-alpha"

@@ -3,8 +3,14 @@ plugins {
     idea
     `maven-publish`
     signing
+
+    // https://plugins.gradle.org/plugin/com.adarshr.test-logger
     id("com.adarshr.test-logger") version "3.1.0" apply false
-    id("com.diffplug.spotless") version "6.0.4"
+
+    // https://plugins.gradle.org/plugin/com.diffplug.spotless
+    id("com.diffplug.spotless") version "6.1.0"
+
+    // https://plugins.gradle.org/plugin/io.github.gradle-nexus.publish-plugin
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 }
 
@@ -25,17 +31,12 @@ val projectScmDeveloperConnection: String by project
 val projectIssueManagementUrl: String by project
 
 allprojects {
-    apply(plugin = "idea")
     apply(plugin = "com.diffplug.spotless")
 
-    group = "io.github.expatiat.jambalaya"
+    apply(plugin = "idea-conventions")
+    apply(plugin = "versions-conventions")
 
-    idea {
-        module {
-            isDownloadJavadoc = false
-            isDownloadSources = false
-        }
-    }
+    group = "com.tailrocks.jambalaya"
 
     spotless {
         java {

@@ -23,7 +23,7 @@ include(
     "jambalaya-junit-opentelemetry",
     // FIXME
     //"jambalaya-kotlin-test",
-    //"jambalaya-kotlin-test-graphql-example",
+    "jambalaya-kotlin-test-graphql-example",
     "jambalaya-mapstruct",
     "jambalaya-mapstruct-processor",
     "jambalaya-mapstruct-processors-example",

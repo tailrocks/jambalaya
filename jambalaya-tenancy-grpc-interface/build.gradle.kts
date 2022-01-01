@@ -7,17 +7,20 @@ import com.google.protobuf.gradle.protoc
 plugins {
     `java-library`
     `maven-publish`
-    id("com.google.protobuf") version Versions.gradleProtobufPlugin
+    id("com.google.protobuf") version "0.8.18"
 }
 
-version = Versions.jambalayaTenancyGrpcInterface
+version = jambalayaLibs.versions.jambalaya.tenancy.grpc.api.get()
 description = "Tenancy gRPC interface."
 
 dependencies {
-    implementation("io.grpc:grpc-protobuf:${Versions.grpc}")
-    implementation("io.grpc:grpc-services:${Versions.grpc}")
-    implementation("io.grpc:grpc-stub:${Versions.grpc}")
-    implementation("io.grpc:grpc-netty:${Versions.grpc}")
+    // gRPC
+    api(platform(jambalayaLibs.boms.grpc))
+    api("io.grpc:grpc-protobuf")
+    api("io.grpc:grpc-services")
+    api("io.grpc:grpc-stub")
+    api("io.grpc:grpc-netty-shaded")
+
     implementation("jakarta.annotation:jakarta.annotation-api")
 
     // TODO remove me later
@@ -38,11 +41,11 @@ publishing {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:${Versions.protobuf}"
+        artifact = "com.google.protobuf:protoc:${jambalayaLibs.versions.protobuf.get()}"
     }
     plugins {
         id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:${Versions.grpc}"
+            artifact = "io.grpc:protoc-gen-grpc-java:${jambalayaLibs.versions.grpc.get()}"
         }
     }
     generateProtoTasks {

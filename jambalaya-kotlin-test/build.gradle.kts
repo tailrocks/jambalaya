@@ -1,10 +1,10 @@
 plugins {
     `java-library`
     `maven-publish`
-    kotlin("jvm") version Versions.kotlin
+    kotlin("jvm")
 }
 
-version = Versions.jambalayaKotlinTest
+version = jambalayaLibs.versions.jambalaya.kotlin.test.get()
 description = "Kotlin Test utils."
 
 dependencies {

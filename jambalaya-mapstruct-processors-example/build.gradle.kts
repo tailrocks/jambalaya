@@ -4,13 +4,13 @@ dependencies {
     implementation(project(":jambalaya-micronaut-mapstruct-protobuf"))
 
     // Micronaut
-    implementation(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+    implementation(platform(jambalayaLibs.boms.micronaut))
 
-    annotationProcessor("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
+    annotationProcessor(jambalayaLibs.mapstruct.processor)
     annotationProcessor(project(":jambalaya-mapstruct-processor"))
-    implementation("org.mapstruct:mapstruct:${Versions.mapstruct}")
+    implementation(jambalayaLibs.mapstruct)
 
-    implementation("com.google.protobuf:protobuf-java:${Versions.protobuf}")
+    implementation(jambalayaLibs.protobuf.java)
     implementation("org.jooq:jooq")
 
     // TODO remove me later

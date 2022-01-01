@@ -1,14 +1,14 @@
 plugins {
     `java-library`
     `maven-publish`
-    kotlin("jvm") version Versions.kotlin
+    kotlin("jvm")
 }
 
-version = Versions.jambalayaChecks
+version = jambalayaLibs.versions.jambalaya.checks.asProvider().get()
 description = "Preconditions."
 
 dependencies {
-    api("com.google.guava:guava:${Versions.guava}")
+    api(jambalayaLibs.guava)
 
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))

@@ -1,10 +1,10 @@
 plugins {
     `java-library`
     `maven-publish`
-    kotlin("jvm") version Versions.kotlin
+    kotlin("jvm")
 }
 
-version = Versions.jambalayaJsr310
+version = jambalayaLibs.versions.jambalaya.jsr310.get()
 description = "JSR 310 utils."
 
 dependencies {

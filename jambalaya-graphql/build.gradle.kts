@@ -3,13 +3,13 @@ plugins {
     `maven-publish`
 }
 
-version = Versions.jambalayaGraphql
+version = jambalayaLibs.versions.jambalaya.graphql.asProvider().get()
 description = "GraphQL utils."
 
 dependencies {
     api(project(":jambalaya-checks"))
 
-    api("com.graphql-java:java-dataloader:${Versions.graphQlDataLoader}")
+    api(jambalayaLibs.java.dataloader)
 }
 
 // POM name/description fix

@@ -14,6 +14,16 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 }
 
+enableFeaturePreview("VERSION_CATALOGS")
+
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("jambalayaLibs") {
+            from(files("gradle/libs.versions.toml"))
+        }
+    }
+}
+
 rootProject.name = "jambalaya"
 
 include(

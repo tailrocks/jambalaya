@@ -1,16 +1,16 @@
 plugins {
     `java-library`
     `maven-publish`
-    kotlin("jvm") version Versions.kotlin
+    kotlin("jvm")
 }
 
-version = Versions.jambalayaSeo
+version = jambalayaLibs.versions.jambalaya.seo.get()
 description = "SEO utils."
 
 dependencies {
     api(project(":jambalaya-checks"))
 
-    api("com.github.slugify:slugify:${Versions.slugify}")
+    api(jambalayaLibs.slugify)
 
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))

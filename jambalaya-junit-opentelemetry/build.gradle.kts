@@ -3,13 +3,13 @@ plugins {
     `maven-publish`
 }
 
-version = Versions.jambalayaJunitOpentelemetry
+version = jambalayaLibs.versions.jambalaya.junit.opentelemetry.get()
 description = "JUnit OpenTelemetry extension."
 
 dependencies {
     // OpenTelemetry
-    implementation(platform("io.opentelemetry:opentelemetry-bom:${Versions.opentelemetry}"))
-    implementation(platform("io.opentelemetry:opentelemetry-bom-alpha:${Versions.opentelemetryAlpha}"))
+    implementation(platform(jambalayaLibs.boms.opentelemetry))
+    implementation(platform(jambalayaLibs.opentelemetry.bom.alpha))
     api("io.opentelemetry:opentelemetry-api")
     api("io.opentelemetry:opentelemetry-semconv")
 

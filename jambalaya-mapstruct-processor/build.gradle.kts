@@ -3,15 +3,15 @@ plugins {
     `maven-publish`
 }
 
-version = Versions.jambalayaMapstructProcessor
+version = jambalayaLibs.versions.jambalaya.mapstruct.processor.get()
 description = "MapStruct smart SPI."
 
 dependencies {
     api(project(":jambalaya-mapstruct"))
 
-    api("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
-    api("org.mapstruct:mapstruct:${Versions.mapstruct}")
-    api("com.google.guava:guava:${Versions.guava}")
+    api(jambalayaLibs.mapstruct.processor)
+    api(jambalayaLibs.mapstruct)
+    api(jambalayaLibs.guava)
 }
 
 // POM name/description fix

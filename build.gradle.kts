@@ -3,9 +3,10 @@ plugins {
     idea
     `maven-publish`
     signing
-    id("com.adarshr.test-logger") version Versions.gradleTestLoggerPlugin apply false
-    id("com.diffplug.spotless") version Versions.gradleSpotlessPlugin
-    id("io.github.gradle-nexus.publish-plugin") version Versions.gradleNexusPublishPlugin
+    id("com.adarshr.test-logger") version "3.1.0" apply false
+    id("com.diffplug.spotless") version "6.0.4"
+    id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+    kotlin("jvm") version "1.6.10"
 }
 
 val javaVersion = 17
@@ -27,8 +28,6 @@ val projectIssueManagementUrl: String by project
 allprojects {
     apply(plugin = "idea")
     apply(plugin = "com.diffplug.spotless")
-
-    apply(from = "${project.rootDir}/gradle/dependencyUpdates.gradle.kts")
 
     group = "io.github.expatiat.jambalaya"
 
@@ -79,7 +78,7 @@ subprojects {
 
     dependencies {
         // Micronaut
-        implementation(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+        implementation(platform(rootProject.jambalayaLibs.boms.micronaut))
 
         // SpotBugs
         implementation("com.github.spotbugs:spotbugs-annotations")

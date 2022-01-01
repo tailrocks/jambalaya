@@ -3,7 +3,7 @@ plugins {
     `maven-publish`
 }
 
-version = Versions.jambalayaMicronautGraphql
+version = jambalayaLibs.versions.jambalaya.micronaut.graphql.get()
 description = "Micronaut GraphQL utils."
 
 dependencies {

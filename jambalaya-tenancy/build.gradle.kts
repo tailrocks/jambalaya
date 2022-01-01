@@ -3,7 +3,7 @@ plugins {
     `maven-publish`
 }
 
-version = Versions.jambalayaTenancy
+version = jambalayaLibs.versions.jambalaya.tenancy.asProvider().get()
 description = "Tenancy."
 
 dependencies {

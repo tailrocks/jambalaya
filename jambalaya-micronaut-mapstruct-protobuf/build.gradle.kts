@@ -1,22 +1,22 @@
 plugins {
     `java-library`
     `maven-publish`
-    kotlin("jvm") version Versions.kotlin
+    kotlin("jvm")
 }
 
-version = Versions.jambalayaMicronautMapstructProtobuf
+version = jambalayaLibs.versions.jambalaya.micronaut.mapstruct.protobuf.get()
 description = "MapStruct protobuf utils."
 
 dependencies {
     api(project(":jambalaya-protobuf"))
 
     // MapStruct
-    annotationProcessor("org.mapstruct:mapstruct-processor:${Versions.mapstruct}")
-    api("org.mapstruct:mapstruct:${Versions.mapstruct}")
+    annotationProcessor(jambalayaLibs.mapstruct.processor)
+    api(jambalayaLibs.mapstruct)
 
     // Micronaut
-    implementation(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
-    annotationProcessor(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+    implementation(platform(jambalayaLibs.boms.micronaut))
+    annotationProcessor(platform(jambalayaLibs.boms.micronaut))
     annotationProcessor("io.micronaut:micronaut-inject-java")
     compileOnly("io.micronaut:micronaut-inject-java")
 

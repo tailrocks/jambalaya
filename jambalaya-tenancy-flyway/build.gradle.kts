@@ -3,7 +3,7 @@ plugins {
     `maven-publish`
 }
 
-version = Versions.jambalayaTenancyFlyway
+version = jambalayaLibs.versions.jambalaya.tenancy.flyway.get()
 description = "Tenancy Flyway."
 
 dependencies {

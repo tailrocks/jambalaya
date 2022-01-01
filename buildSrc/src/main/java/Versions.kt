@@ -1,53 +1,5 @@
 object Versions {
 
-    // Languages
-
-    const val kotlin = "1.6.10"
-
-    // Gradle plugins
-
-    // https://plugins.gradle.org/plugin/com.github.ben-manes.versions
-    const val gradleVersionsPlugin = "0.39.0"
-
-    // https://plugins.gradle.org/plugin/com.adarshr.test-logger
-    const val gradleTestLoggerPlugin = "3.1.0"
-
-    // https://plugins.gradle.org/plugin/com.diffplug.spotless
-    const val gradleSpotlessPlugin = "6.0.4"
-
-    // https://plugins.gradle.org/plugin/com.apollographql.apollo3
-    const val gradleApolloPlugin = "3.0.0"
-
-    // https://plugins.gradle.org/plugin/io.github.gradle-nexus.publish-plugin
-    const val gradleNexusPublishPlugin = "1.1.0"
-
-    // https://plugins.gradle.org/plugin/com.google.protobuf
-    const val gradleProtobufPlugin = "0.8.18"
-
-    // Libraries
-
-    const val micronaut = "3.2.3"
-
-    // sync with micronaut
-    // https://repo1.maven.org/maven2/io/micronaut/micronaut-bom/3.2.3/micronaut-bom-3.2.3.pom
-    const val grpc = "1.39.0"
-    const val protobuf = "3.17.2"
-
-    // https://repo1.maven.org/maven2/io/micronaut/graphql/micronaut-graphql/3.0.0/micronaut-graphql-3.0.0.pom
-    const val graphQlDataLoader = "3.1.1"
-    // @end sync with micronaut
-
-    const val slugify = "2.5"
-    const val apollo = "3.0.0-rc02" // TODO change to release
-    const val okhttp = "4.9.3"
-    const val mapstruct = "1.5.0.Beta2"
-    const val guava = "31.0.1-jre"
-    const val opentelemetry = "1.9.1"
-    const val opentelemetryAlpha = "1.9.1-alpha"
-    const val commonProtos = "2.7.0"
-
-    // Project
-
     const val jambalayaChecks = "0.6.0"
     const val jambalayaChecksJooq = "0.6.0"
     const val jambalayaGraphql = "0.6.0"

@@ -1,0 +1,60 @@
+[versions]
+jambalaya-checks = "0.6.0"
+jambalaya-checks-jooq = "0.6.0"
+jambalaya-graphql = "0.6.0"
+jambalaya-graphql-apollo = "0.8.0-rc01"
+jambalaya-graphql-jooq = "0.6.0"
+jambalaya-jsr310 = "0.6.0"
+jambalaya-junit-opentelemetry = "0.4.0"
+jambalaya-kotlin-test = "0.6.0"
+jambalaya-mapstruct = "0.5.0"
+jambalaya-mapstruct-processor = "0.5.0"
+jambalaya-micronaut-graphql = "0.6.0"
+jambalaya-micronaut-mapstruct-protobuf = "0.5.0"
+jambalaya-opentelemetry = "0.4.0"
+jambalaya-protobuf = "0.7.0"
+jambalaya-seo = "0.6.0"
+jambalaya-tenancy = "0.6.0"
+jambalaya-tenancy-flyway = "0.3.0"
+jambalaya-tenancy-grpc-api = "0.3.0"
+jambalaya-tenancy-jooq = "0.3.0"
+jambalaya-tenancy-junit = "0.3.0"
+
+# Libraries
+apollo = "3.0.0-rc02"
+common-protos = "2.7.0"
+graphql-data-loader = "3.1.1"
+grpc = "1.39.0"
+guava = "31.0.1-jre"
+mapstruct = "1.5.0.Beta2"
+micronaut = "3.2.3"
+okhttp = "4.9.3"
+opentelemetry = "1.9.1"
+opentelemetry-alpha = "1.9.1-alpha"
+protobuf = "3.17.2"
+slugify = "2.5"
+
+[libraries]
+# BOMs
+boms-grpc = { module = "io.grpc:grpc-bom", version.ref = "grpc" }
+boms-micronaut = { module = "io.micronaut:micronaut-bom", version.ref = "micronaut" }
+boms-opentelemetry = { module = "io.opentelemetry:opentelemetry-bom", version.ref = "opentelemetry" }
+
+# Libraries
+apollo-runtime = { module = "com.apollographql.apollo3:apollo-runtime", version.ref = "apollo" }
+grpc-netty = { module = "io.grpc:grpc-netty", version.ref = "grpc" }
+grpc-protobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpc" }
+grpc-services = { module = "io.grpc:grpc-services", version.ref = "grpc" }
+grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+java-dataloader = { module = "com.graphql-java:java-dataloader", version.ref = "graphql-data-loader" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
+okhttp-urlconnection = { module = "com.squareup.okhttp3:okhttp-urlconnection", version.ref = "okhttp" }
+opentelemetry-bom-alpha = { module = "io.opentelemetry:opentelemetry-bom-alpha", version.ref = "opentelemetry-alpha" }
+proto-google-common-protos = { module = "com.google.api.grpc:proto-google-common-protos", version.ref = "common-protos" }
+protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "protobuf" }
+protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf" }
+protoc-gen-grpc-java = { module = "io.grpc:protoc-gen-grpc-java", version.ref = "grpc" }
+slugify = { module = "com.github.slugify:slugify", version.ref = "slugify" }

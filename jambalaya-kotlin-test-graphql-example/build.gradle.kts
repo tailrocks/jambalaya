@@ -2,11 +2,11 @@ import org.apache.tools.ant.taskdefs.condition.Os
 
 plugins {
     `java-library`
-    id("com.apollographql.apollo3") version Versions.gradleApolloPlugin
+    id("com.apollographql.apollo3") version "3.0.0"
 }
 
 dependencies {
-    api("com.apollographql.apollo3:apollo-runtime:${Versions.apollo}")
+    api(jambalayaLibs.apollo.runtime)
 }
 
 apollo {

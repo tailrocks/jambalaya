@@ -1,24 +1,24 @@
 plugins {
     `java-library`
     `maven-publish`
-    kotlin("jvm") version Versions.kotlin
+    kotlin("jvm")
 }
 
-version = Versions.jambalayaGraphqlApollo
+version = jambalayaLibs.versions.jambalaya.graphql.apollo.get()
 description = "GraphQL Apollo client."
 
 dependencies {
     api(project(":jambalaya-checks"))
 
     // Micronaut
-    implementation(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+    implementation(platform(jambalayaLibs.boms.micronaut))
 
     // Apollo
-    api("com.apollographql.apollo3:apollo-runtime:${Versions.apollo}")
+    api(jambalayaLibs.apollo.runtime)
 
     // OkHttp
-    api("com.squareup.okhttp3:okhttp-urlconnection:${Versions.okhttp}")
-    api("com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}")
+    api(jambalayaLibs.okhttp.urlconnection)
+    api(jambalayaLibs.logging.interceptor)
 
     // SLF4J
     api("org.slf4j:slf4j-api")

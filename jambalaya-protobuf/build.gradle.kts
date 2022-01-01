@@ -1,18 +1,18 @@
 plugins {
     `java-library`
     `maven-publish`
-    kotlin("jvm") version Versions.kotlin
+    kotlin("jvm")
 }
 
-version = Versions.jambalayaProtobuf
+version = jambalayaLibs.versions.jambalaya.protobuf.get()
 description = "Protobuf utils."
 
 dependencies {
     api(project(":jambalaya-checks"))
 
-    api("com.google.protobuf:protobuf-java:${Versions.protobuf}")
+    api(jambalayaLibs.protobuf.java)
 
-    api("com.google.api.grpc:proto-google-common-protos:${Versions.commonProtos}")
+    api(jambalayaLibs.proto.google.common.protos)
 
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))

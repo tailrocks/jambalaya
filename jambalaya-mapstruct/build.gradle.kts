@@ -3,11 +3,11 @@ plugins {
     `maven-publish`
 }
 
-version = Versions.jambalayaMapstruct
+version = jambalayaLibs.versions.jambalaya.mapstruct.asProvider().get()
 description = "MapStruct utils."
 
 dependencies {
-    api("org.mapstruct:mapstruct:${Versions.mapstruct}")
+    api(jambalayaLibs.mapstruct)
 }
 
 // POM name/description fix

@@ -3,11 +3,11 @@ plugins {
     `maven-publish`
 }
 
-version = Versions.jambalayaOpentelemetry
+version = jambalayaLibs.versions.jambalaya.opentelemetry.get()
 description = "OpenTelemetry."
 
 dependencies {
-    api(platform("io.opentelemetry:opentelemetry-bom:${Versions.opentelemetry}"))
+    api(platform(jambalayaLibs.boms.opentelemetry))
     api("io.opentelemetry:opentelemetry-api")
 }
 

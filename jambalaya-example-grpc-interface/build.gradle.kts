@@ -6,24 +6,27 @@ import com.google.protobuf.gradle.protoc
 
 plugins {
     `java-library`
-    id("com.google.protobuf") version Versions.gradleProtobufPlugin
+    id("com.google.protobuf") version "0.8.18"
 }
 
 dependencies {
-    implementation("io.grpc:grpc-protobuf:${Versions.grpc}")
-    implementation("io.grpc:grpc-services:${Versions.grpc}")
-    implementation("io.grpc:grpc-stub:${Versions.grpc}")
-    implementation("io.grpc:grpc-netty:${Versions.grpc}")
-    implementation("jakarta.annotation:jakarta.annotation-api")
+    // gRPC
+    api(platform(jambalayaLibs.boms.grpc))
+    api("io.grpc:grpc-protobuf")
+    api("io.grpc:grpc-services")
+    api("io.grpc:grpc-stub")
+    api("io.grpc:grpc-netty-shaded")
+
+    api("jakarta.annotation:jakarta.annotation-api")
 }
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:${Versions.protobuf}"
+        artifact = "com.google.protobuf:protoc:${jambalayaLibs.versions.protobuf.get()}"
     }
     plugins {
         id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:${Versions.grpc}"
+            artifact = "io.grpc:protoc-gen-grpc-java:${jambalayaLibs.versions.grpc.get()}"
         }
     }
     generateProtoTasks {

@@ -3,7 +3,7 @@ plugins {
     `maven-publish`
 }
 
-version = Versions.jambalayaTenancyJooq
+version = jambalayaLibs.versions.jambalaya.tenancy.jooq.get()
 description = "Tenancy jOOQ."
 
 dependencies {
@@ -11,7 +11,7 @@ dependencies {
     api(project(":jambalaya-tenancy"))
 
     // Micronaut
-    implementation(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+    implementation(platform(jambalayaLibs.boms.micronaut))
 
     api("org.jooq:jooq")
 }

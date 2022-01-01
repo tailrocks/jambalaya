@@ -3,14 +3,14 @@ plugins {
     `maven-publish`
 }
 
-version = Versions.jambalayaGraphqlJooq
+version = jambalayaLibs.versions.jambalaya.graphql.jooq.get()
 description = "GraphQL jOOQ utils."
 
 dependencies {
     api(project(":jambalaya-checks"))
 
     // Micronaut
-    implementation(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+    implementation(platform(jambalayaLibs.boms.micronaut))
 
     implementation("org.jooq:jooq")
 }

@@ -3,14 +3,14 @@ plugins {
     `maven-publish`
 }
 
-version = Versions.jambalayaChecksJooq
+version = jambalayaLibs.versions.jambalaya.checks.jooq.get()
 description = "jOOQ preconditions."
 
 dependencies {
     api(project(":jambalaya-checks"))
 
     // Micronaut
-    implementation(platform("io.micronaut:micronaut-bom:${Versions.micronaut}"))
+    implementation(platform(jambalayaLibs.boms.micronaut))
 
     implementation("org.jooq:jooq")
 }

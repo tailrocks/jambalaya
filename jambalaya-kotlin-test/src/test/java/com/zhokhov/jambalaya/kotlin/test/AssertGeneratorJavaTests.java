@@ -15,9 +15,10 @@
  */
 package com.zhokhov.jambalaya.kotlin.test;
 
-import com.zhokhov.jambalaya.test.sample.apollo.TableListQuery;
-import com.zhokhov.jambalaya.test.sample.apollo.type.TableCreateInput;
-import com.zhokhov.jambalaya.test.sample.apollo.type.TableListInput;
+import jambalaya.test.sample.apollo.TableCreateMutation;
+import jambalaya.test.sample.apollo.TableListQuery;
+import jambalaya.test.sample.apollo.type.TableCreateInput;
+import jambalaya.test.sample.apollo.type.TableListInput;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -29,12 +30,12 @@ public class AssertGeneratorJavaTests {
         TableListQuery tableListQuery = new TableListQuery(new TableListInput("test"));
 
         TableListQuery.TableList tableList = new TableListQuery.TableList(
-                "TableListPayload",
                 Arrays.asList(
-                        new TableListQuery.Data1("Table", "account",
+                        new TableListQuery.Data1(
+                                "account",
                                 Arrays.asList(
-                                        new TableListQuery.Column("TableColumn", "id"),
-                                        new TableListQuery.Column("TableColumn", "created_date")
+                                        new TableListQuery.Column("id", "int8"),
+                                        new TableListQuery.Column("created_date", "timestamp")
                                 )
                         )
                 ),
@@ -43,29 +44,19 @@ public class AssertGeneratorJavaTests {
 
         TableListQuery.Data data = new TableListQuery.Data(tableList);
 
-        Response<TableListQuery.Data> response = (Response) Response.builder(tableListQuery)
-                .data(data)
-                .build();
-
-        AssertGenerator.generate(response, "response");
+        AssertGenerator.generate(data, "data");
     }
 
     @Test
     public void mutationTest() {
-        TableCreateMutation tableListQuery = TableCreateMutation.builder()
-                .input(
-                        TableCreateInput.builder()
-                                .tableName("test")
-                                .build()
-                )
-                .build();
+        TableCreateMutation tableCreateMutation = new TableCreateMutation(new TableCreateInput("test"));
 
         TableCreateMutation.TableCreate tableCreate = new TableCreateMutation.TableCreate(
-                "TableCreatePayload",
-                new TableCreateMutation.Data1("Table", "account",
+                new TableCreateMutation.Data1(
+                        "account",
                         Arrays.asList(
-                                new TableCreateMutation.Column("TableColumn", "id", "int8"),
-                                new TableCreateMutation.Column("TableColumn", "created_date", "timestamp")
+                                new TableCreateMutation.Column("id", "int8"),
+                                new TableCreateMutation.Column("created_date", "timestamp")
                         )
                 ),
                 null
@@ -73,11 +64,7 @@ public class AssertGeneratorJavaTests {
 
         TableCreateMutation.Data data = new TableCreateMutation.Data(tableCreate);
 
-        Response<TableCreateMutation.Data> response = (Response) Response.builder(tableListQuery)
-                .data(data)
-                .build();
-
-        AssertGenerator.generate(response, "response");
+        AssertGenerator.generate(data, "data");
     }
 
 }

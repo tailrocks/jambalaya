@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.protobuf;
+package com.tailrocks.jambalaya.protobuf;
 
 import com.google.protobuf.BoolValue;
 import com.google.protobuf.FloatValue;

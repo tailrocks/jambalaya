@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.tenancy.junit;
+package com.tailrocks.jambalaya.tenancy.junit;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 

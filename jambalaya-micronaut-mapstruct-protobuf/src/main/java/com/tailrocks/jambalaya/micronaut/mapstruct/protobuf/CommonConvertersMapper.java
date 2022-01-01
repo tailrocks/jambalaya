@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.micronaut.mapstruct.protobuf;
+package com.tailrocks.jambalaya.micronaut.mapstruct.protobuf;
 
 import com.google.common.base.Strings;
 import com.google.protobuf.StringValue;

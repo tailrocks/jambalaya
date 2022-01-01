@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.micronaut.graphql;
+package com.tailrocks.jambalaya.micronaut.graphql;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
 import graphql.ExecutionInput;
@@ -25,8 +25,8 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MutableHttpResponse;
 import org.reactivestreams.Publisher;
 
-import static com.zhokhov.jambalaya.micronaut.graphql.GraphQLContextHttpUtils.setRequest;
-import static com.zhokhov.jambalaya.micronaut.graphql.GraphQLContextHttpUtils.setResponse;
+import static com.tailrocks.jambalaya.micronaut.graphql.GraphQLContextHttpUtils.setRequest;
+import static com.tailrocks.jambalaya.micronaut.graphql.GraphQLContextHttpUtils.setResponse;
 
 /**
  * Transform ExecutionInput with attaching current {@link HttpRequest} and {@link HttpResponse} to the

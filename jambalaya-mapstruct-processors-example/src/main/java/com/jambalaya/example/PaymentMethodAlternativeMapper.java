@@ -16,7 +16,7 @@
 package com.jambalaya.example;
 
 import com.jambalaya.example.dto.SimplePaymentMethodCard;
-import com.zhokhov.jambalaya.micronaut.mapstruct.protobuf.ProtobufConvertersMapper;
+import com.tailrocks.jambalaya.micronaut.mapstruct.protobuf.ProtobufConvertersMapper;
 import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

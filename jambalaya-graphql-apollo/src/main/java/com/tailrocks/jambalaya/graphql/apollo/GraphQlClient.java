@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.graphql.apollo;
+package com.tailrocks.jambalaya.graphql.apollo;
 
 import com.apollographql.apollo3.ApolloClient;
 import com.apollographql.apollo3.api.ApolloResponse;
@@ -37,7 +37,7 @@ import java.util.concurrent.Executor;
 
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotBlank;
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
-import static com.zhokhov.jambalaya.graphql.apollo.DateTimeAdapters.CUSTOM_TYPE_ADAPTER_MAP;
+import static com.tailrocks.jambalaya.graphql.apollo.DateTimeAdapters.CUSTOM_TYPE_ADAPTER_MAP;
 
 /**
  * Simple GraphQL client which utilizes Apollo GraphQL client inside with out-of-box supports graphql-java-datetime

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.seo;
+package com.tailrocks.jambalaya.seo;
 
 import com.github.slugify.Slugify;
 import com.ibm.icu.text.Normalizer2;

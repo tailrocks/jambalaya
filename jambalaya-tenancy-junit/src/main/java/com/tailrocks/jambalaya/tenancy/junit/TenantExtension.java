@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.tenancy.junit;
+package com.tailrocks.jambalaya.tenancy.junit;
 
-import com.zhokhov.jambalaya.tenancy.StringUtils;
-import com.zhokhov.jambalaya.tenancy.TenancyUtils;
+import com.tailrocks.jambalaya.tenancy.StringUtils;
+import com.tailrocks.jambalaya.tenancy.TenancyUtils;
 import io.opentelemetry.context.Scope;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
@@ -26,7 +26,7 @@ import org.junit.platform.commons.support.AnnotationSupport;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
-import static com.zhokhov.jambalaya.tenancy.TenancyUtils.setTenantStringClosable;
+import static com.tailrocks.jambalaya.tenancy.TenancyUtils.setTenantStringClosable;
 
 /**
  * @author Alexey Zhokhov

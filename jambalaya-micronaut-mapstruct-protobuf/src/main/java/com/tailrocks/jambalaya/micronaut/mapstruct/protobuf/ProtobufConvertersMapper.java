@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.micronaut.mapstruct.protobuf;
+package com.tailrocks.jambalaya.micronaut.mapstruct.protobuf;
 
 import com.google.protobuf.BoolValue;
 import com.google.protobuf.FloatValue;
@@ -24,7 +24,7 @@ import com.google.protobuf.StringValue;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.UInt32Value;
 import com.google.protobuf.UInt64Value;
-import com.zhokhov.jambalaya.protobuf.ProtobufConverters;
+import com.tailrocks.jambalaya.protobuf.ProtobufConverters;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import org.mapstruct.Mapper;
 

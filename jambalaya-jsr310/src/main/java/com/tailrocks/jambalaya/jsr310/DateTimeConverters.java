@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.jsr310;
+package com.tailrocks.jambalaya.jsr310;
 
 import edu.umd.cs.findbugs.annotations.Nullable;
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.mapstruct.processor;
+package com.tailrocks.jambalaya.mapstruct.processor;
 
 import org.mapstruct.ap.internal.util.Nouns;
 import org.mapstruct.ap.spi.AccessorNamingStrategy;

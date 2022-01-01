@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.mapstruct.processor;
+package com.tailrocks.jambalaya.mapstruct.processor;
 
 import com.google.common.base.CaseFormat;
-import com.zhokhov.jambalaya.mapstruct.JambalayaMappingConstants;
+import com.tailrocks.jambalaya.mapstruct.JambalayaMappingConstants;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ap.spi.EnumTransformationStrategy;
 

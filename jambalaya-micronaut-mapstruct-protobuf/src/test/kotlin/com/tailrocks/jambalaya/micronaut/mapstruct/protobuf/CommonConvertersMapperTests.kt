@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.micronaut.mapstruct.protobuf
+package com.tailrocks.jambalaya.micronaut.mapstruct.protobuf
 
 import com.google.protobuf.StringValue
 import org.junit.jupiter.api.Test
@@ -25,7 +25,8 @@ import kotlin.test.assertEquals
  */
 class CommonConvertersMapperTests {
 
-    private val mapper = CommonConvertersMapper()
+    private val mapper =
+        CommonConvertersMapper()
 
     @Test
     fun `UUID to String`() {

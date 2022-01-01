@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.checks;
+package com.tailrocks.jambalaya.checks;
 
 import com.google.common.base.Strings;
 import edu.umd.cs.findbugs.annotations.NonNull;

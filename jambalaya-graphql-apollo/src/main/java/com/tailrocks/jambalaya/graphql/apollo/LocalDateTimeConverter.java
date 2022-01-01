@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.graphql.apollo;
+package com.tailrocks.jambalaya.graphql.apollo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,7 +23,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-import static com.zhokhov.jambalaya.graphql.apollo.DateTimeHelper.DATE_FORMATTERS;
+import static com.tailrocks.jambalaya.graphql.apollo.DateTimeHelper.DATE_FORMATTERS;
 
 /**
  * Copy-pasted from:

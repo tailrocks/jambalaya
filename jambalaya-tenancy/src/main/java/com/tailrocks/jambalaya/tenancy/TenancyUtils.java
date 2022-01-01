@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.tenancy;
+package com.tailrocks.jambalaya.tenancy;
 
-import com.zhokhov.jambalaya.opentelemetry.BaggageUtils;
+import com.tailrocks.jambalaya.opentelemetry.BaggageUtils;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import io.opentelemetry.api.baggage.Baggage;

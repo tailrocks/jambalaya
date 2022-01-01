@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.tenancy.jooq;
+package com.tailrocks.jambalaya.tenancy.jooq;
 
-import com.zhokhov.jambalaya.tenancy.Tenant;
+import com.tailrocks.jambalaya.tenancy.Tenant;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import org.jooq.DSLContext;
 
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotBlank;
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
-import static com.zhokhov.jambalaya.tenancy.TenancyUtils.getTenantOrThrow;
+import static com.tailrocks.jambalaya.tenancy.TenancyUtils.getTenantOrThrow;
 
 /**
  * @author Alexey Zhokhov

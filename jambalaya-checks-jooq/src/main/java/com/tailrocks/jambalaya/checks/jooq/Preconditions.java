@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.checks.jooq;
+package com.tailrocks.jambalaya.checks.jooq;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
@@ -21,7 +21,7 @@ import org.jooq.UpdatableRecord;
 
 import java.util.List;
 
-import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
+import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
 /**

@@ -13,7 +13,7 @@
 // limitations under the License.
 syntax = "proto3";
 
-package com.zhokhov.jambalaya.grpc.v1.tenant;
+package com.tailrocks.jambalaya.grpc.v1.tenant;
 
 import "google/protobuf/wrappers.proto";
 

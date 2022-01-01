@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.graphql.jooq.model;
+package com.tailrocks.jambalaya.graphql.jooq.model;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import org.jooq.UpdatableRecord;

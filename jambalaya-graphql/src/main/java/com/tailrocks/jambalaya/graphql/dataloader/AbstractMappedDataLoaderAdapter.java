@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.graphql.dataloader;
+package com.tailrocks.jambalaya.graphql.dataloader;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import org.dataloader.DataLoader;
@@ -24,7 +24,7 @@ import org.dataloader.MappedBatchLoaderWithContext;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
+import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
 
 /**
  * Abstract class for implementing mapped GraphQL data loaders with strict type checking. It hides all complexity of

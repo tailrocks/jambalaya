@@ -22,11 +22,11 @@ import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
 
-import static com.zhokhov.jambalaya.mapstruct.JambalayaMappingConstants.CASE_FORMAT_TRANSFORMATION;
-import static com.zhokhov.jambalaya.mapstruct.JambalayaMappingConstants.LOWER_CAMEL_TO_UPPER_UNDERSCORE;
-import static com.zhokhov.jambalaya.mapstruct.JambalayaMappingConstants.LOWER_UNDERSCORE_TO_UPPER_UNDERSCORE;
-import static com.zhokhov.jambalaya.mapstruct.JambalayaMappingConstants.UPPER_CAMEL_TO_UPPER_UNDERSCORE;
-import static com.zhokhov.jambalaya.mapstruct.JambalayaMappingConstants.UPPER_UNDERSCORE_TO_UPPER_CAMEL;
+import static com.tailrocks.jambalaya.mapstruct.JambalayaMappingConstants.CASE_FORMAT_TRANSFORMATION;
+import static com.tailrocks.jambalaya.mapstruct.JambalayaMappingConstants.LOWER_CAMEL_TO_UPPER_UNDERSCORE;
+import static com.tailrocks.jambalaya.mapstruct.JambalayaMappingConstants.LOWER_UNDERSCORE_TO_UPPER_UNDERSCORE;
+import static com.tailrocks.jambalaya.mapstruct.JambalayaMappingConstants.UPPER_CAMEL_TO_UPPER_UNDERSCORE;
+import static com.tailrocks.jambalaya.mapstruct.JambalayaMappingConstants.UPPER_UNDERSCORE_TO_UPPER_CAMEL;
 import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
 
 @Mapper(

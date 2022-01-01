@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.graphql.apollo
+package com.tailrocks.jambalaya.graphql.apollo
 
 import com.apollographql.apollo3.api.json.MapJsonReader
 import com.apollographql.apollo3.api.json.MapJsonWriter
-import com.zhokhov.jambalaya.graphql.apollo.DateTimeAdapters.CUSTOM_TYPE_ADAPTER_MAP
-import com.zhokhov.jambalaya.graphql.apollo.DateTimeAdapters.YEAR_MONTH
+import com.tailrocks.jambalaya.graphql.apollo.DateTimeAdapters.CUSTOM_TYPE_ADAPTER_MAP
+import com.tailrocks.jambalaya.graphql.apollo.DateTimeAdapters.YEAR_MONTH
 import org.junit.jupiter.api.Test
 import java.time.YearMonth
 import kotlin.test.assertEquals

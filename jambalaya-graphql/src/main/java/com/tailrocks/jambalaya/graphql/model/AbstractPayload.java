@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.zhokhov.jambalaya.graphql.model;
+package com.tailrocks.jambalaya.graphql.model;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
-import static com.zhokhov.jambalaya.checks.Preconditions.checkNotNull;
+import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
 
 /**
  * The GraphQL payload is carrying successful data of the operation result or the returned error is operation was

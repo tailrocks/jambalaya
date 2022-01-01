@@ -1,4 +1,5 @@
 [versions]
+# Project
 jambalaya-checks = "0.7.0-SNAPSHOT"
 jambalaya-checks-jooq = "0.7.0-SNAPSHOT"
 jambalaya-graphql = "0.7.0-SNAPSHOT"

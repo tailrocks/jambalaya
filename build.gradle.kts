@@ -6,7 +6,6 @@ plugins {
     id("com.adarshr.test-logger") version "3.1.0" apply false
     id("com.diffplug.spotless") version "6.0.4"
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
-    kotlin("jvm") version "1.6.10"
 }
 
 val javaVersion = 17

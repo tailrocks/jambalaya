@@ -1,18 +1,4 @@
-pluginManagement {
-    repositories {
-        mavenLocal()
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
-
-dependencyResolutionManagement {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-}
+apply(from = File(settingsDir, "gradle/repositoriesSettings.gradle.kts"))
 
 enableFeaturePreview("VERSION_CATALOGS")
 

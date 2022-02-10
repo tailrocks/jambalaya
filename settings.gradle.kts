@@ -1,7 +1,5 @@
 apply(from = File(settingsDir, "gradle/repositoriesSettings.gradle.kts"))
 
-enableFeaturePreview("VERSION_CATALOGS")
-
 dependencyResolutionManagement {
     versionCatalogs {
         create("jambalayaLibs") {

@@ -50,10 +50,6 @@ allprojects {
             licenseHeaderFile("$rootDir/gradle/licenseHeader.txt")
         }
     }
-
-    tasks.withType<JavaCompile> {
-        options.release.set(8)
-    }
 }
 
 subprojects {
@@ -68,9 +64,6 @@ subprojects {
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(javaVersion))
         }
-
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
 
         withJavadocJar()
         withSourcesJar()

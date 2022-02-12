@@ -105,7 +105,7 @@ public class PaymentMethodRecord extends UpdatableRecordImpl<PaymentMethodRecord
      * Setter for <code>payment_method.stripe_payment_method_id</code>.
      */
     public PaymentMethodRecord setStripePaymentMethodId(@NonNull String value) {
-        set(5, value);
+        set(4, value);
         return this;
     }
 
@@ -121,7 +121,7 @@ public class PaymentMethodRecord extends UpdatableRecordImpl<PaymentMethodRecord
      * Setter for <code>payment_method.card_brand</code>.
      */
     public PaymentMethodRecord setCardBrand(@Nullable PaymentMethodCardBrand value) {
-        set(6, value);
+        set(5, value);
         return this;
     }
 
@@ -137,7 +137,7 @@ public class PaymentMethodRecord extends UpdatableRecordImpl<PaymentMethodRecord
      * Setter for <code>payment_method.card_expiration_date</code>.
      */
     public PaymentMethodRecord setCardExpirationDate(@Nullable LocalDate value) {
-        set(7, value);
+        set(6, value);
         return this;
     }
 
@@ -153,7 +153,7 @@ public class PaymentMethodRecord extends UpdatableRecordImpl<PaymentMethodRecord
      * Setter for <code>payment_method.card_number</code>.
      */
     public PaymentMethodRecord setCardNumber(@Nullable String value) {
-        set(8, value);
+        set(7, value);
         return this;
     }
 
@@ -169,7 +169,7 @@ public class PaymentMethodRecord extends UpdatableRecordImpl<PaymentMethodRecord
      * Setter for <code>payment_method.card_holder_name</code>.
      */
     public PaymentMethodRecord setCardHolderName(@Nullable String value) {
-        set(9, value);
+        set(8, value);
         return this;
     }
 
@@ -482,4 +482,5 @@ public class PaymentMethodRecord extends UpdatableRecordImpl<PaymentMethodRecord
         setCardNumber(cardNumber);
         setCardHolderName(cardHolderName);
     }
+
 }

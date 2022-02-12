@@ -15,6 +15,10 @@ dependencies {
     implementation(platform(jambalayaLibs.boms.micronaut))
 
     implementation("org.jooq:jooq")
+
+    // Kotlin
+    testImplementation(kotlin("stdlib-jdk8"))
+    testImplementation(kotlin("test-junit5"))
 }
 
 // POM name/description fix

@@ -31,7 +31,7 @@ mapstruct = "1.5.0.Beta2"
 micronaut = "3.3.1"
 okhttp = "4.9.3"
 opentelemetry = "1.11.0"
-opentelemetry-alpha = "1.9.1-alpha"
+opentelemetry-alpha = "1.11.0-alpha"
 protobuf = "3.19.4"
 slugify = "2.5"
 

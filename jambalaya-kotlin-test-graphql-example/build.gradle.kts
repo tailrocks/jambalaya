@@ -1,5 +1,7 @@
 plugins {
     `java-library`
+
+    // https://plugins.gradle.org/plugin/com.apollographql.apollo3
     id("com.apollographql.apollo3") version "3.1.0"
 }
 

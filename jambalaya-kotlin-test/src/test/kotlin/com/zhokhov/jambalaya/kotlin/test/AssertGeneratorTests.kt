@@ -17,14 +17,40 @@ package com.zhokhov.jambalaya.kotlin.test
 
 import com.zhokhov.jambalaya.test.sample.TestData
 import org.junit.jupiter.api.Test
+import kotlin.test.assertEquals
 
 class AssertGeneratorTests {
 
     @Test
     fun test() {
+        // GIVEN:
         val order = TestData.ORDER
 
-        AssertGenerator.generate(order, "order")
+        // WHEN:
+        val result = AssertGenerator.generate(order, "order")
+
+        // THEN:
+        val expected = """
+            assertNotNull(order).apply {
+                assertEquals(1, id)
+                assertNotNull(items).apply {
+                    assertEquals(2, size)
+                    assertNotNull(get(0)).apply {
+                        assertEquals(3, id)
+                        assertEquals("Test product", productName)
+                        assertEquals("3AZ", sku)
+                    }
+                    assertNotNull(get(1)).apply {
+                        assertEquals(7, id)
+                        assertEquals("Abc Xyz", productName)
+                        assertEquals("ABC-1", sku)
+                    }
+                }
+                assertEquals("123-789-xyz", orderNumber)
+            }
+        """.trimIndent()
+
+        assertEquals(expected, result.toString())
     }
 
 }

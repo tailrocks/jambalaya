@@ -64,7 +64,7 @@ public final class AssertGenerator {
         }
         System.out.println();
         System.out.println();
-        System.out.println(rootAssertLine.toString());
+        System.out.println(rootAssertLine);
         System.out.println();
         System.out.println();
         return rootAssertLine;

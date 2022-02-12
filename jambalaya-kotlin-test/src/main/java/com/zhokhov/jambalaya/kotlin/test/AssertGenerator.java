@@ -22,8 +22,10 @@ import edu.umd.cs.findbugs.annotations.Nullable;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,6 +94,43 @@ public final class AssertGenerator {
     private void traverse(@NonNull Object value, @NonNull AssertNotNullLine assertLineContainer) {
         if (IGNORED_VALUES.contains(value.getClass().getName())) {
             return;
+        }
+
+        List<Field> publicFields = Arrays.stream(value.getClass().getDeclaredFields())
+                .filter(f -> Modifier.isPublic(f.getModifiers()))
+                .collect(Collectors.toList());
+
+        for (Field field : publicFields) {
+            Object result;
+
+            try {
+                result = field.get(value);
+            } catch (IllegalAccessException e) {
+                assertLineContainer.addCommentLine(field.getName(), e.toString());
+                continue;
+            }
+
+            if (result == null) {
+                assertLineContainer.addAssertNullLine(field.getName());
+            } else {
+                if (IGNORED_VALUES.contains(result.getClass().getName())) {
+                    continue;
+                }
+
+                if (isStandardClass(result)) {
+                    assertLineContainer.addAssertEqualsLine(field.getName(), result);
+                } else {
+                    AssertNotNullLine notNullLine = assertLineContainer.addAssertNotNullLine(field.getName());
+
+                    if (result instanceof List) {
+                        traverseList((List) result, notNullLine);
+                    } else if (result instanceof Set) {
+                        // ignore
+                    } else {
+                        traverse(result, notNullLine);
+                    }
+                }
+            }
         }
 
         List<Method> publicMethods;

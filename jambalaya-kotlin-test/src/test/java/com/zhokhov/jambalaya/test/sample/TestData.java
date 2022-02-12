@@ -27,4 +27,6 @@ public class TestData {
             )
     );
 
+    public static final Car CAR = new Car("Tesla", "Model 3");
+
 }

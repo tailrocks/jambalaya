@@ -22,7 +22,7 @@ import kotlin.test.assertEquals
 class AssertGeneratorTests {
 
     @Test
-    fun test() {
+    fun pojo() {
         // GIVEN:
         val order = TestData.ORDER
 
@@ -47,6 +47,25 @@ class AssertGeneratorTests {
                     }
                 }
                 assertEquals("123-789-xyz", orderNumber)
+            }
+        """.trimIndent()
+
+        assertEquals(expected, result.toString())
+    }
+
+    @Test
+    fun `public fields`() {
+        // GIVEN:
+        val car = TestData.CAR
+
+        // WHEN:
+        val result = AssertGenerator.generate(car, "car")
+
+        // THEN:
+        val expected = """
+            assertNotNull(car).apply {
+                assertEquals("Tesla", brand)
+                assertEquals("Model 3", model)
             }
         """.trimIndent()
 

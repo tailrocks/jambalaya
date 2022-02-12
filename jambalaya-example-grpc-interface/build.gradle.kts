@@ -18,6 +18,7 @@ dependencies {
     api("io.grpc:grpc-netty-shaded")
 
     api("jakarta.annotation:jakarta.annotation-api")
+    compileOnly(jambalayaLibs.tomcat.annotations.api)
 }
 
 protobuf {

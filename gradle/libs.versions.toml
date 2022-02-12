@@ -56,3 +56,4 @@ protobuf-java = { module = "com.google.protobuf:protobuf-java", version.ref = "p
 protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf" }
 protoc-gen-grpc-java = { module = "io.grpc:protoc-gen-grpc-java", version.ref = "grpc" }
 slugify = { module = "com.github.slugify:slugify", version.ref = "slugify" }
+tomcat-annotations-api = { module = "org.apache.tomcat:annotations-api", version = "6.0.53" }

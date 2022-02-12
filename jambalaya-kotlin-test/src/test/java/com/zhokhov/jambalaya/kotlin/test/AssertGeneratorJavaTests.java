@@ -23,10 +23,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-public class AssertGeneratorJavaTests {
+class AssertGeneratorJavaTests {
 
     @Test
-    public void queryTest() {
+    void queryTest() {
         TableListQuery tableListQuery = new TableListQuery(new TableListInput("test"));
 
         TableListQuery.TableList tableList = new TableListQuery.TableList(
@@ -48,7 +48,7 @@ public class AssertGeneratorJavaTests {
     }
 
     @Test
-    public void mutationTest() {
+    void mutationTest() {
         TableCreateMutation tableCreateMutation = new TableCreateMutation(new TableCreateInput("test"));
 
         TableCreateMutation.TableCreate tableCreate = new TableCreateMutation.TableCreate(

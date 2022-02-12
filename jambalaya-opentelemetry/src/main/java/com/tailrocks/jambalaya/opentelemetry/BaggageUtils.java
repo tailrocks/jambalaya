@@ -15,6 +15,7 @@
  */
 package com.tailrocks.jambalaya.opentelemetry;
 
+import com.google.errorprone.annotations.MustBeClosed;
 import io.opentelemetry.api.baggage.Baggage;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.context.Scope;
@@ -36,6 +37,7 @@ public final class BaggageUtils {
                 .storeInContext(Context.current());
     }
 
+    @MustBeClosed
     public static Scope putClosable(String key, String value) {
         Context context = put(key, value);
         return context.makeCurrent();

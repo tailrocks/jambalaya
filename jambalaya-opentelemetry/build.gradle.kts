@@ -9,6 +9,7 @@ description = "OpenTelemetry."
 dependencies {
     api(platform(jambalayaLibs.boms.opentelemetry))
     api("io.opentelemetry:opentelemetry-api")
+    compileOnly(jambalayaLibs.error.prone.annotations)
 }
 
 // POM name/description fix

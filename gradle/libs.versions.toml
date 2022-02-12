@@ -34,6 +34,7 @@ opentelemetry = "1.11.0"
 opentelemetry-alpha = "1.11.0-alpha"
 protobuf = "3.19.4"
 slugify = "2.5"
+error-prone = "2.11.0"
 
 [libraries]
 # BOMs
@@ -57,3 +58,4 @@ protoc = { module = "com.google.protobuf:protoc", version.ref = "protobuf" }
 protoc-gen-grpc-java = { module = "io.grpc:protoc-gen-grpc-java", version.ref = "grpc" }
 slugify = { module = "com.github.slugify:slugify", version.ref = "slugify" }
 tomcat-annotations-api = { module = "org.apache.tomcat:annotations-api", version = "6.0.53" }
+error-prone-annotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "error-prone" }

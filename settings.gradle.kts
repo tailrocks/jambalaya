@@ -14,6 +14,7 @@ include(
     "jambalaya-checks",
     "jambalaya-checks-jooq",
     "jambalaya-example-grpc-interface",
+    "jambalaya-example-jooq",
     "jambalaya-graphql",
     "jambalaya-graphql-apollo",
     "jambalaya-graphql-jooq",

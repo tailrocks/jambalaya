@@ -1,6 +1,7 @@
 plugins {
     `java-library`
     `maven-publish`
+    kotlin("jvm")
 }
 
 version = jambalayaLibs.versions.jambalaya.checks.jooq.get()
@@ -8,6 +9,7 @@ description = "jOOQ preconditions."
 
 dependencies {
     api(project(":jambalaya-checks"))
+    testImplementation(project(":jambalaya-example-jooq"))
 
     // Micronaut
     implementation(platform(jambalayaLibs.boms.micronaut))

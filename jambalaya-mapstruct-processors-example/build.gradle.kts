@@ -1,5 +1,6 @@
 dependencies {
     implementation(project(":jambalaya-example-grpc-interface"))
+    implementation(project(":jambalaya-example-jooq"))
     implementation(project(":jambalaya-mapstruct"))
     implementation(project(":jambalaya-micronaut-mapstruct-protobuf"))
 
@@ -11,7 +12,6 @@ dependencies {
     implementation(jambalayaLibs.mapstruct)
 
     implementation(jambalayaLibs.protobuf.java)
-    implementation("org.jooq:jooq")
 
     // TODO remove me later
     compileOnly("javax.inject:javax.inject:1")

@@ -17,15 +17,15 @@ package com.tailrocks.jambalaya.graphql.apollo;
 
 import com.apollographql.apollo3.ApolloClient;
 import com.apollographql.apollo3.api.ApolloResponse;
+import com.apollographql.apollo3.api.Mutation;
 import com.apollographql.apollo3.api.Operation;
 import com.apollographql.apollo3.api.Query;
 import com.apollographql.apollo3.api.ScalarType;
 import com.apollographql.apollo3.network.http.DefaultHttpEngine;
 import com.apollographql.apollo3.network.ws.WebSocketNetworkTransport;
+import com.apollographql.apollo3.rx3.Rx3Apollo;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
-import kotlin.coroutines.Continuation;
-import kotlin.coroutines.CoroutineContext;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -99,53 +99,20 @@ public class GraphQlClient {
         this.timeout = timeout;
     }
 
-    // FIXME
     public <D extends Operation.Data & Query.Data> ApolloResponse<D> blockingQuery(
             @NotNull Query<D> query
-    ) throws Exception {
-        apolloClient.query(query).execute(new Continuation<ApolloResponse<D>>() {
-            @Override
-            public void resumeWith(@NotNull Object o) {
+    ) {
+        var apolloCall = apolloClient.query(query);
 
-            }
-
-            @NotNull
-            @Override
-            public CoroutineContext getContext() {
-                return null;
-            }
-        });
-
-        return null;
+        return Rx3Apollo.flowable(apolloCall).blockingSingle();
     }
 
-    // FIXME
-    /*
-    public <D extends Mutation.Data, T, V extends Mutation.Variables> Response<T> blockingMutate(
-            @NotNull Mutation<D, T, V> mutation
-    ) throws Exception {
-        CompletableFuture<Response<T>> future = new CompletableFuture<>();
+    public <D extends Operation.Data & Mutation.Data> ApolloResponse<D> blockingMutate(
+            @NotNull Mutation<D> mutation
+    ) {
+        var apolloCall = apolloClient.mutation(mutation);
 
-        apolloClient
-                .mutate(mutation)
-                .enqueue(createCallback(future));
-
-        return future.get(timeout.getSeconds(), TimeUnit.SECONDS);
+        return Rx3Apollo.flowable(apolloCall).blockingSingle();
     }
-
-    private <T> ApolloCall.Callback<T> createCallback(CompletableFuture<Response<T>> future) {
-        return new ApolloCall.Callback<T>() {
-            @Override
-            public void onResponse(@NotNull Response<T> response) {
-                future.complete(response);
-            }
-
-            @Override
-            public void onFailure(@NotNull ApolloException e) {
-                future.completeExceptionally(e);
-            }
-        };
-    }
-     */
 
 }

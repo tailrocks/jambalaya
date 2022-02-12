@@ -15,6 +15,7 @@ dependencies {
 
     // Apollo
     api(jambalayaLibs.apollo.runtime)
+    api(jambalayaLibs.apollo.rx3.support)
 
     // OkHttp
     api(jambalayaLibs.okhttp.urlconnection)

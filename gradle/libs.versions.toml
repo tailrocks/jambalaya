@@ -43,6 +43,7 @@ boms-opentelemetry = { module = "io.opentelemetry:opentelemetry-bom", version.re
 
 # Libraries
 apollo-runtime = { module = "com.apollographql.apollo3:apollo-runtime", version.ref = "apollo" }
+apollo-rx3-support = { module = "com.apollographql.apollo3:apollo-rx3-support", version.ref = "apollo" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 java-dataloader = { module = "com.graphql-java:java-dataloader", version.ref = "graphql-data-loader" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }

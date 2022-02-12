@@ -97,8 +97,8 @@ public final class AssertGenerator {
         }
 
         List<Field> publicFields = Arrays.stream(value.getClass().getDeclaredFields())
-                .filter(f -> Modifier.isPublic(f.getModifiers()))
-                .collect(Collectors.toList());
+                .filter(f -> Modifier.isPublic(f.getModifiers()) && !Modifier.isStatic(f.getModifiers()))
+                .toList();
 
         for (Field field : publicFields) {
             Object result;

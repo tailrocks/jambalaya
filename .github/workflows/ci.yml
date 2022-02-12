@@ -13,6 +13,7 @@ jobs:
       - name: Set up OpenJDK
         uses: actions/setup-java@v2
         with:
+          distribution: temurin
           java-version: 17
       - name: Cache Gradle packages
         uses: actions/cache@v2

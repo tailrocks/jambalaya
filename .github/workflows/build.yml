@@ -27,3 +27,9 @@ jobs:
         run: ./gradlew test
       - name: Build
         run: ./gradlew generatePomFileForMavenJavaPublication build
+  publish:
+    runs-on: ubuntu-latest
+    environment: Sonatype
+    steps:
+      - name: Publish to Sonatype
+        run: ./publish-sonatype.sh

@@ -1,6 +1,7 @@
 plugins {
     `java-library`
-    `maven-publish`
+    id("com.tailrocks.gradle.maven-publish-conventions")
+    id("com.tailrocks.gradle.signing-conventions")
 }
 
 version = jambalayaLibs.versions.jambalaya.graphql.jooq.get()
@@ -13,16 +14,4 @@ dependencies {
     implementation(platform(jambalayaLibs.boms.micronaut))
 
     implementation("org.jooq:jooq")
-}
-
-// POM name/description fix
-publishing {
-    publications {
-        (getByName("mavenJava") as MavenPublication).apply {
-            pom {
-                name.set(project.name)
-                description.set(project.description)
-            }
-        }
-    }
 }

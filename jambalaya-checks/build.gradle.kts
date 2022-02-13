@@ -1,6 +1,7 @@
 plugins {
     `java-library`
-    `maven-publish`
+    id("com.tailrocks.gradle.maven-publish-conventions")
+    id("com.tailrocks.gradle.signing-conventions")
     kotlin("jvm")
 }
 

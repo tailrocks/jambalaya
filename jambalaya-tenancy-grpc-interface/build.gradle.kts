@@ -6,7 +6,8 @@ import com.google.protobuf.gradle.protoc
 
 plugins {
     `java-library`
-    `maven-publish`
+    id("com.tailrocks.gradle.maven-publish-conventions")
+    id("com.tailrocks.gradle.signing-conventions")
 
     // https://plugins.gradle.org/plugin/com.google.protobuf
     id("com.google.protobuf") version "0.8.18"
@@ -27,18 +28,6 @@ dependencies {
 
     // TODO remove me later
     implementation("javax.annotation:javax.annotation-api")
-}
-
-// POM name/description fix
-publishing {
-    publications {
-        (getByName("mavenJava") as MavenPublication).apply {
-            pom {
-                name.set(project.name)
-                description.set(project.description)
-            }
-        }
-    }
 }
 
 protobuf {

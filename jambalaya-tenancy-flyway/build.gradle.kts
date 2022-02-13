@@ -1,6 +1,7 @@
 plugins {
     `java-library`
-    `maven-publish`
+    id("com.tailrocks.gradle.maven-publish-conventions")
+    id("com.tailrocks.gradle.signing-conventions")
 }
 
 version = jambalayaLibs.versions.jambalaya.tenancy.flyway.get()
@@ -11,16 +12,4 @@ dependencies {
 
     api("org.flywaydb:flyway-core")
     api("org.slf4j:slf4j-api")
-}
-
-// POM name/description fix
-publishing {
-    publications {
-        (getByName("mavenJava") as MavenPublication).apply {
-            pom {
-                name.set(project.name)
-                description.set(project.description)
-            }
-        }
-    }
 }

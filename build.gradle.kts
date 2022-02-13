@@ -1,8 +1,5 @@
 plugins {
     java
-    idea
-    `maven-publish`
-    signing
 
     // https://plugins.gradle.org/plugin/com.adarshr.test-logger
     id("com.adarshr.test-logger") version "3.1.0" apply false
@@ -12,6 +9,13 @@ plugins {
 
     // https://plugins.gradle.org/plugin/io.github.gradle-nexus.publish-plugin
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+
+    id("com.tailrocks.gradle.idea-conventions") version "1.0" apply false
+    id("com.tailrocks.gradle.junit-conventions") version "1.0" apply false
+    id("com.tailrocks.gradle.maven-publish-conventions") version "1.0" apply false
+    id("com.tailrocks.gradle.signing-conventions") version "1.0" apply false
+    id("com.tailrocks.gradle.spotless-conventions") version "1.0" apply false
+    id("com.tailrocks.gradle.versions-conventions") version "1.0" apply false
 }
 
 val javaVersion = 17
@@ -31,20 +35,15 @@ val projectScmDeveloperConnection: String by project
 val projectIssueManagementUrl: String by project
 
 allprojects {
-    apply(plugin = "com.diffplug.spotless")
-
-    apply(plugin = "idea-conventions")
-    apply(plugin = "versions-conventions")
+    apply(plugin = "com.tailrocks.gradle.spotless-conventions")
+    apply(plugin = "com.tailrocks.gradle.idea-conventions")
+    apply(plugin = "com.tailrocks.gradle.versions-conventions")
 
     group = "com.tailrocks.jambalaya"
 
     spotless {
         java {
             licenseHeaderFile("$rootDir/gradle/licenseHeader.txt")
-            removeUnusedImports()
-            trimTrailingWhitespace()
-            endWithNewline()
-            targetExclude("**/generated/**")
         }
         kotlin {
             licenseHeaderFile("$rootDir/gradle/licenseHeader.txt")
@@ -56,15 +55,7 @@ subprojects {
     apply(plugin = "java")
     apply(plugin = "com.adarshr.test-logger")
 
-    plugins.withId("maven-publish") {
-        apply(plugin = "signing")
-    }
-
     java {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(javaVersion))
-        }
-
         withJavadocJar()
         withSourcesJar()
     }
@@ -79,91 +70,6 @@ subprojects {
         // JUnit
         testImplementation("org.junit.jupiter:junit-jupiter-api")
         testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-    }
-
-    plugins.withId("maven-publish") {
-        publishing {
-            publications {
-                create<MavenPublication>("mavenJava") {
-                    from(components["java"])
-                    versionMapping {
-                        allVariants {
-                            fromResolutionResult()
-                        }
-                    }
-                    pom {
-                        // TODO temp fix: https://github.com/gradle/gradle/issues/10861
-                        withXml {
-                            val root = asNode()
-                            var nodes = root["dependencyManagement"] as groovy.util.NodeList
-                            while (nodes.isNotEmpty()) {
-                                root.remove(nodes.first() as groovy.util.Node)
-
-                                nodes = root["dependencyManagement"] as groovy.util.NodeList
-                            }
-                        }
-                        // @end temp fix
-                        url.set(projectScmUrl)
-                        licenses {
-                            license {
-                                name.set(projectLicenseName)
-                                url.set(projectLicenseUrl)
-                                distribution.set("repo")
-                            }
-                        }
-                        developers {
-                            developer {
-                                id.set("donbeave")
-                                name.set("Alexey Zhokhov")
-                                email.set("alexey@zhokhov.com")
-                            }
-                        }
-                        scm {
-                            url.set(projectScmUrl)
-                            connection.set(projectScmConnection)
-                            developerConnection.set(projectScmDeveloperConnection)
-                        }
-                        issueManagement {
-                            url.set(projectIssueManagementUrl)
-                        }
-                    }
-                }
-            }
-            repositories {
-                maven {
-                    name = "SonatypeSnapshots"
-                    setUrl("https://s01.oss.sonatype.org/content/repositories/snapshots")
-                    credentials {
-                        username = System.getenv("OSSRH_USER") ?: return@credentials
-                        password = System.getenv("OSSRH_PASSWORD") ?: return@credentials
-                    }
-                }
-                maven {
-                    name = "SonatypeReleases"
-                    setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2")
-                    credentials {
-                        username = System.getenv("OSSRH_USER") ?: return@credentials
-                        password = System.getenv("OSSRH_PASSWORD") ?: return@credentials
-                    }
-                }
-            }
-        }
-
-        signing {
-            val key = System.getenv("SIGNING_KEY") ?: return@signing
-            val password = System.getenv("SIGNING_PASSWORD") ?: return@signing
-            val publishing: PublishingExtension by project
-
-            useInMemoryPgpKeys(key, password)
-            sign(publishing.publications)
-        }
-    }
-
-    tasks.withType<Test> {
-        useJUnitPlatform {
-            includeEngines = setOf("junit-jupiter")
-            excludeEngines = setOf("junit-vintage")
-        }
     }
 }
 

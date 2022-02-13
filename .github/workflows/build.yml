@@ -30,6 +30,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     environment: Sonatype
+    needs: build
     steps:
       - name: Publish to Sonatype
         run: ./publish-sonatype.sh

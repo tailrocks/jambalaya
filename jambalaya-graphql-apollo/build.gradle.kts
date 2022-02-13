@@ -29,3 +29,11 @@ dependencies {
     testImplementation(kotlin("stdlib-jdk8"))
     testImplementation(kotlin("test-junit5"))
 }
+
+publishing.publications {
+    (getByName("mavenJava") as MavenPublication).apply {
+        pom {
+            description.set(project.description)
+        }
+    }
+}

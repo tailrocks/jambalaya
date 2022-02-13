@@ -30,6 +30,14 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api")
 }
 
+publishing.publications {
+    (getByName("mavenJava") as MavenPublication).apply {
+        pom {
+            description.set(project.description)
+        }
+    }
+}
+
 protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:${jambalayaLibs.versions.protobuf.get()}"

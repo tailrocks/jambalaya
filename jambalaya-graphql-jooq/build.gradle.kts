@@ -15,3 +15,11 @@ dependencies {
 
     implementation("org.jooq:jooq")
 }
+
+publishing.publications {
+    (getByName("mavenJava") as MavenPublication).apply {
+        pom {
+            description.set(project.description)
+        }
+    }
+}

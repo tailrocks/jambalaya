@@ -13,3 +13,11 @@ dependencies {
     api("org.flywaydb:flyway-core")
     api("org.slf4j:slf4j-api")
 }
+
+publishing.publications {
+    (getByName("mavenJava") as MavenPublication).apply {
+        pom {
+            description.set(project.description)
+        }
+    }
+}

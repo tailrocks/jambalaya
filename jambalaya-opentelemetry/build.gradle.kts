@@ -12,3 +12,11 @@ dependencies {
     api("io.opentelemetry:opentelemetry-api")
     compileOnly(jambalayaLibs.error.prone.annotations)
 }
+
+publishing.publications {
+    (getByName("mavenJava") as MavenPublication).apply {
+        pom {
+            description.set(project.description)
+        }
+    }
+}

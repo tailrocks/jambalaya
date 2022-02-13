@@ -10,3 +10,11 @@ description = "MapStruct utils."
 dependencies {
     api(jambalayaLibs.mapstruct)
 }
+
+publishing.publications {
+    (getByName("mavenJava") as MavenPublication).apply {
+        pom {
+            description.set(project.description)
+        }
+    }
+}

@@ -11,3 +11,11 @@ dependencies {
     api(project(":jambalaya-checks"))
     api(project(":jambalaya-opentelemetry"))
 }
+
+publishing.publications {
+    (getByName("mavenJava") as MavenPublication).apply {
+        pom {
+            description.set(project.description)
+        }
+    }
+}

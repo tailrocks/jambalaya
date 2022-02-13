@@ -14,3 +14,11 @@ dependencies {
     api(jambalayaLibs.mapstruct)
     api(jambalayaLibs.guava)
 }
+
+publishing.publications {
+    (getByName("mavenJava") as MavenPublication).apply {
+        pom {
+            description.set(project.description)
+        }
+    }
+}

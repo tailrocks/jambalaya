@@ -31,3 +31,11 @@ dependencies {
     // TODO remove me later
     compileOnly("javax.inject:javax.inject:1")
 }
+
+publishing.publications {
+    (getByName("mavenJava") as MavenPublication).apply {
+        pom {
+            description.set(project.description)
+        }
+    }
+}

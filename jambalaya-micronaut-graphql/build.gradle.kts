@@ -12,3 +12,11 @@ dependencies {
 
     implementation("io.micronaut.graphql:micronaut-graphql")
 }
+
+publishing.publications {
+    (getByName("mavenJava") as MavenPublication).apply {
+        pom {
+            description.set(project.description)
+        }
+    }
+}

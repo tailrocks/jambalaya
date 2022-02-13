@@ -13,3 +13,11 @@ dependencies {
     // JUnit
     api("org.junit.jupiter:junit-jupiter-api")
 }
+
+publishing.publications {
+    (getByName("mavenJava") as MavenPublication).apply {
+        pom {
+            description.set(project.description)
+        }
+    }
+}

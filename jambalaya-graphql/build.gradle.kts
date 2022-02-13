@@ -12,3 +12,11 @@ dependencies {
 
     api(jambalayaLibs.java.dataloader)
 }
+
+publishing.publications {
+    (getByName("mavenJava") as MavenPublication).apply {
+        pom {
+            description.set(project.description)
+        }
+    }
+}

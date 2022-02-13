@@ -9,8 +9,6 @@ version = jambalayaLibs.versions.jambalaya.checks.asProvider().get()
 description = "Preconditions."
 
 dependencies {
-    api(jambalayaLibs.guava)
-
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))
     testImplementation(kotlin("test-junit5"))

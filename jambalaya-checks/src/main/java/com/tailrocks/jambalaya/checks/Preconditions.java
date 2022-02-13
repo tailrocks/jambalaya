@@ -15,7 +15,6 @@
  */
 package com.tailrocks.jambalaya.checks;
 
-import com.google.common.base.Strings;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 
@@ -106,7 +105,7 @@ public final class Preconditions {
     public static void checkBlank(@Nullable String value, @NonNull String argument) {
         requireNonNull(argument, "argument");
 
-        if (value == null || !isBlank(value)) {
+        if (value == null || !value.isBlank()) {
             throw new IllegalArgumentException("The \"" + argument + "\" must be blank");
         }
     }
@@ -120,7 +119,7 @@ public final class Preconditions {
     public static void checkNotBlank(@Nullable String value, @NonNull String argument) {
         requireNonNull(argument, "argument");
 
-        if (value == null || isBlank(value)) {
+        if (value == null || value.isBlank()) {
             throw new IllegalArgumentException("The \"" + argument + "\" must not be blank");
         }
     }
@@ -489,10 +488,6 @@ public final class Preconditions {
         if (value == null || value.isEmpty()) {
             throw new IllegalArgumentException("The \"" + argument + "\" must not be an empty map");
         }
-    }
-
-    private static boolean isBlank(String value) {
-        return Strings.nullToEmpty(value).trim().isEmpty();
     }
 
 }

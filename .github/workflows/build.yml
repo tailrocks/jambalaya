@@ -32,5 +32,11 @@ jobs:
     environment: Sonatype
     needs: build
     steps:
+      - uses: actions/checkout@v2
+      - name: Set up OpenJDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: temurin
+          java-version: 17
       - name: Publish to Sonatype
         run: ./publish-sonatype.sh

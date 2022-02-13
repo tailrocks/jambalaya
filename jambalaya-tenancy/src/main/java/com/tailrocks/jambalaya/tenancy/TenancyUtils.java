@@ -15,6 +15,7 @@
  */
 package com.tailrocks.jambalaya.tenancy;
 
+import com.google.errorprone.annotations.MustBeClosed;
 import com.tailrocks.jambalaya.opentelemetry.BaggageUtils;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
@@ -152,6 +153,7 @@ public final class TenancyUtils {
         return BaggageUtils.put(TENANT_KEY, encode(value));
     }
 
+    @MustBeClosed
     public static Scope setTenantStringClosable(@NonNull String value) {
         checkNotBlank(value, "value");
 

@@ -5,7 +5,7 @@ plugins {
     id("com.adarshr.test-logger") version "3.2.0" apply false
 
     // https://plugins.gradle.org/plugin/com.diffplug.spotless
-    id("com.diffplug.spotless") version "6.2.2"
+    id("com.diffplug.spotless") version "6.3.0"
 
     // https://plugins.gradle.org/plugin/io.github.gradle-nexus.publish-plugin
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"

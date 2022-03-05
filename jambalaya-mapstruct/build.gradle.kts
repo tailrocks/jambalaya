@@ -1,20 +1,13 @@
 plugins {
     `java-library`
-    id("com.tailrocks.gradle.maven-publish-conventions")
-    id("com.tailrocks.gradle.signing-conventions")
+    id("com.tailrocks.junit")
 }
 
 version = jambalayaLibs.versions.jambalaya.mapstruct.asProvider().get()
 description = "MapStruct utils."
 
+apply(plugin = "com.tailrocks.maven-publish")
+
 dependencies {
     api(jambalayaLibs.mapstruct)
-}
-
-publishing.publications {
-    (getByName("mavenJava") as MavenPublication).apply {
-        pom {
-            description.set(project.description)
-        }
-    }
 }

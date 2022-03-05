@@ -1,12 +1,13 @@
 plugins {
     `java-library`
-    id("com.tailrocks.gradle.maven-publish-conventions")
-    id("com.tailrocks.gradle.signing-conventions")
-    kotlin("jvm")
+    id("com.tailrocks.kotlin")
+    id("com.tailrocks.junit")
 }
 
 version = jambalayaLibs.versions.jambalaya.seo.get()
 description = "SEO utils."
+
+apply(plugin = "com.tailrocks.maven-publish")
 
 dependencies {
     api(project(":jambalaya-checks"))
@@ -16,12 +17,4 @@ dependencies {
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))
     testImplementation(kotlin("test-junit5"))
-}
-
-publishing.publications {
-    (getByName("mavenJava") as MavenPublication).apply {
-        pom {
-            description.set(project.description)
-        }
-    }
 }

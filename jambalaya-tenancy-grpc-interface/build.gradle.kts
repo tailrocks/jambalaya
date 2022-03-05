@@ -6,8 +6,6 @@ import com.google.protobuf.gradle.protoc
 
 plugins {
     `java-library`
-    id("com.tailrocks.gradle.maven-publish-conventions")
-    id("com.tailrocks.gradle.signing-conventions")
 
     // https://plugins.gradle.org/plugin/com.google.protobuf
     id("com.google.protobuf") version "0.8.18"
@@ -15,6 +13,8 @@ plugins {
 
 version = jambalayaLibs.versions.jambalaya.tenancy.grpc.api.get()
 description = "Tenancy gRPC interface."
+
+apply(plugin = "com.tailrocks.maven-publish")
 
 dependencies {
     // gRPC
@@ -28,14 +28,6 @@ dependencies {
 
     // TODO remove me later
     implementation("javax.annotation:javax.annotation-api")
-}
-
-publishing.publications {
-    (getByName("mavenJava") as MavenPublication).apply {
-        pom {
-            description.set(project.description)
-        }
-    }
 }
 
 protobuf {

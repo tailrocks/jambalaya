@@ -1,15 +1,19 @@
 plugins {
     `java-library`
-    id("com.tailrocks.gradle.maven-publish-conventions")
-    id("com.tailrocks.gradle.signing-conventions")
-    kotlin("jvm")
+    id("com.tailrocks.kotlin")
+    id("com.tailrocks.junit")
 }
 
 version = jambalayaLibs.versions.jambalaya.micronaut.mapstruct.protobuf.get()
 description = "MapStruct protobuf utils."
 
+apply(plugin = "com.tailrocks.maven-publish")
+
 dependencies {
     api(project(":jambalaya-protobuf"))
+
+    // Guava
+    api(jambalayaLibs.guava)
 
     // MapStruct
     annotationProcessor(jambalayaLibs.mapstruct.processor)
@@ -32,10 +36,3 @@ dependencies {
     compileOnly("javax.inject:javax.inject:1")
 }
 
-publishing.publications {
-    (getByName("mavenJava") as MavenPublication).apply {
-        pom {
-            description.set(project.description)
-        }
-    }
-}

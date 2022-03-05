@@ -1,21 +1,16 @@
 plugins {
     `java-library`
-    id("com.tailrocks.gradle.maven-publish-conventions")
-    id("com.tailrocks.gradle.signing-conventions")
+    id("com.tailrocks.junit")
 }
 
 version = jambalayaLibs.versions.jambalaya.tenancy.asProvider().get()
 description = "Tenancy."
 
+apply(plugin = "com.tailrocks.maven-publish")
+
 dependencies {
     api(project(":jambalaya-checks"))
     api(project(":jambalaya-opentelemetry"))
-}
 
-publishing.publications {
-    (getByName("mavenJava") as MavenPublication).apply {
-        pom {
-            description.set(project.description)
-        }
-    }
+    compileOnly("com.google.errorprone:error_prone_annotations:2.11.0")
 }

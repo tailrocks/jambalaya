@@ -1,11 +1,12 @@
 plugins {
     `java-library`
-    id("com.tailrocks.gradle.maven-publish-conventions")
-    id("com.tailrocks.gradle.signing-conventions")
+    id("com.tailrocks.junit")
 }
 
 version = jambalayaLibs.versions.jambalaya.graphql.asProvider().get()
 description = "GraphQL utils."
+
+apply(plugin = "com.tailrocks.maven-publish")
 
 dependencies {
     api(project(":jambalaya-checks"))
@@ -13,10 +14,3 @@ dependencies {
     api(jambalayaLibs.java.dataloader)
 }
 
-publishing.publications {
-    (getByName("mavenJava") as MavenPublication).apply {
-        pom {
-            description.set(project.description)
-        }
-    }
-}

@@ -1,11 +1,12 @@
 plugins {
     `java-library`
-    id("com.tailrocks.gradle.maven-publish-conventions")
-    id("com.tailrocks.gradle.signing-conventions")
+    id("com.tailrocks.junit")
 }
 
 version = jambalayaLibs.versions.jambalaya.junit.opentelemetry.get()
 description = "JUnit OpenTelemetry extension."
+
+apply(plugin = "com.tailrocks.maven-publish")
 
 dependencies {
     // OpenTelemetry
@@ -16,12 +17,4 @@ dependencies {
 
     // JUnit
     api("org.junit.jupiter:junit-jupiter-api")
-}
-
-publishing.publications {
-    (getByName("mavenJava") as MavenPublication).apply {
-        pom {
-            description.set(project.description)
-        }
-    }
 }

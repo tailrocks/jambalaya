@@ -1,12 +1,13 @@
 plugins {
     `java-library`
-    id("com.tailrocks.gradle.maven-publish-conventions")
-    id("com.tailrocks.gradle.signing-conventions")
-    kotlin("jvm")
+    id("com.tailrocks.kotlin")
+    id("com.tailrocks.junit")
 }
 
 version = jambalayaLibs.versions.jambalaya.graphql.apollo.get()
 description = "GraphQL Apollo client."
+
+apply(plugin = "com.tailrocks.maven-publish")
 
 dependencies {
     api(project(":jambalaya-checks"))
@@ -30,10 +31,3 @@ dependencies {
     testImplementation(kotlin("test-junit5"))
 }
 
-publishing.publications {
-    (getByName("mavenJava") as MavenPublication).apply {
-        pom {
-            description.set(project.description)
-        }
-    }
-}

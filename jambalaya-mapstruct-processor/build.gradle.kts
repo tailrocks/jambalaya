@@ -1,11 +1,12 @@
 plugins {
     `java-library`
-    id("com.tailrocks.gradle.maven-publish-conventions")
-    id("com.tailrocks.gradle.signing-conventions")
+    id("com.tailrocks.junit")
 }
 
 version = jambalayaLibs.versions.jambalaya.mapstruct.processor.get()
 description = "MapStruct smart SPI."
+
+apply(plugin = "com.tailrocks.maven-publish")
 
 dependencies {
     api(project(":jambalaya-mapstruct"))
@@ -13,12 +14,4 @@ dependencies {
     api(jambalayaLibs.mapstruct.processor)
     api(jambalayaLibs.mapstruct)
     api(jambalayaLibs.guava)
-}
-
-publishing.publications {
-    (getByName("mavenJava") as MavenPublication).apply {
-        pom {
-            description.set(project.description)
-        }
-    }
 }

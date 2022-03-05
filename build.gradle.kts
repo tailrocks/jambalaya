@@ -2,7 +2,7 @@ plugins {
     java
 
     // https://plugins.gradle.org/plugin/com.adarshr.test-logger
-    id("com.adarshr.test-logger") version "3.1.0" apply false
+    id("com.adarshr.test-logger") version "3.2.0" apply false
 
     // https://plugins.gradle.org/plugin/com.diffplug.spotless
     id("com.diffplug.spotless") version "6.2.2"

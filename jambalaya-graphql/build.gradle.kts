@@ -13,4 +13,3 @@ dependencies {
 
     api(jambalayaLibs.java.dataloader)
 }
-

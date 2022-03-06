@@ -10,7 +10,7 @@ description = "Kotlin Test utils."
 apply(plugin = "com.tailrocks.maven-publish")
 
 dependencies {
-    testImplementation(project(":jambalaya-kotlin-test-graphql-example"))
+    testImplementation(project(":jambalaya-example-kotlin-test-graphql"))
 
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))

@@ -17,6 +17,7 @@ package com.tailrocks.jambalaya.graphql.dataloader;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import org.dataloader.DataLoader;
+import org.dataloader.DataLoaderFactory;
 import org.dataloader.DataLoaderOptions;
 import org.dataloader.DataLoaderRegistry;
 import org.dataloader.MappedBatchLoaderWithContext;
@@ -124,7 +125,7 @@ public abstract class AbstractMappedDataLoaderAdapter<K, V> {
      */
     private DataLoader<K, V> getOrRegisterDataLoader(@NonNull DataLoaderRegistry registry) {
         return registry.computeIfAbsent(getDataLoaderKey(), s ->
-                DataLoader.newMappedDataLoader(getBatchLoader(), getDataLoaderOptions())
+                DataLoaderFactory.newMappedDataLoader(getBatchLoader(), getDataLoaderOptions())
         );
     }
 

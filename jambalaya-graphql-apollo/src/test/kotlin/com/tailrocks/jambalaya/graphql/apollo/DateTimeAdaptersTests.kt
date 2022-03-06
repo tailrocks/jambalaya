@@ -20,6 +20,7 @@ import com.apollographql.apollo3.api.json.MapJsonWriter
 import com.tailrocks.jambalaya.graphql.apollo.DateTimeAdapters.CUSTOM_TYPE_ADAPTER_MAP
 import com.tailrocks.jambalaya.graphql.apollo.DateTimeAdapters.YEAR_MONTH
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.time.YearMonth
 import kotlin.test.assertEquals
 
@@ -32,19 +33,16 @@ class DateTimeAdaptersTests {
             YEAR_MONTH.fromJson(MapJsonReader(mapOf(Pair("", "2021-01"))), CUSTOM_TYPE_ADAPTER_MAP)
         )
 
-        // FIXME
-        YEAR_MONTH.toJson(MapJsonWriter(), CUSTOM_TYPE_ADAPTER_MAP, YearMonth.of(2021, 1)).apply {
-            //assertEquals("2021-01", value)
+        val writer = MapJsonWriter()
+        YEAR_MONTH.toJson(writer, CUSTOM_TYPE_ADAPTER_MAP, YearMonth.of(2021, 1)).apply {
+            assertEquals("2021-01", writer.root())
         }
 
-        // FIXME
-        /*
         assertThrows<RuntimeException> {
-            YEAR_MONTH.decode(CustomTypeValue.fromRawValue("abc"))
+            YEAR_MONTH.fromJson(MapJsonReader(mapOf(Pair("", "abc"))), CUSTOM_TYPE_ADAPTER_MAP)
         }.apply {
-            assertEquals("Incorrect value: abc", message)
+            assertEquals("Incorrect value: {=abc}", message)
         }
-         */
     }
 
 }

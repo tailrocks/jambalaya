@@ -7,7 +7,7 @@ plugins {
     // https://plugins.gradle.org/plugin/io.github.gradle-nexus.publish-plugin
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 
-    id("com.tailrocks.spotless") version "0.1.0"
+    id("com.tailrocks.spotless") version "0.1.1"
 
     id("com.tailrocks.idea") version "0.1.0" apply false
     id("com.tailrocks.junit") version "0.1.0" apply false

@@ -7,13 +7,13 @@ plugins {
     // https://plugins.gradle.org/plugin/io.github.gradle-nexus.publish-plugin
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 
-    id("com.tailrocks.spotless") version "0.1.0"
+    id("com.tailrocks.spotless") version "0.1.3"
 
-    id("com.tailrocks.idea") version "0.1.0" apply false
-    id("com.tailrocks.junit") version "0.1.0" apply false
-    id("com.tailrocks.maven-publish") version "0.1.0" apply false
-    id("com.tailrocks.versions") version "0.1.0" apply false
-    id("com.tailrocks.kotlin") version "0.1.0" apply false
+    id("com.tailrocks.idea") version "0.1.3" apply false
+    id("com.tailrocks.junit") version "0.1.4" apply false
+    id("com.tailrocks.maven-publish") version "0.1.3" apply false
+    id("com.tailrocks.versions") version "0.1.3" apply false
+    id("com.tailrocks.kotlin") version "0.1.1" apply false
 }
 
 val javaVersion = 17

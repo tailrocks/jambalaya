@@ -13,7 +13,7 @@ plugins {
     id("com.tailrocks.junit") version "0.1.0" apply false
     id("com.tailrocks.maven-publish") version "0.1.0" apply false
     id("com.tailrocks.versions") version "0.1.0" apply false
-    id("com.tailrocks.kotlin") version "0.1.0" apply false
+    id("com.tailrocks.kotlin") version "0.1.1" apply false
 }
 
 val javaVersion = 17

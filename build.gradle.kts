@@ -1,27 +1,30 @@
 plugins {
-    java
-
     // https://plugins.gradle.org/plugin/com.adarshr.test-logger
     id("com.adarshr.test-logger") version "3.2.0" apply false
 
     // https://plugins.gradle.org/plugin/io.github.gradle-nexus.publish-plugin
     id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
 
+    // https://plugins.gradle.org/plugin/com.tailrocks.java
+    id("com.tailrocks.java") version "0.1.4"
+
+    // https://plugins.gradle.org/plugin/com.tailrocks.spotless
     id("com.tailrocks.spotless") version "0.1.3"
 
+    // https://plugins.gradle.org/plugin/com.tailrocks.idea
     id("com.tailrocks.idea") version "0.1.3" apply false
+
+    // https://plugins.gradle.org/plugin/com.tailrocks.junit
     id("com.tailrocks.junit") version "0.1.5" apply false
+
+    // https://plugins.gradle.org/plugin/com.tailrocks.maven-publish
     id("com.tailrocks.maven-publish") version "0.1.6" apply false
+
+    // https://plugins.gradle.org/plugin/com.tailrocks.versions
     id("com.tailrocks.versions") version "0.1.4" apply false
+
+    // https://plugins.gradle.org/plugin/com.tailrocks.kotlin
     id("com.tailrocks.kotlin") version "0.1.1" apply false
-}
-
-val javaVersion = 17
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(javaVersion))
-    }
 }
 
 allprojects {

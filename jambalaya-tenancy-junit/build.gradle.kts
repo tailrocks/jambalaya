@@ -7,6 +7,7 @@ version = jambalayaLibs.versions.jambalaya.tenancy.junit.get()
 description = "Tenancy JUnit."
 
 apply(plugin = "com.tailrocks.maven-publish")
+apply(plugin = "com.tailrocks.signing")
 
 dependencies {
     api(project(":jambalaya-tenancy"))

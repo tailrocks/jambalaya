@@ -8,6 +8,7 @@ version = jambalayaLibs.versions.jambalaya.micronaut.mapstruct.protobuf.get()
 description = "MapStruct protobuf utils."
 
 apply(plugin = "com.tailrocks.maven-publish")
+apply(plugin = "com.tailrocks.signing")
 
 dependencies {
     api(project(":jambalaya-protobuf"))

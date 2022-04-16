@@ -7,6 +7,7 @@ version = jambalayaLibs.versions.jambalaya.mapstruct.processor.get()
 description = "MapStruct smart SPI."
 
 apply(plugin = "com.tailrocks.maven-publish")
+apply(plugin = "com.tailrocks.signing")
 
 dependencies {
     api(project(":jambalaya-mapstruct"))

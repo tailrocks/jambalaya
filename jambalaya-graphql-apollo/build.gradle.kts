@@ -8,6 +8,7 @@ version = jambalayaLibs.versions.jambalaya.graphql.apollo.get()
 description = "GraphQL Apollo client."
 
 apply(plugin = "com.tailrocks.maven-publish")
+apply(plugin = "com.tailrocks.signing")
 
 dependencies {
     api(project(":jambalaya-checks"))

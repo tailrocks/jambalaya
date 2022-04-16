@@ -7,6 +7,7 @@ version = jambalayaLibs.versions.jambalaya.opentelemetry.get()
 description = "OpenTelemetry."
 
 apply(plugin = "com.tailrocks.maven-publish")
+apply(plugin = "com.tailrocks.signing")
 
 dependencies {
     api(platform(jambalayaLibs.boms.opentelemetry))

@@ -7,6 +7,7 @@ version = jambalayaLibs.versions.jambalaya.junit.opentelemetry.get()
 description = "JUnit OpenTelemetry extension."
 
 apply(plugin = "com.tailrocks.maven-publish")
+apply(plugin = "com.tailrocks.signing")
 
 dependencies {
     // OpenTelemetry

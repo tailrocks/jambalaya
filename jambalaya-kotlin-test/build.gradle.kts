@@ -8,6 +8,7 @@ version = jambalayaLibs.versions.jambalaya.kotlin.test.get()
 description = "Kotlin Test utils."
 
 apply(plugin = "com.tailrocks.maven-publish")
+apply(plugin = "com.tailrocks.signing")
 
 dependencies {
     testImplementation(project(":jambalaya-example-kotlin-test-graphql"))

@@ -8,6 +8,7 @@ version = jambalayaLibs.versions.jambalaya.seo.get()
 description = "SEO utils."
 
 apply(plugin = "com.tailrocks.maven-publish")
+apply(plugin = "com.tailrocks.signing")
 
 dependencies {
     api(project(":jambalaya-checks"))

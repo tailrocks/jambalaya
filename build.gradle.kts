@@ -25,6 +25,12 @@ plugins {
 
     // https://plugins.gradle.org/plugin/com.tailrocks.kotlin
     id("com.tailrocks.kotlin") version "0.1.1" apply false
+
+    // https://plugins.gradle.org/plugin/com.tailrocks.signing
+    id("com.tailrocks.signing") version "0.1.3" apply false
+
+    // https://plugins.gradle.org/plugin/com.google.protobuf
+    id("com.google.protobuf") version "0.8.18" apply false
 }
 
 allprojects {

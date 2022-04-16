@@ -7,6 +7,7 @@ version = jambalayaLibs.versions.jambalaya.tenancy.jooq.get()
 description = "Tenancy jOOQ."
 
 apply(plugin = "com.tailrocks.maven-publish")
+apply(plugin = "com.tailrocks.signing")
 
 dependencies {
     api(project(":jambalaya-checks"))

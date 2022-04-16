@@ -150,6 +150,7 @@ class AssertGeneratorTests {
                 assertNotNull(executionContext).apply {
             
                 }
+                assertEquals(false, isLast)
             }
         """.trimIndent()
 
@@ -223,6 +224,7 @@ class AssertGeneratorTests {
                 assertNotNull(executionContext).apply {
             
                 }
+                assertEquals(false, isLast)
             }
         """.trimIndent()
 

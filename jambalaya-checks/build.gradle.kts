@@ -7,8 +7,7 @@ plugins {
 version = jambalayaLibs.versions.jambalaya.checks.asProvider().get()
 description = "Preconditions."
 
-apply(plugin = "com.tailrocks.maven-publish")
-apply(plugin = "com.tailrocks.signing")
+apply(plugin = "jambalaya-library-conventions")
 
 dependencies {
     // Kotlin

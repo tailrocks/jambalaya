@@ -7,8 +7,7 @@ plugins {
 version = jambalayaLibs.versions.jambalaya.jsr310.get()
 description = "JSR 310 utils."
 
-apply(plugin = "com.tailrocks.maven-publish")
-apply(plugin = "com.tailrocks.signing")
+apply(plugin = "jambalaya-library-conventions")
 
 dependencies {
     // Kotlin

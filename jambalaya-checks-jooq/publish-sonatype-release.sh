@@ -4,4 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository --info --stacktrace
+../gradlew clean publishAllPublicationsToSonatypeOssReleasesRepository --info --stacktrace

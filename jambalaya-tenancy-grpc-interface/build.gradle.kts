@@ -12,8 +12,7 @@ plugins {
 version = jambalayaLibs.versions.jambalaya.tenancy.grpc.api.get()
 description = "Tenancy gRPC interface."
 
-apply(plugin = "com.tailrocks.maven-publish")
-apply(plugin = "com.tailrocks.signing")
+apply(plugin = "jambalaya-library-conventions")
 
 dependencies {
     // gRPC

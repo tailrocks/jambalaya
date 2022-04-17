@@ -7,8 +7,7 @@ plugins {
 version = jambalayaLibs.versions.jambalaya.checks.jooq.get()
 description = "jOOQ preconditions."
 
-apply(plugin = "com.tailrocks.maven-publish")
-apply(plugin = "com.tailrocks.signing")
+apply(plugin = "jambalaya-library-conventions")
 
 dependencies {
     api(project(":jambalaya-checks"))

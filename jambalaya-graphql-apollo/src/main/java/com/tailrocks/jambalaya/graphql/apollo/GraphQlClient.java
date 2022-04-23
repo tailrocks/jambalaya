@@ -26,6 +26,7 @@ import com.apollographql.apollo3.network.ws.WebSocketNetworkTransport;
 import com.apollographql.apollo3.rx3.Rx3Apollo;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
+import okhttp3.Call;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -52,7 +53,7 @@ public class GraphQlClient {
     private Duration timeout = Duration.ofSeconds(15);
 
     public GraphQlClient(@NonNull String serverUrl, @NonNull String webSocketUrl, @NonNull ScalarType[] scalarTypes,
-                         @Nullable OkHttpClient okHttpClient, @Nullable Executor executor) {
+                         @Nullable Call.Factory okHttpClient, @Nullable Executor executor) {
         checkNotBlank(serverUrl, "serverUrl");
 
         if (okHttpClient == null) {
@@ -61,7 +62,7 @@ public class GraphQlClient {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-            okHttpClient = new OkHttpClient.Builder()
+            okHttpClient = (Call.Factory) new OkHttpClient.Builder()
                     .cookieJar(new JavaNetCookieJar(cookieHandler))
                     .addInterceptor(logging)
                     .build();

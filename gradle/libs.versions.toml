@@ -3,7 +3,7 @@
 jambalaya-checks = "0.7.0"
 jambalaya-checks-jooq = "0.7.0"
 jambalaya-graphql = "0.7.0"
-jambalaya-graphql-apollo = "0.8.0"
+jambalaya-graphql-apollo = "0.8.1"
 jambalaya-graphql-jooq = "0.7.0"
 jambalaya-jsr310 = "0.7.0"
 jambalaya-junit-opentelemetry = "0.5.0"

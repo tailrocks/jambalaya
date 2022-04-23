@@ -24,8 +24,11 @@ import com.apollographql.apollo3.api.ScalarType;
 import com.apollographql.apollo3.network.http.DefaultHttpEngine;
 import com.apollographql.apollo3.network.ws.WebSocketNetworkTransport;
 import com.apollographql.apollo3.rx3.Rx3Apollo;
+import com.google.common.util.concurrent.MoreExecutors;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.Call;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
@@ -49,12 +52,24 @@ import static com.tailrocks.jambalaya.graphql.apollo.DateTimeAdapters.CUSTOM_TYP
 public class GraphQlClient {
 
     private final ApolloClient apolloClient;
+    private final Scheduler queryScheduler;
+    private final Scheduler mutationScheduler;
 
     private Duration timeout = Duration.ofSeconds(15);
 
-    public GraphQlClient(@NonNull String serverUrl, @NonNull String webSocketUrl, @NonNull ScalarType[] scalarTypes,
-                         @Nullable Call.Factory okHttpClient, @Nullable Consumer<ApolloClient.Builder> builderConsumer) {
+    public GraphQlClient(
+            @NonNull String serverUrl,
+            @NonNull String webSocketUrl,
+            @NonNull ScalarType[] scalarTypes,
+            @Nullable Call.Factory okHttpClient,
+            @Nullable Consumer<ApolloClient.Builder> builderConsumer,
+            @Nullable Scheduler queryScheduler,
+            @Nullable Scheduler mutationScheduler
+    ) {
         checkNotBlank(serverUrl, "serverUrl");
+
+        this.queryScheduler = queryScheduler;
+        this.mutationScheduler = mutationScheduler;
 
         if (okHttpClient == null) {
             CookieManager cookieHandler = new CookieManager();
@@ -104,7 +119,11 @@ public class GraphQlClient {
     ) {
         var apolloCall = apolloClient.query(query);
 
-        return Rx3Apollo.single(apolloCall).blockingGet();
+        if (queryScheduler != null) {
+            return Rx3Apollo.single(apolloCall, queryScheduler).blockingGet();
+        } else {
+            return Rx3Apollo.single(apolloCall).blockingGet();
+        }
     }
 
     public <D extends Operation.Data & Mutation.Data> ApolloResponse<D> blockingMutate(
@@ -112,7 +131,11 @@ public class GraphQlClient {
     ) {
         var apolloCall = apolloClient.mutation(mutation);
 
-        return Rx3Apollo.single(apolloCall).blockingGet();
+        if (mutationScheduler != null) {
+            return Rx3Apollo.single(apolloCall, mutationScheduler).blockingGet();
+        } else {
+            return Rx3Apollo.single(apolloCall).blockingGet();
+        }
     }
 
 }

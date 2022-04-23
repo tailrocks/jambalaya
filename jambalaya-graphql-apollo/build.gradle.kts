@@ -23,9 +23,6 @@ dependencies {
     api(jambalayaLibs.okhttp.urlconnection)
     api(jambalayaLibs.logging.interceptor)
 
-    // TODO
-    api(jambalayaLibs.guava)
-
     // SLF4J
     api("org.slf4j:slf4j-api")
 

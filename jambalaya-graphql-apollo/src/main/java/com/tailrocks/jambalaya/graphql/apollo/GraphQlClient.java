@@ -24,11 +24,9 @@ import com.apollographql.apollo3.api.ScalarType;
 import com.apollographql.apollo3.network.http.DefaultHttpEngine;
 import com.apollographql.apollo3.network.ws.WebSocketNetworkTransport;
 import com.apollographql.apollo3.rx3.Rx3Apollo;
-import com.google.common.util.concurrent.MoreExecutors;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.Nullable;
 import io.reactivex.rxjava3.core.Scheduler;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 import okhttp3.Call;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
@@ -40,7 +38,6 @@ import java.time.Duration;
 import java.util.function.Consumer;
 
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotBlank;
-import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
 import static com.tailrocks.jambalaya.graphql.apollo.DateTimeAdapters.CUSTOM_TYPE_ADAPTER_MAP;
 
 /**
@@ -102,16 +99,6 @@ public class GraphQlClient {
 
     public ApolloClient getApolloClient() {
         return apolloClient;
-    }
-
-    public Duration getTimeout() {
-        return timeout;
-    }
-
-    public void setTimeout(@NonNull Duration timeout) {
-        checkNotNull(timeout, "timeout");
-
-        this.timeout = timeout;
     }
 
     public <D extends Operation.Data & Query.Data> ApolloResponse<D> blockingQuery(

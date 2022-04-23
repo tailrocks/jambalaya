@@ -34,7 +34,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.net.CookieManager;
 import java.time.Duration;
-import java.util.concurrent.Executor;
 import java.util.function.Consumer;
 
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotBlank;
@@ -105,7 +104,7 @@ public class GraphQlClient {
     ) {
         var apolloCall = apolloClient.query(query);
 
-        return Rx3Apollo.flowable(apolloCall).blockingSingle();
+        return Rx3Apollo.single(apolloCall).blockingGet();
     }
 
     public <D extends Operation.Data & Mutation.Data> ApolloResponse<D> blockingMutate(
@@ -113,7 +112,7 @@ public class GraphQlClient {
     ) {
         var apolloCall = apolloClient.mutation(mutation);
 
-        return Rx3Apollo.flowable(apolloCall).blockingSingle();
+        return Rx3Apollo.single(apolloCall).blockingGet();
     }
 
 }

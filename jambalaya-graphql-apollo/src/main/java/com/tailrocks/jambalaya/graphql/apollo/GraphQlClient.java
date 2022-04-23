@@ -35,6 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import java.net.CookieManager;
 import java.time.Duration;
 import java.util.concurrent.Executor;
+import java.util.function.Consumer;
 
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotBlank;
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
@@ -53,7 +54,7 @@ public class GraphQlClient {
     private Duration timeout = Duration.ofSeconds(15);
 
     public GraphQlClient(@NonNull String serverUrl, @NonNull String webSocketUrl, @NonNull ScalarType[] scalarTypes,
-                         @Nullable Call.Factory okHttpClient, @Nullable Executor executor) {
+                         @Nullable Call.Factory okHttpClient, @Nullable Consumer<ApolloClient.Builder> builderConsumer) {
         checkNotBlank(serverUrl, "serverUrl");
 
         if (okHttpClient == null) {
@@ -78,9 +79,8 @@ public class GraphQlClient {
                 )
                 .customScalarAdapters(CUSTOM_TYPE_ADAPTER_MAP);
 
-        // FIXME
-        if (executor != null) {
-            //apolloClientBuilder.requestedDispatcher()
+        if (builderConsumer != null) {
+            builderConsumer.accept(apolloClientBuilder);
         }
 
         apolloClient = apolloClientBuilder.build();

@@ -50,7 +50,7 @@ subprojects {
         implementation(platform(rootProject.jambalayaLibs.boms.micronaut))
 
         // SpotBugs
-        implementation("com.github.spotbugs:spotbugs-annotations")
+        compileOnly("com.github.spotbugs:spotbugs-annotations")
 
         // JUnit
         testImplementation("org.junit.jupiter:junit-jupiter-api")

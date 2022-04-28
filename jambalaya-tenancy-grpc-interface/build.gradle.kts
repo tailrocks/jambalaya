@@ -16,16 +16,12 @@ apply(plugin = "jambalaya-library-conventions")
 
 dependencies {
     // gRPC
-    api(platform(jambalayaLibs.boms.grpc))
+    implementation(platform(jambalayaLibs.boms.grpc))
     api("io.grpc:grpc-protobuf")
-    api("io.grpc:grpc-services")
     api("io.grpc:grpc-stub")
-    api("io.grpc:grpc-netty-shaded")
-
-    implementation("jakarta.annotation:jakarta.annotation-api")
 
     // TODO remove me later
-    implementation("javax.annotation:javax.annotation-api")
+    compileOnly("javax.annotation:javax.annotation-api")
 }
 
 protobuf {

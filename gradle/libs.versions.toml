@@ -32,7 +32,7 @@ micronaut = "3.5.0"
 okhttp = "4.9.3"
 opentelemetry = "1.13.0"
 opentelemetry-alpha = "1.11.0-alpha"
-protobuf = "3.21.0"
+protobuf = "3.21.1"
 slugify = "2.5"
 error-prone = "2.14.0"
 

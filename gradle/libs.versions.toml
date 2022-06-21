@@ -33,7 +33,7 @@ okhttp = "4.10.0"
 opentelemetry = "1.14.0"
 opentelemetry-alpha = "1.11.0-alpha"
 protobuf = "3.21.1"
-slugify = "3.0.0"
+slugify = "3.0.1"
 error-prone = "2.14.0"
 
 [libraries]

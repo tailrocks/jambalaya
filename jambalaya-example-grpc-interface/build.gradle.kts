@@ -6,7 +6,7 @@ import com.google.protobuf.gradle.protoc
 
 plugins {
     `java-library`
-    id("com.google.protobuf") version "0.8.18"
+    id("com.google.protobuf") version "0.8.19"
 }
 
 dependencies {

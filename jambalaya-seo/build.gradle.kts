@@ -13,6 +13,7 @@ dependencies {
     api(project(":jambalaya-checks"))
 
     api(jambalayaLibs.slugify)
+    api(jambalayaLibs.icu4j)
 
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))

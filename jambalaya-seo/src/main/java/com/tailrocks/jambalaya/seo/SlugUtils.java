@@ -28,13 +28,15 @@ import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
  */
 public final class SlugUtils {
 
-    private static final Slugify SLUGIFY = new Slugify();
+    private static final Slugify SLUGIFY;
 
     static {
-        SLUGIFY.withCustomReplacement("+", " and ");
-        SLUGIFY.withCustomReplacement("'", "");
-        SLUGIFY.withCustomReplacement("·", " ");
-        SLUGIFY.withTransliterator(true);
+        SLUGIFY = Slugify.builder()
+                .customReplacement("+", " and ")
+                .customReplacement("'", "")
+                .customReplacement("·", " ")
+                .transliterator(true)
+                .build();
     }
 
     private SlugUtils() {

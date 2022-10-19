@@ -35,7 +35,7 @@ opentelemetry-alpha = "1.11.0-alpha"
 protobuf = "3.21.8"
 slugify = "3.0.2"
 error-prone = "2.15.0"
-icu4j = "71.1"
+icu4j = "72.1"
 
 [libraries]
 # BOMs

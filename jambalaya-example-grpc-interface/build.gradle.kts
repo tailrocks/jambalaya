@@ -1,8 +1,4 @@
-import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.id
-import com.google.protobuf.gradle.plugins
-import com.google.protobuf.gradle.protobuf
-import com.google.protobuf.gradle.protoc
 
 plugins {
     `java-library`
@@ -43,8 +39,8 @@ sourceSets {
     main {
         java {
             srcDirs(
-                "${protobuf.protobuf.generatedFilesBaseDir}/main/grpc",
-                "${protobuf.protobuf.generatedFilesBaseDir}/main/java"
+                "${protobuf.generatedFilesBaseDir}/main/grpc",
+                "${protobuf.generatedFilesBaseDir}/main/java"
             )
         }
     }

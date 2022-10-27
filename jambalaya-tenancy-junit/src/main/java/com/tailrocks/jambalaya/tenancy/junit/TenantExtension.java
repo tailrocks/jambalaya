@@ -71,16 +71,25 @@ public class TenantExtension implements InvocationInterceptor {
     private void proceedWithTenant(Invocation<Void> invocation,
                                    ReflectiveInvocationContext<Method> invocationContext,
                                    ExtensionContext extensionContext) throws Throwable {
-        Optional<ActiveTenant> activeTenant = AnnotationSupport.findAnnotation(
-                extensionContext.getRequiredTestClass(),
-                ActiveTenant.class
-        );
 
-        String currentTenantString = TenancyUtils.getTenantString();
-        String tenantString = currentTenantString == null ? activeTenant.get().value() : currentTenantString;
+        String tenant = TenancyUtils.getTenantString();
 
-        if (StringUtils.isNotEmpty(tenantString)) {
-            try (Scope ignored = setTenantStringClosable(tenantString)) {
+        ActiveTenant methodTenant = invocationContext.getExecutable().getAnnotation(ActiveTenant.class);
+        if (methodTenant == null) {
+            Optional<ActiveTenant> clazzTenant = AnnotationSupport.findAnnotation(
+                    extensionContext.getRequiredTestClass(),
+                    ActiveTenant.class
+            );
+
+            if (clazzTenant.isPresent()) {
+                tenant = clazzTenant.get().value();
+            }
+        } else {
+            tenant = methodTenant.value();
+        }
+
+        if (StringUtils.isNotEmpty(tenant)) {
+            try (Scope ignored = setTenantStringClosable(tenant)) {
                 invocation.proceed();
             }
         } else {

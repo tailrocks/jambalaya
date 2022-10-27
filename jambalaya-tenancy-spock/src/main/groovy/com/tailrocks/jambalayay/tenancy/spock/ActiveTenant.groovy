@@ -9,6 +9,6 @@ import java.lang.annotation.*
 @Target([ElementType.TYPE, ElementType.FIELD, ElementType.METHOD])
 @ExtensionAnnotation(TenantSpockExtension.class)
 @Inherited
-@interface ActiveTenantSpock {
+@interface ActiveTenant {
     String value();
 }

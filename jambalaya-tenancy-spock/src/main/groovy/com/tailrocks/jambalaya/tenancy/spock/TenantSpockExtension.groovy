@@ -1,4 +1,4 @@
-package com.tailrocks.jambalayay.tenancy.spock
+package com.tailrocks.jambalaya.tenancy.spock
 
 import com.tailrocks.jambalaya.tenancy.StringUtils
 import com.tailrocks.jambalaya.tenancy.TenancyUtils

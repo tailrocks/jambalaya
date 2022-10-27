@@ -37,6 +37,7 @@ protobuf = "3.21.8"
 slugify = "3.0.2"
 error-prone = "2.16"
 icu4j = "72.1"
+spock = "2.3-groovy-3.0"
 
 [libraries]
 # BOMs
@@ -62,3 +63,4 @@ slugify = { module = "com.github.slugify:slugify", version.ref = "slugify" }
 tomcat-annotations-api = { module = "org.apache.tomcat:annotations-api", version = "6.0.53" }
 error-prone-annotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "error-prone" }
 icu4j = { module = "com.ibm.icu:icu4j", version.ref = "icu4j" }
+spock-core = { module = "org.spockframework:spock-core", version.ref = "spock" }

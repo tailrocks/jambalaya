@@ -10,6 +10,7 @@ import org.spockframework.runtime.model.FeatureInfo
 import org.spockframework.runtime.model.SpecInfo
 
 class TenantSpockExtension implements IAnnotationDrivenExtension<ActiveTenant> {
+
     @Override
     void visitSpecAnnotation(ActiveTenant annotation, SpecInfo spec) {
         spec.addInterceptor(new TenantMethodInterceptor(annotation))
@@ -21,12 +22,12 @@ class TenantSpockExtension implements IAnnotationDrivenExtension<ActiveTenant> {
     }
 
     private static class TenantMethodInterceptor implements IMethodInterceptor {
+
         ActiveTenant activeTenant
 
-        TenantMethodInterceptor(ActiveTenant tenantSpock) {
-            activeTenant = tenantSpock
+        TenantMethodInterceptor(ActiveTenant activeTenant) {
+            this.activeTenant = activeTenant
         }
-
 
         @Override
         void intercept(IMethodInvocation invocation) throws Throwable {
@@ -55,6 +56,7 @@ class TenantSpockExtension implements IAnnotationDrivenExtension<ActiveTenant> {
                 invocation.proceed()
             }
         }
-    }
-}
 
+    }
+
+}

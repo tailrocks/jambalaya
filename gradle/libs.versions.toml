@@ -29,7 +29,7 @@ graphql-data-loader = "3.2.0"
 grpc = "1.50.2"
 guava = "31.1-jre"
 mapstruct = "1.5.3.Final"
-micronaut = "3.7.2"
+micronaut = "3.7.3"
 okhttp = "4.10.0"
 opentelemetry = "1.19.0"
 opentelemetry-alpha = "1.11.0-alpha"
@@ -37,6 +37,7 @@ protobuf = "3.21.8"
 slugify = "3.0.2"
 error-prone = "2.16"
 icu4j = "72.1"
+spock = "2.3-groovy-3.0"
 
 [libraries]
 # BOMs
@@ -62,3 +63,4 @@ slugify = { module = "com.github.slugify:slugify", version.ref = "slugify" }
 tomcat-annotations-api = { module = "org.apache.tomcat:annotations-api", version = "6.0.53" }
 error-prone-annotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "error-prone" }
 icu4j = { module = "com.ibm.icu:icu4j", version.ref = "icu4j" }
+spock-core = { module = "org.spockframework:spock-core", version.ref = "spock" }

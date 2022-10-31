@@ -1,6 +1,5 @@
 package com.tailrocks.jambalaya.tenancy.spock
 
-
 import org.spockframework.runtime.extension.ExtensionAnnotation
 
 import java.lang.annotation.*

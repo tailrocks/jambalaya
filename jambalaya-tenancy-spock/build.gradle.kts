@@ -1,6 +1,6 @@
 plugins {
     `java-library`
-    id("groovy")
+    groovy
 }
 
 version = jambalayaLibs.versions.jambalaya.tenancy.spock.get()
@@ -12,5 +12,5 @@ dependencies {
     api(project(":jambalaya-tenancy"))
 
     // JUnit
-    api("org.spockframework:spock-core:2.1-groovy-3.0")
+    api(jambalayaLibs.spock.core)
 }

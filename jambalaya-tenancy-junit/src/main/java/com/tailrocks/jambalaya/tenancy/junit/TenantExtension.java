@@ -18,6 +18,7 @@ package com.tailrocks.jambalaya.tenancy.junit;
 import com.tailrocks.jambalaya.tenancy.StringUtils;
 import com.tailrocks.jambalaya.tenancy.TenancyUtils;
 import io.opentelemetry.context.Scope;
+import org.junit.jupiter.api.extension.DynamicTestInvocationContext;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
@@ -68,7 +69,21 @@ public class TenantExtension implements InvocationInterceptor {
         proceedWithTenant(invocation, invocationContext, extensionContext);
     }
 
-    private void proceedWithTenant(Invocation<Void> invocation,
+    @Override
+    public void interceptTestTemplateMethod(Invocation<Void> invocation,
+                                            ReflectiveInvocationContext<Method> invocationContext,
+                                            ExtensionContext extensionContext) throws Throwable {
+        proceedWithTenant(invocation, invocationContext, extensionContext);
+    }
+
+    @Override
+    public <T> T interceptTestFactoryMethod(Invocation<T> invocation,
+                                            ReflectiveInvocationContext<Method> invocationContext,
+                                            ExtensionContext extensionContext) throws Throwable {
+        return proceedWithTenant(invocation, invocationContext, extensionContext);
+    }
+
+    private <T> T proceedWithTenant(Invocation<T> invocation,
                                    ReflectiveInvocationContext<Method> invocationContext,
                                    ExtensionContext extensionContext) throws Throwable {
 
@@ -90,10 +105,10 @@ public class TenantExtension implements InvocationInterceptor {
 
         if (StringUtils.isNotEmpty(tenant)) {
             try (Scope ignored = setTenantStringClosable(tenant)) {
-                invocation.proceed();
+                return invocation.proceed();
             }
         } else {
-            invocation.proceed();
+            return invocation.proceed();
         }
     }
 

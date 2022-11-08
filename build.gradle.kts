@@ -15,7 +15,7 @@ plugins {
     id("com.tailrocks.versions") version "0.1.4" apply false
 
     // https://plugins.gradle.org/plugin/com.tailrocks.kotlin
-    id("com.tailrocks.kotlin") version "0.1.2" apply false
+    id("com.tailrocks.kotlin") version "0.1.4" apply false
 
     // https://plugins.gradle.org/plugin/com.adarshr.test-logger
     id("com.adarshr.test-logger") version "3.2.0" apply false

@@ -18,7 +18,6 @@ package com.tailrocks.jambalaya.tenancy.junit;
 import com.tailrocks.jambalaya.tenancy.StringUtils;
 import com.tailrocks.jambalaya.tenancy.TenancyUtils;
 import io.opentelemetry.context.Scope;
-import org.junit.jupiter.api.extension.DynamicTestInvocationContext;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
@@ -84,20 +83,17 @@ public class TenantExtension implements InvocationInterceptor {
     }
 
     private <T> T proceedWithTenant(Invocation<T> invocation,
-                                   ReflectiveInvocationContext<Method> invocationContext,
-                                   ExtensionContext extensionContext) throws Throwable {
+                                    ReflectiveInvocationContext<Method> invocationContext,
+                                    ExtensionContext extensionContext) throws Throwable {
 
         String tenant = TenancyUtils.getTenantString();
 
         ActiveTenant methodTenant = invocationContext.getExecutable().getAnnotation(ActiveTenant.class);
         if (methodTenant == null) {
-            Optional<ActiveTenant> clazzTenant = AnnotationSupport.findAnnotation(
-                    extensionContext.getRequiredTestClass(),
-                    ActiveTenant.class
-            );
-
-            if (clazzTenant.isPresent()) {
-                tenant = clazzTenant.get().value();
+            Class<?> testClass = extensionContext.getRequiredTestClass();
+            String classTenant = getTenantFromClass(testClass);
+            if (classTenant != null) {
+                tenant = classTenant;
             }
         } else {
             tenant = methodTenant.value();
@@ -110,6 +106,22 @@ public class TenantExtension implements InvocationInterceptor {
         } else {
             return invocation.proceed();
         }
+    }
+
+    private static String getTenantFromClass(Class clazz) {
+        Optional<ActiveTenant> clazzTenant = AnnotationSupport.findAnnotation(
+                clazz,
+                ActiveTenant.class
+        );
+
+        if (clazzTenant.isPresent()) {
+            return clazzTenant.get().value();
+        } else {
+            if (clazz.isMemberClass()) {
+                return getTenantFromClass(clazz.getEnclosingClass());
+            }
+        }
+        return null;
     }
 
 }

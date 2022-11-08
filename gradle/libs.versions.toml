@@ -19,7 +19,7 @@ jambalaya-tenancy = "0.7.2"
 jambalaya-tenancy-flyway = "0.4.2"
 jambalaya-tenancy-grpc-api = "0.4.3"
 jambalaya-tenancy-jooq = "0.4.2"
-jambalaya-tenancy-junit = "0.4.4"
+jambalaya-tenancy-junit = "0.4.5"
 jambalaya-tenancy-spock = "0.4.4"
 
 # Libraries

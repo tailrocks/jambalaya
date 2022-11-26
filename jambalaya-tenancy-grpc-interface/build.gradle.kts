@@ -48,3 +48,8 @@ sourceSets {
         }
     }
 }
+
+// TODO temp fix, probably will be fixed here: https://github.com/gradle/gradle/issues/17236
+tasks.withType<AbstractCopyTask> {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}

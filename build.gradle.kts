@@ -21,7 +21,7 @@ plugins {
     id("com.adarshr.test-logger") version "3.2.0" apply false
 
     // https://plugins.gradle.org/plugin/com.google.protobuf
-    id("com.google.protobuf") version "0.9.1" apply false
+    id("com.google.protobuf") version "0.9.2" apply false
 }
 
 allprojects {

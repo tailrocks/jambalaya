@@ -39,13 +39,17 @@ public abstract class AbstractTenantRepository {
         this.applicationName = applicationName;
     }
 
+    protected String getTenant() {
+        return getTenantOrThrow().getByService(applicationName);
+    }
+
     protected DSLContext getDslContext() {
-        String tenant = getTenantOrThrow().getByService(applicationName);
+        String tenant = getTenant();
         dslContext.setSchema(getSchema(tenant)).execute();
         return dslContext;
     }
 
-    private String getSchema(String tenant) {
+    protected String getSchema(String tenant) {
         if (tenant.equals(Tenant.DEFAULT)) {
             return "public";
         } else if (tenant.equals(Tenant.TESTING)) {

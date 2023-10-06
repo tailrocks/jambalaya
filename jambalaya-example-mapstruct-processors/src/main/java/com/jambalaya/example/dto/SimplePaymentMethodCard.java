@@ -27,14 +27,16 @@ public class SimplePaymentMethodCard {
     private final int expirationMonth;
     private final String cardHolderName;
     private final List<SimpleAccountUpdaterLog> updaterLog;
+    private final String description;
 
     public SimplePaymentMethodCard(String number, int expirationYear, int expirationMonth, String cardHolderName,
-                                   List<SimpleAccountUpdaterLog> updaterLog) {
+                                   List<SimpleAccountUpdaterLog> updaterLog, String description) {
         this.number = number;
         this.expirationYear = expirationYear;
         this.expirationMonth = expirationMonth;
         this.cardHolderName = cardHolderName;
         this.updaterLog = updaterLog;
+        this.description = description;
     }
 
     public String getNumber() {
@@ -55,6 +57,10 @@ public class SimplePaymentMethodCard {
 
     public List<SimpleAccountUpdaterLog> getUpdaterLog() {
         return updaterLog;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
 }

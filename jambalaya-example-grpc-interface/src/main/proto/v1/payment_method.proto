@@ -46,6 +46,7 @@ message PaymentMethodCard {
   uint32 expiration_month = 4;
   string card_holder_name = 5;
   repeated AccountUpdaterLog updater_log = 6;
+  optional string description = 7;
 }
 
 message AccountUpdaterLog {

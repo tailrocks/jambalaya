@@ -61,6 +61,7 @@ public interface PaymentMethodMapper {
     PaymentMethod toPaymentMethod(PaymentMethodRecord paymentMethodRecord);
 
     @Mapping(target = "updaterLog", ignore = true)
+    @Mapping(target = "description", ignore = true)
     @Mapping(target = "brand", source = "cardBrand")
     @Mapping(target = "number", source = "cardNumber")
     @Mapping(target = "expirationMonth", source = "cardExpirationDate.year")

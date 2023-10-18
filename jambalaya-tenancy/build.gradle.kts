@@ -12,5 +12,5 @@ dependencies {
     api(project(":jambalaya-checks"))
     api(project(":jambalaya-opentelemetry"))
 
-    compileOnly("com.google.errorprone:error_prone_annotations:2.18.0")
+    compileOnly("com.google.errorprone:error_prone_annotations:2.23.0")
 }

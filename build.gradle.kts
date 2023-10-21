@@ -6,7 +6,7 @@ plugins {
     id("com.tailrocks.spotless") version "0.4.0"
 
     // https://plugins.gradle.org/plugin/com.tailrocks.idea
-    id("com.tailrocks.idea") version "0.4.0" apply false
+    id("com.tailrocks.idea") version "0.5.1" apply false
 
     // https://plugins.gradle.org/plugin/com.tailrocks.junit
     id("com.tailrocks.junit") version "0.4.0" apply false

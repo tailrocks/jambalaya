@@ -44,16 +44,4 @@ allprojects {
 subprojects {
     apply(plugin = "com.tailrocks.java")
     apply(plugin = "com.adarshr.test-logger")
-
-    dependencies {
-        // Micronaut
-        implementation(platform(rootProject.jambalayaLibs.boms.micronaut))
-
-        // SpotBugs
-        compileOnly("com.github.spotbugs:spotbugs-annotations")
-
-        // JUnit
-        testImplementation("org.junit.jupiter:junit-jupiter-api")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-    }
 }

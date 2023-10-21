@@ -12,8 +12,5 @@ dependencies {
     api(project(":jambalaya-checks"))
     api(project(":jambalaya-tenancy"))
 
-    // Micronaut
-    implementation(platform(jambalayaLibs.boms.micronaut))
-
-    api("org.jooq:jooq")
+    implementation("org.jooq:jooq:3.18.7")
 }

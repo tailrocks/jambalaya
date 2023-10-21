@@ -12,9 +12,6 @@ apply(plugin = "jambalaya-library-conventions")
 dependencies {
     api(project(":jambalaya-checks"))
 
-    // Micronaut
-    implementation(platform(jambalayaLibs.boms.micronaut))
-
     // Apollo
     api(jambalayaLibs.apollo.runtime)
     api(jambalayaLibs.apollo.rx3.support)
@@ -24,7 +21,7 @@ dependencies {
     api(jambalayaLibs.logging.interceptor)
 
     // SLF4J
-    api("org.slf4j:slf4j-api")
+    implementation("org.slf4j:slf4j-api:2.0.9")
 
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))

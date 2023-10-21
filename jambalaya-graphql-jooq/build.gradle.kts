@@ -11,8 +11,5 @@ apply(plugin = "jambalaya-library-conventions")
 dependencies {
     api(project(":jambalaya-checks"))
 
-    // Micronaut
-    implementation(platform(jambalayaLibs.boms.micronaut))
-
-    implementation("org.jooq:jooq")
+    implementation("org.jooq:jooq:3.18.7")
 }

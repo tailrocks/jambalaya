@@ -35,5 +35,5 @@ include(
     "jambalaya-tenancy-grpc-interface",
     "jambalaya-tenancy-jooq",
     "jambalaya-tenancy-junit",
-    "jambalaya-tenancy-spock"
+    //"jambalaya-tenancy-spock"
 )

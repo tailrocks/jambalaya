@@ -20,18 +20,10 @@ dependencies {
     api(jambalayaLibs.mapstruct)
 
     // Micronaut
-    implementation(platform(jambalayaLibs.boms.micronaut))
-    annotationProcessor(platform(jambalayaLibs.boms.micronaut))
-    annotationProcessor("io.micronaut:micronaut-inject-java")
-    compileOnly("io.micronaut:micronaut-inject-java")
-
-    // Jakarta
-    compileOnly("jakarta.inject:jakarta.inject-api")
+    annotationProcessor("io.micronaut:micronaut-inject-java:4.1.10")
+    compileOnly("io.micronaut:micronaut-inject-java:4.1.10")
 
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))
     testImplementation(kotlin("test-junit5"))
-
-    // TODO remove me later
-    compileOnly("javax.inject:javax.inject:1")
 }

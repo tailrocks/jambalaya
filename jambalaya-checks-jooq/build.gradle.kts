@@ -13,7 +13,7 @@ dependencies {
     api(project(":jambalaya-checks"))
     testImplementation(project(":jambalaya-example-jooq"))
 
-    implementation("org.jooq:jooq")
+    implementation("org.jooq:jooq:3.18.7")
 
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))

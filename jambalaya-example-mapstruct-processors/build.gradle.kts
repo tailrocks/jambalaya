@@ -4,9 +4,6 @@ dependencies {
     implementation(project(":jambalaya-mapstruct"))
     implementation(project(":jambalaya-micronaut-mapstruct-protobuf"))
 
-    // Micronaut
-    implementation(platform(jambalayaLibs.boms.micronaut))
-
     annotationProcessor(jambalayaLibs.mapstruct.processor)
     annotationProcessor(project(":jambalaya-mapstruct-processor"))
     implementation(jambalayaLibs.mapstruct)

@@ -13,9 +13,6 @@ dependencies {
     api(project(":jambalaya-checks"))
     testImplementation(project(":jambalaya-example-jooq"))
 
-    // Micronaut
-    implementation(platform(jambalayaLibs.boms.micronaut))
-
     implementation("org.jooq:jooq")
 
     // Kotlin

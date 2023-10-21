@@ -1,7 +1,3 @@
-import org.gradle.api.publish.maven.internal.publication.DefaultMavenPom
-import org.gradle.kotlin.dsl.`java-library`
-import org.gradle.kotlin.dsl.`maven-publish`
-
 plugins {
     `java-library`
     `maven-publish`

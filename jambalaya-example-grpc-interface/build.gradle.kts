@@ -7,10 +7,10 @@ plugins {
 
 dependencies {
     // gRPC
-    api("io.grpc:grpc-protobuf:1.59.0")
-    api("io.grpc:grpc-services:1.59.0")
-    api("io.grpc:grpc-stub:1.59.0")
-    api("io.grpc:grpc-netty-shaded:1.59.0")
+    api("io.grpc:grpc-protobuf:1.58.0")
+    api("io.grpc:grpc-services:1.58.0")
+    api("io.grpc:grpc-stub:1.58.0")
+    api("io.grpc:grpc-netty-shaded:1.58.0")
 
     compileOnly(jambalayaLibs.tomcat.annotations.api)
 }

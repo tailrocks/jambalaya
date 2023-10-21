@@ -32,7 +32,9 @@ mapstruct = "1.5.5.Final"
 micronaut = "4.1.5"
 okhttp = "4.10.0"
 opentelemetry = "1.31.0"
-opentelemetry-alpha = "1.19.0-alpha"
+opentelemetry-alpha = "1.31.0-alpha"
+opentelemetry-instrumentation-bom = "1.31.0"
+opentelemetry-instrumentation-bom-alpha = "1.31.0-alpha"
 protobuf = "3.24.4"
 slugify = "3.0.6"
 error-prone = "2.23.0"
@@ -45,6 +47,8 @@ boms-grpc = { module = "io.grpc:grpc-bom", version.ref = "grpc" }
 boms-micronaut = { module = "io.micronaut.platform:micronaut-platform", version.ref = "micronaut" }
 boms-opentelemetry = { module = "io.opentelemetry:opentelemetry-bom", version.ref = "opentelemetry" }
 boms-opentelemetry-alpha = { module = "io.opentelemetry:opentelemetry-bom-alpha", version.ref = "opentelemetry-alpha" }
+boms-opentelemetry-instrumentation = { module = "io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom", version.ref = "opentelemetry-instrumentation-bom" }
+boms-opentelemetry-instrumentation-alpha = { module = "io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha", version.ref = "opentelemetry-instrumentation-bom-alpha" }
 
 # Libraries
 apollo-runtime = { module = "com.apollographql.apollo3:apollo-runtime", version.ref = "apollo" }

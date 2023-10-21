@@ -10,10 +10,8 @@ apply(plugin = "jambalaya-library-conventions")
 
 dependencies {
     // OpenTelemetry
-    api(platform(jambalayaLibs.boms.opentelemetry))
-    api(platform(jambalayaLibs.boms.opentelemetry.alpha))
-    api("io.opentelemetry:opentelemetry-api")
-    api("io.opentelemetry:opentelemetry-semconv")
+    api("io.opentelemetry:opentelemetry-api:1.31.0")
+    api("io.opentelemetry:opentelemetry-semconv:1.30.1-alpha")
 
     // JUnit
     api("org.junit.jupiter:junit-jupiter-api")

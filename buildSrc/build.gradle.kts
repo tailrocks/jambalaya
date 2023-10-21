@@ -6,7 +6,7 @@ plugins {
 
 dependencies {
     // https://plugins.gradle.org/plugin/com.tailrocks.maven-publish
-    implementation("com.tailrocks.gradle:maven-publish-conventions:0.4.0")
+    implementation("com.tailrocks.gradle:maven-publish-conventions:0.5.1")
 
     // https://plugins.gradle.org/plugin/com.tailrocks.signing
     implementation("com.tailrocks.gradle:signing-conventions:0.4.0")

@@ -1,6 +1,6 @@
 plugins {
     // https://plugins.gradle.org/plugin/com.tailrocks.java
-    id("com.tailrocks.java") version "0.4.0"
+    id("com.tailrocks.java") version "0.5.1"
 
     // https://plugins.gradle.org/plugin/com.tailrocks.spotless
     id("com.tailrocks.spotless") version "0.4.0"

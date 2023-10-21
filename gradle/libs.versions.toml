@@ -37,7 +37,7 @@ protobuf = "3.24.4"
 slugify = "3.0.6"
 error-prone = "2.23.0"
 icu4j = "72.1"
-spock = "2.3-groovy-3.0"
+spock = "2.3-groovy-4.0"
 
 [libraries]
 # BOMs

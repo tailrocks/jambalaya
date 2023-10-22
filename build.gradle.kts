@@ -12,7 +12,7 @@ plugins {
     id("com.tailrocks.junit") version "0.4.0" apply false
 
     // https://plugins.gradle.org/plugin/com.tailrocks.versions
-    id("com.tailrocks.versions") version "0.4.0" apply false
+    id("com.tailrocks.versions") version "0.5.1" apply false
 
     // https://plugins.gradle.org/plugin/com.tailrocks.kotlin
     id("com.tailrocks.kotlin") version "0.5.0" apply false

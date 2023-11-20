@@ -11,5 +11,5 @@ apply(plugin = "jambalaya-library-conventions")
 dependencies {
     api(project(":jambalaya-checks"))
 
-    implementation("org.jooq:jooq:3.18.7")
+    implementation(jambalayaLibs.jooq)
 }

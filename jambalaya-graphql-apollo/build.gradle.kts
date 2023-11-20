@@ -21,7 +21,7 @@ dependencies {
     api(jambalayaLibs.logging.interceptor)
 
     // SLF4J
-    implementation("org.slf4j:slf4j-api:2.0.9")
+    implementation(jambalayaLibs.slf4j.api)
 
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))

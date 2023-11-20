@@ -12,5 +12,5 @@ dependencies {
     api(project(":jambalaya-checks"))
     api(project(":jambalaya-tenancy"))
 
-    implementation("org.jooq:jooq:3.18.7")
+    implementation(jambalayaLibs.jooq)
 }

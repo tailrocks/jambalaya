@@ -12,5 +12,5 @@ dependencies {
     api(project(":jambalaya-tenancy"))
 
     // JUnit
-    implementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+    implementation(jambalayaLibs.junit.jupiter.api)
 }

@@ -24,4 +24,4 @@ set -e
 ./jambalaya-tenancy-grpc-interface/publish-sonatype-release.sh
 ./jambalaya-tenancy-jooq/publish-sonatype-release.sh
 ./jambalaya-tenancy-junit/publish-sonatype-release.sh
-./jambalaya-tenancy-spock/publish-sonatype-release.sh
+#./jambalaya-tenancy-spock/publish-sonatype-release.sh

@@ -20,8 +20,8 @@ dependencies {
     api(jambalayaLibs.mapstruct)
 
     // Micronaut
-    annotationProcessor("io.micronaut:micronaut-inject-java:4.1.10")
-    compileOnly("io.micronaut:micronaut-inject-java:4.1.10")
+    annotationProcessor(jambalayaLibs.micronaut.inject.java)
+    compileOnly(jambalayaLibs.micronaut.inject.java)
 
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))

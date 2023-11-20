@@ -25,17 +25,21 @@ jambalaya-tenancy-spock = "0.6.0"
 # Libraries
 apollo = "3.8.2"
 common-protos = "2.26.0"
-graphql-data-loader = "3.2.1"
-grpc = "1.58.0"
+graphql-data-loader = "3.2.2"
+grpc = "1.59.0"
 guava = "31.1-jre"
 mapstruct = "1.5.5.Final"
-micronaut = "4.1.5"
+micronaut = "4.2.0"
 okhttp = "4.10.0"
 protobuf = "3.24.4"
 slugify = "3.0.6"
 error-prone = "2.23.0"
 icu4j = "72.1"
 spock = "2.3-groovy-4.0"
+jooq = "3.18.7"
+opentelemetry = "1.32.0"
+opentelemetry-semconv = "1.22.0-alpha"
+spotbugs = "4.8.0"
 
 [libraries]
 # Libraries
@@ -56,3 +60,8 @@ tomcat-annotations-api = { module = "org.apache.tomcat:annotations-api", version
 error-prone-annotations = { module = "com.google.errorprone:error_prone_annotations", version.ref = "error-prone" }
 icu4j = { module = "com.ibm.icu:icu4j", version.ref = "icu4j" }
 spock-core = { module = "org.spockframework:spock-core", version.ref = "spock" }
+micronaut-inject-java = { module = "io.micronaut:micronaut-inject-java", version.ref = "micronaut" }
+jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
+opentelemetry-api = { module = "io.opentelemetry:opentelemetry-api", version.ref = "opentelemetry" }
+opentelemetry-semconv = { module = "io.opentelemetry.semconv:opentelemetry-semconv", version.ref = "opentelemetry-semconv" }
+spotbugs-annotations = { module = "com.github.spotbugs:spotbugs-annotations", version.ref = "spotbugs" }

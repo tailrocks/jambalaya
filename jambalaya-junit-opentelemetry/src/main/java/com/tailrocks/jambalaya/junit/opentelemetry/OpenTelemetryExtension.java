@@ -32,10 +32,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import static io.opentelemetry.semconv.trace.attributes.SemanticAttributes.CODE_FUNCTION;
-import static io.opentelemetry.semconv.trace.attributes.SemanticAttributes.CODE_NAMESPACE;
-import static io.opentelemetry.semconv.trace.attributes.SemanticAttributes.THREAD_ID;
-import static io.opentelemetry.semconv.trace.attributes.SemanticAttributes.THREAD_NAME;
+import static io.opentelemetry.semconv.SemanticAttributes.CODE_FUNCTION;
+import static io.opentelemetry.semconv.SemanticAttributes.CODE_NAMESPACE;
+import static io.opentelemetry.semconv.SemanticAttributes.THREAD_ID;
+import static io.opentelemetry.semconv.SemanticAttributes.THREAD_NAME;
 
 /**
  * @author Alexey Zhokhov
@@ -64,7 +64,7 @@ public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCall
     public void beforeEach(ExtensionContext context) {
         Span span = startSpan(context.getDisplayName());
 
-        span.setAttribute(THREAD_ID, Thread.currentThread().getId());
+        span.setAttribute(THREAD_ID, Thread.currentThread().threadId());
         span.setAttribute(THREAD_NAME, Thread.currentThread().getName());
         span.setAttribute(CODE_FUNCTION, context.getRequiredTestMethod().getName());
         span.setAttribute(CODE_NAMESPACE, context.getRequiredTestClass().getName());

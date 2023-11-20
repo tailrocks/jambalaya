@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    api("org.jooq:jooq:3.18.7")
+    api(jambalayaLibs.jooq)
 
-    api("com.github.spotbugs:spotbugs-annotations:4.8.0")
+    api(jambalayaLibs.spotbugs.annotations)
 }

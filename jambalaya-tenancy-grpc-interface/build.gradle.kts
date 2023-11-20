@@ -12,8 +12,8 @@ apply(plugin = "jambalaya-library-conventions")
 
 dependencies {
     // gRPC
-    api("io.grpc:grpc-protobuf:1.58.0")
-    api("io.grpc:grpc-stub:1.58.0")
+    api("io.grpc:grpc-protobuf:${jambalayaLibs.versions.grpc.get()}")
+    api("io.grpc:grpc-stub:${jambalayaLibs.versions.grpc.get()}")
 
     // TODO remove me later
     compileOnly("javax.annotation:javax.annotation-api:1.3.2")

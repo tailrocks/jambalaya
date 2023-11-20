@@ -30,6 +30,7 @@ grpc = "1.59.0"
 guava = "32.1.3-jre"
 mapstruct = "1.5.5.Final"
 micronaut = "4.2.0"
+micronaut-graphql = "4.1.0"
 okhttp = "4.12.0"
 protobuf = "3.24.4"
 slugify = "3.0.6"
@@ -41,6 +42,8 @@ opentelemetry = "1.32.0"
 opentelemetry-semconv = "1.22.0-alpha"
 spotbugs = "4.8.1"
 junit = "5.10.0"
+flyway = "9.22.3"
+slf4j = "2.0.9"
 
 [libraries]
 # Libraries
@@ -62,8 +65,11 @@ error-prone-annotations = { module = "com.google.errorprone:error_prone_annotati
 icu4j = { module = "com.ibm.icu:icu4j", version.ref = "icu4j" }
 spock-core = { module = "org.spockframework:spock-core", version.ref = "spock" }
 micronaut-inject-java = { module = "io.micronaut:micronaut-inject-java", version.ref = "micronaut" }
+micronaut-graphql = { module = "io.micronaut.graphql:micronaut-graphql", version.ref = "micronaut-graphql" }
 jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
 opentelemetry-api = { module = "io.opentelemetry:opentelemetry-api", version.ref = "opentelemetry" }
 opentelemetry-semconv = { module = "io.opentelemetry.semconv:opentelemetry-semconv", version.ref = "opentelemetry-semconv" }
 spotbugs-annotations = { module = "com.github.spotbugs:spotbugs-annotations", version.ref = "spotbugs" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }

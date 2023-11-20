@@ -11,5 +11,5 @@ apply(plugin = "jambalaya-library-conventions")
 dependencies {
     api(project(":jambalaya-checks"))
 
-    implementation("io.micronaut.graphql:micronaut-graphql:4.0.2")
+    implementation(jambalayaLibs.micronaut.graphql)
 }

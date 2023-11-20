@@ -41,7 +41,7 @@ jooq = "3.18.7"
 opentelemetry = "1.32.0"
 opentelemetry-semconv = "1.22.0-alpha"
 spotbugs = "4.8.1"
-junit = "5.10.0"
+junit = "5.10.1"
 flyway = "9.22.3"
 slf4j = "2.0.9"
 

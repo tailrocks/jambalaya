@@ -24,6 +24,14 @@ plugins {
     id("com.google.protobuf") version "0.9.4" apply false
 }
 
+val javaVersion = 17
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(javaVersion))
+    }
+}
+
 allprojects {
     apply(plugin = "com.tailrocks.idea")
     apply(plugin = "com.tailrocks.spotless")

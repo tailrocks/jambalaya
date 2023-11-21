@@ -1,3 +1,11 @@
+val javaVersion = 17
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(javaVersion))
+    }
+}
+
 dependencies {
     implementation(project(":jambalaya-example-grpc-interface"))
     implementation(project(":jambalaya-example-jooq"))

@@ -5,6 +5,14 @@ plugins {
     id("com.apollographql.apollo3") version "3.8.2"
 }
 
+val javaVersion = 17
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(javaVersion))
+    }
+}
+
 dependencies {
     api(jambalayaLibs.apollo.runtime)
 }

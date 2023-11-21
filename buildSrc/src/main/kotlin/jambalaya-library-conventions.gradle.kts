@@ -5,6 +5,14 @@ plugins {
     id("com.tailrocks.signing")
 }
 
+val javaVersion = 17
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(javaVersion))
+    }
+}
+
 java {
     withJavadocJar()
     withSourcesJar()

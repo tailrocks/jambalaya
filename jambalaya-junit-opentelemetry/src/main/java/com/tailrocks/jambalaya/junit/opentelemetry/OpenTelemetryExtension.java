@@ -64,7 +64,7 @@ public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCall
     public void beforeEach(ExtensionContext context) {
         Span span = startSpan(context.getDisplayName());
 
-        span.setAttribute(THREAD_ID, Thread.currentThread().threadId());
+        span.setAttribute(THREAD_ID, Thread.currentThread().getId());
         span.setAttribute(THREAD_NAME, Thread.currentThread().getName());
         span.setAttribute(CODE_FUNCTION, context.getRequiredTestMethod().getName());
         span.setAttribute(CODE_NAMESPACE, context.getRequiredTestClass().getName());

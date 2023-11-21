@@ -5,6 +5,14 @@ plugins {
     id("com.google.protobuf") version "0.9.4"
 }
 
+val javaVersion = 17
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(javaVersion))
+    }
+}
+
 dependencies {
     // gRPC
     api("io.grpc:grpc-protobuf:${jambalayaLibs.versions.grpc.get()}")

@@ -10,8 +10,8 @@ apply(plugin = "jambalaya-library-conventions")
 
 dependencies {
     // OpenTelemetry
-    api(jambalayaLibs.opentelemetry.api)
-    api(jambalayaLibs.opentelemetry.semconv)
+    implementation(jambalayaLibs.opentelemetry.api)
+    implementation(jambalayaLibs.opentelemetry.semconv)
 
     api(jambalayaLibs.spotbugs.annotations)
 

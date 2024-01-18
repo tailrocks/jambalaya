@@ -10,7 +10,7 @@ apply(plugin = "jambalaya-library-conventions")
 
 dependencies {
     // OpenTelemetry
-    api(jambalayaLibs.opentelemetry.api)
+    implementation(jambalayaLibs.opentelemetry.api)
 
     compileOnly(jambalayaLibs.error.prone.annotations)
 }

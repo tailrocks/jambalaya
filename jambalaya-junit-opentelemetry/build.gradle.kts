@@ -17,4 +17,7 @@ dependencies {
 
     // JUnit
     implementation(jambalayaLibs.junit.jupiter.api)
+
+    // SLF4J
+    api(jambalayaLibs.slf4j.api)
 }

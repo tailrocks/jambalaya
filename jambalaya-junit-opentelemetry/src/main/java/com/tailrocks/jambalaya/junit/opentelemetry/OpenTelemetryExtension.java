@@ -26,11 +26,12 @@ import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.InvocationInterceptor;
 import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import static io.opentelemetry.semconv.SemanticAttributes.CODE_FUNCTION;
 import static io.opentelemetry.semconv.SemanticAttributes.CODE_NAMESPACE;
@@ -43,7 +44,7 @@ import static io.opentelemetry.semconv.SemanticAttributes.THREAD_NAME;
 public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCallback, AfterAllCallback,
         InvocationInterceptor {
 
-    private static final Logger logger = Logger.getLogger(OpenTelemetryExtension.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(OpenTelemetryExtension.class.getName());
 
     private static Tracer tracer;
 
@@ -72,11 +73,9 @@ public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCall
         spans.put(context.getUniqueId(), span);
         scopes.put(context.getUniqueId(), span.makeCurrent());
 
-        logger.info(() ->
-                String.format("Run test %s > %s", context.getRequiredTestClass().getSimpleName(),
-                        context.getDisplayName()));
-        logger.info(() ->
-                String.format("Trace ID: %s", span.getSpanContext().getTraceId()));
+        logger.info(String.format("Run test %s > %s", context.getRequiredTestClass().getSimpleName(),
+                context.getDisplayName()));
+        logger.info(String.format("Trace ID: %s", span.getSpanContext().getTraceId()));
     }
 
     @Override
@@ -146,8 +145,7 @@ public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCall
         span.setAttribute(CODE_FUNCTION, invocationContext.getExecutable().getName());
         span.setAttribute(CODE_NAMESPACE, invocationContext.getTargetClass().getName());
 
-        logger.info(() ->
-                String.format(">>  %s", spanName));
+        logger.info(String.format(">>  %s", spanName));
 
         try (Scope ignored = span.makeCurrent()) {
             invocation.proceed();

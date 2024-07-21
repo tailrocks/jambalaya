@@ -42,7 +42,7 @@ opentelemetry = "1.31.0"
 opentelemetry-semconv = "1.22.0-alpha"
 spotbugs = "4.8.2"
 junit = "5.10.1"
-flyway = "10.1.0"
+flyway = "10.16.0"
 slf4j = "2.0.9"
 
 [libraries]

@@ -3,7 +3,7 @@ plugins {
     id("com.tailrocks.java") version "0.5.1"
 
     // https://plugins.gradle.org/plugin/com.tailrocks.spotless
-    id("com.tailrocks.spotless") version "0.5.1"
+    id("com.tailrocks.spotless") version "0.5.2"
 
     // https://plugins.gradle.org/plugin/com.tailrocks.idea
     id("com.tailrocks.idea") version "0.5.1" apply false
@@ -12,10 +12,10 @@ plugins {
     id("com.tailrocks.junit") version "0.5.1" apply false
 
     // https://plugins.gradle.org/plugin/com.tailrocks.versions
-    id("com.tailrocks.versions") version "0.5.1" apply false
+    id("com.tailrocks.versions") version "0.5.2" apply false
 
     // https://plugins.gradle.org/plugin/com.tailrocks.kotlin
-    id("com.tailrocks.kotlin") version "0.6.1" apply false
+    id("com.tailrocks.kotlin") version "0.6.2" apply false
 
     // https://plugins.gradle.org/plugin/com.adarshr.test-logger
     id("com.adarshr.test-logger") version "4.0.0" apply false

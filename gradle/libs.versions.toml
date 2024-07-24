@@ -11,7 +11,7 @@ jambalaya-kotlin-test = "0.10.0"
 jambalaya-mapstruct = "0.9.0"
 jambalaya-mapstruct-processor = "0.9.0"
 jambalaya-micronaut-graphql = "0.10.0"
-jambalaya-micronaut-mapstruct-protobuf = "0.9.0"
+jambalaya-micronaut-mapstruct-protobuf = "0.10.0"
 jambalaya-opentelemetry = "0.9.0"
 jambalaya-protobuf = "0.11.0"
 jambalaya-seo = "0.10.0"
@@ -40,7 +40,7 @@ spock = "2.3-groovy-4.0"
 jooq = "3.18.7"
 opentelemetry = "1.31.0"
 opentelemetry-semconv = "1.22.0-alpha"
-spotbugs = "4.8.2"
+jspecify = "1.0.0"
 junit = "5.10.1"
 flyway = "10.1.0"
 slf4j = "2.0.9"
@@ -69,7 +69,7 @@ micronaut-graphql = { module = "io.micronaut.graphql:micronaut-graphql", version
 jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
 opentelemetry-api = { module = "io.opentelemetry:opentelemetry-api", version.ref = "opentelemetry" }
 opentelemetry-semconv = { module = "io.opentelemetry.semconv:opentelemetry-semconv", version.ref = "opentelemetry-semconv" }
-spotbugs-annotations = { module = "com.github.spotbugs:spotbugs-annotations", version.ref = "spotbugs" }
+jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }

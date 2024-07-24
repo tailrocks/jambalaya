@@ -15,7 +15,7 @@
  */
 package com.tailrocks.jambalaya.tenancy;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * @author Alexey Zhokhov

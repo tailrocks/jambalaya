@@ -24,14 +24,14 @@ import com.apollographql.apollo3.api.ScalarType;
 import com.apollographql.apollo3.network.http.DefaultHttpEngine;
 import com.apollographql.apollo3.network.ws.WebSocketNetworkTransport;
 import com.apollographql.apollo3.rx3.Rx3Apollo;
-import edu.umd.cs.findbugs.annotations.NonNull;
-import edu.umd.cs.findbugs.annotations.Nullable;
 import io.reactivex.rxjava3.core.Scheduler;
 import okhttp3.Call;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.net.CookieManager;
 import java.time.Duration;
@@ -58,7 +58,7 @@ public class GraphQlClient {
             @NonNull String serverUrl,
             @NonNull String webSocketUrl,
             @NonNull ScalarType[] scalarTypes,
-            @Nullable Call.Factory okHttpClient,
+            Call.Factory okHttpClient,
             @Nullable Consumer<ApolloClient.Builder> builderConsumer,
             @Nullable Scheduler queryScheduler,
             @Nullable Scheduler mutationScheduler

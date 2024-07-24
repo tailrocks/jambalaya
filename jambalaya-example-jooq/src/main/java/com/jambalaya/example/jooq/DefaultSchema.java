@@ -16,10 +16,10 @@
 package com.jambalaya.example.jooq;
 
 import com.jambalaya.example.jooq.tables.PaymentMethod;
-import edu.umd.cs.findbugs.annotations.NonNull;
 import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Arrays;
 import java.util.List;

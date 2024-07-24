@@ -16,8 +16,8 @@
 package com.zhokhov.jambalaya.kotlin.test.apollo;
 
 import com.zhokhov.jambalaya.kotlin.test.AssertGeneratorConfig;
-import edu.umd.cs.findbugs.annotations.NonNull;
-import edu.umd.cs.findbugs.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;

@@ -17,7 +17,7 @@ package com.tailrocks.jambalaya.seo;
 
 import com.github.slugify.Slugify;
 import com.ibm.icu.text.Normalizer2;
-import edu.umd.cs.findbugs.annotations.NonNull;
+import org.jspecify.annotations.NonNull;
 
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
 

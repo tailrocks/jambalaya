@@ -25,8 +25,9 @@ import com.google.protobuf.Timestamp;
 import com.google.protobuf.UInt32Value;
 import com.google.protobuf.UInt64Value;
 import com.tailrocks.jambalaya.protobuf.ProtobufConverters;
-import edu.umd.cs.findbugs.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -41,8 +42,7 @@ import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
  * @author Alexey Zhokhov
  */
 @Mapper(
-        // TODO use MappingConstants.ComponentModel.JSR330
-        componentModel = "jsr330",
+        componentModel = MappingConstants.ComponentModel.JAKARTA,
         injectionStrategy = CONSTRUCTOR
 )
 public class ProtobufConvertersMapper {

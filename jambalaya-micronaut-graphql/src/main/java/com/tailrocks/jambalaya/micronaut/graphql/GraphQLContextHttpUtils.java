@@ -15,11 +15,11 @@
  */
 package com.tailrocks.jambalaya.micronaut.graphql;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-import edu.umd.cs.findbugs.annotations.Nullable;
 import graphql.GraphQLContext;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.MutableHttpResponse;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
 

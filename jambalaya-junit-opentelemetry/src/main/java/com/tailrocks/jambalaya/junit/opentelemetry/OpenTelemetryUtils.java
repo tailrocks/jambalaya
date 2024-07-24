@@ -15,12 +15,12 @@
  */
 package com.tailrocks.jambalaya.junit.opentelemetry;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
+import org.jspecify.annotations.Nullable;
 
 import java.util.function.Supplier;
 

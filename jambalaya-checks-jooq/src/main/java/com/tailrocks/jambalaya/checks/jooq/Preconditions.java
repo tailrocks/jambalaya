@@ -15,9 +15,9 @@
  */
 package com.tailrocks.jambalaya.checks.jooq;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jooq.UpdatableRecord;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 

@@ -26,8 +26,8 @@ import com.google.protobuf.Timestamp;
 import com.google.protobuf.UInt32Value;
 import com.google.protobuf.UInt64Value;
 import com.google.type.Money;
-import edu.umd.cs.findbugs.annotations.NonNull;
-import edu.umd.cs.findbugs.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -239,7 +239,7 @@ public final class ProtobufConverters {
      * @return {@literal null} or {@link LocalDate}.
      */
     @Nullable
-    public static LocalDate toLocalDate(@Nullable com.google.type.Date source) {
+    public static LocalDate toLocalDate(com.google.type.Date source) {
         if (source == null) {
             return null;
         }
@@ -256,7 +256,7 @@ public final class ProtobufConverters {
      * @return {@literal null} or {@link LocalDate}.
      */
     @Nullable
-    public static LocalDateTime toLocalDateTime(@Nullable com.google.type.DateTime source) {
+    public static LocalDateTime toLocalDateTime(com.google.type.DateTime source) {
         if (source == null) {
             return null;
         }
@@ -459,7 +459,6 @@ public final class ProtobufConverters {
      * @param source the source value to convert
      * @return {@literal null} or {@link com.google.type.Date}.
      */
-    @Nullable
     public static com.google.type.Date toDate(@Nullable LocalDate source) {
         if (source == null) {
             return null;
@@ -477,7 +476,6 @@ public final class ProtobufConverters {
      * @param source the source value to convert
      * @return {@literal null} or {@link com.google.type.DateTime}.
      */
-    @Nullable
     public static com.google.type.DateTime toDateTime(@Nullable LocalDateTime source) {
         if (source == null) {
             return null;

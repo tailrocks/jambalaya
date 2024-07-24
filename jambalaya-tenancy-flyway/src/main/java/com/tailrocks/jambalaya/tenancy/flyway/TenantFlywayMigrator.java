@@ -15,10 +15,10 @@
  */
 package com.tailrocks.jambalaya.tenancy.flyway;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.flywaydb.core.internal.jdbc.DriverDataSource;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

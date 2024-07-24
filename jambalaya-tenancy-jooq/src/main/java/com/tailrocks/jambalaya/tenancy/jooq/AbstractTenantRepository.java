@@ -16,8 +16,8 @@
 package com.tailrocks.jambalaya.tenancy.jooq;
 
 import com.tailrocks.jambalaya.tenancy.Tenant;
-import edu.umd.cs.findbugs.annotations.NonNull;
 import org.jooq.DSLContext;
+import org.jspecify.annotations.NonNull;
 
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotBlank;
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;

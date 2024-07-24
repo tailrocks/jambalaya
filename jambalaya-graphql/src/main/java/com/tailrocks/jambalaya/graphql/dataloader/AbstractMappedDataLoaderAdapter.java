@@ -15,12 +15,12 @@
  */
 package com.tailrocks.jambalaya.graphql.dataloader;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
 import org.dataloader.DataLoader;
 import org.dataloader.DataLoaderFactory;
 import org.dataloader.DataLoaderOptions;
 import org.dataloader.DataLoaderRegistry;
 import org.dataloader.MappedBatchLoaderWithContext;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

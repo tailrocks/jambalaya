@@ -15,7 +15,6 @@
  */
 package com.tailrocks.jambalaya.micronaut.graphql;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
 import graphql.ExecutionInput;
 import graphql.GraphQLContext;
 import io.micronaut.configuration.graphql.GraphQLExecutionInputCustomizer;
@@ -23,6 +22,7 @@ import io.micronaut.core.async.publisher.Publishers;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MutableHttpResponse;
+import org.jspecify.annotations.Nullable;
 import org.reactivestreams.Publisher;
 
 import static com.tailrocks.jambalaya.micronaut.graphql.GraphQLContextHttpUtils.setRequest;

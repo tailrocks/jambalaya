@@ -10,7 +10,8 @@ description = "Preconditions."
 apply(plugin = "jambalaya-library-conventions")
 
 dependencies {
-    api(jambalayaLibs.spotbugs.annotations)
+    // JSpecify
+    api(jambalayaLibs.jspecify)
 
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))

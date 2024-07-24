@@ -17,13 +17,13 @@ package com.jambalaya.example.jooq.tables.records;
 
 import com.jambalaya.example.jooq.enums.PaymentMethodCardBrand;
 import com.jambalaya.example.jooq.tables.PaymentMethod;
-import edu.umd.cs.findbugs.annotations.NonNull;
-import edu.umd.cs.findbugs.annotations.Nullable;
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record9;
 import org.jooq.Row9;
 import org.jooq.impl.UpdatableRecordImpl;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

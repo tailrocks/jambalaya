@@ -15,8 +15,8 @@
  */
 package com.tailrocks.jambalaya.graphql.jooq.model;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
 import org.jooq.UpdatableRecord;
+import org.jspecify.annotations.NonNull;
 
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
 

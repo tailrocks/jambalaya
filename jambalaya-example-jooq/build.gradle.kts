@@ -13,5 +13,6 @@ java {
 dependencies {
     api(jambalayaLibs.jooq)
 
-    api(jambalayaLibs.spotbugs.annotations)
+    // JSpecify
+    api(jambalayaLibs.jspecify)
 }

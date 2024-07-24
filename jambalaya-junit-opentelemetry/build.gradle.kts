@@ -13,7 +13,8 @@ dependencies {
     implementation(jambalayaLibs.opentelemetry.api)
     implementation(jambalayaLibs.opentelemetry.semconv)
 
-    api(jambalayaLibs.spotbugs.annotations)
+    // JSpecify
+    api(jambalayaLibs.jspecify)
 
     // JUnit
     implementation(jambalayaLibs.junit.jupiter.api)

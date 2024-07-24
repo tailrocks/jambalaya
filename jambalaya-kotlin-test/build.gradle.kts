@@ -12,7 +12,8 @@ apply(plugin = "jambalaya-library-conventions")
 dependencies {
     testImplementation(project(":jambalaya-example-kotlin-test-graphql"))
 
-    api(jambalayaLibs.spotbugs.annotations)
+    // JSpecify
+    api(jambalayaLibs.jspecify)
 
     // Kotlin
     testImplementation(kotlin("stdlib-jdk8"))

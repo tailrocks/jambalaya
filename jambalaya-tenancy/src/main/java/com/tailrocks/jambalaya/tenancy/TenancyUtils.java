@@ -17,11 +17,11 @@ package com.tailrocks.jambalaya.tenancy;
 
 import com.google.errorprone.annotations.MustBeClosed;
 import com.tailrocks.jambalaya.opentelemetry.BaggageUtils;
-import edu.umd.cs.findbugs.annotations.NonNull;
-import edu.umd.cs.findbugs.annotations.Nullable;
 import io.opentelemetry.api.baggage.Baggage;
 import io.opentelemetry.context.Context;
 import io.opentelemetry.context.Scope;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;

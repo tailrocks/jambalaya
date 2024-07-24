@@ -15,7 +15,7 @@
  */
 package com.tailrocks.jambalaya.jsr310;
 
-import edu.umd.cs.findbugs.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.time.Instant;
 import java.time.LocalDate;

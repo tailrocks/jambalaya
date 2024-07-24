@@ -19,7 +19,6 @@ import com.jambalaya.example.jooq.DefaultSchema;
 import com.jambalaya.example.jooq.Keys;
 import com.jambalaya.example.jooq.enums.PaymentMethodCardBrand;
 import com.jambalaya.example.jooq.tables.records.PaymentMethodRecord;
-import edu.umd.cs.findbugs.annotations.NonNull;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Identity;
@@ -34,6 +33,7 @@ import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
+import org.jspecify.annotations.NonNull;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

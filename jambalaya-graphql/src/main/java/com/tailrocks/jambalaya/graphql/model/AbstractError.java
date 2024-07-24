@@ -15,7 +15,7 @@
  */
 package com.tailrocks.jambalaya.graphql.model;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import org.jspecify.annotations.NonNull;
 
 import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
 

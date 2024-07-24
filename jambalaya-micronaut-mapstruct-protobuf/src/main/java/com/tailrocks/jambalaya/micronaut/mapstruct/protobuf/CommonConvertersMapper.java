@@ -17,8 +17,9 @@ package com.tailrocks.jambalaya.micronaut.mapstruct.protobuf;
 
 import com.google.common.base.Strings;
 import com.google.protobuf.StringValue;
-import edu.umd.cs.findbugs.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
 
 import java.util.UUID;
 
@@ -30,8 +31,7 @@ import static org.mapstruct.InjectionStrategy.CONSTRUCTOR;
  * @author Alexey Zhokhov
  */
 @Mapper(
-        // TODO use MappingConstants.ComponentModel.JSR330
-        componentModel = "jsr330",
+        componentModel = MappingConstants.ComponentModel.JAKARTA,
         injectionStrategy = CONSTRUCTOR
 )
 public class CommonConvertersMapper {

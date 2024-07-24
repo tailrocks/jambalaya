@@ -15,7 +15,7 @@
  */
 package com.zhokhov.jambalaya.kotlin.test;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
+import org.jspecify.annotations.NonNull;
 
 import static java.util.Objects.requireNonNull;
 

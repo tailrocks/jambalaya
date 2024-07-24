@@ -24,7 +24,7 @@ jambalaya-tenancy-spock = "0.7.0"
 
 # Libraries
 apollo = "3.8.5"
-common-protos = "2.29.0"
+common-protos = "2.41.0"
 graphql-data-loader = "3.2.2"
 grpc = "1.59.1"
 guava = "32.1.3-jre"

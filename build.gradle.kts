@@ -3,7 +3,7 @@ plugins {
     id("com.tailrocks.java") version "0.5.1"
 
     // https://plugins.gradle.org/plugin/com.tailrocks.spotless
-    id("com.tailrocks.spotless") version "0.5.1"
+    id("com.tailrocks.spotless") version "0.5.2"
 
     // https://plugins.gradle.org/plugin/com.tailrocks.idea
     id("com.tailrocks.idea") version "0.5.1" apply false

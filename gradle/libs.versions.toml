@@ -41,7 +41,7 @@ jooq = "3.19.12"
 opentelemetry = "1.42.1"
 opentelemetry-semconv = "1.22.0-alpha"
 jspecify = "1.0.0"
-junit = "5.11.0"
+junit = "5.11.1"
 flyway = "10.17.3"
 slf4j = "2.0.16"
 

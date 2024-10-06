@@ -16,6 +16,7 @@
 package com.zhokhov.jambalaya.kotlin.test;
 
 import com.zhokhov.jambalaya.kotlin.test.apollo.AssertGeneratorApollo;
+import com.zhokhov.jambalaya.kotlin.test.apollo.AssertGeneratorGrpc;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -50,11 +51,13 @@ public final class AssertGenerator {
 
     private final AssertGeneratorConfig config;
     private final AssertGeneratorApollo assertGeneratorApollo;
+    private final AssertGeneratorGrpc assertGeneratorGrpc;
 
     public AssertGenerator(@NonNull AssertGeneratorConfig config) {
         requireNonNull(config, "config");
         this.config = config;
-        this.assertGeneratorApollo = new AssertGeneratorApollo(config);
+        this.assertGeneratorApollo = new AssertGeneratorApollo();
+        this.assertGeneratorGrpc = new AssertGeneratorGrpc();
     }
 
     @Nullable
@@ -136,6 +139,16 @@ public final class AssertGenerator {
         List<Method> publicMethods;
 
         publicMethods = assertGeneratorApollo.detectPublicMethods(value);
+
+        if (publicMethods == null) {
+            publicMethods = assertGeneratorGrpc.detectPublicMethods(value);
+        }
+
+        if (publicMethods != null) {
+            publicMethods = publicMethods.stream()
+                    .filter(it -> !config.getGlobalIgnoredMethods().contains(it.getName()))
+                    .toList();
+        }
 
         if (publicMethods == null) {
             if (isScanAllPublicMethods(value)) {

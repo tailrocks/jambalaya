@@ -15,7 +15,6 @@
  */
 package com.zhokhov.jambalaya.kotlin.test.apollo;
 
-import com.zhokhov.jambalaya.kotlin.test.AssertGeneratorConfig;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -24,11 +23,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AssertGeneratorApollo {
+public class AssertGeneratorApollo implements ComponentAssertGenerator {
 
     private static final List<String> RESPONSE_PUBLIC_METHODS_NAME =
             Arrays.asList("isFromCache", "hasErrors", "getErrors", "getData");
-    private final AssertGeneratorConfig config;
     @Nullable
     private Class responseClass;
     @Nullable
@@ -38,9 +36,7 @@ public class AssertGeneratorApollo {
     @Nullable
     private Class mutationClass;
 
-    public AssertGeneratorApollo(AssertGeneratorConfig config) {
-        this.config = config;
-
+    public AssertGeneratorApollo() {
         try {
             responseClass = Class.forName("com.apollographql.apollo.api.Response");
         } catch (ClassNotFoundException ignored) {
@@ -93,8 +89,7 @@ public class AssertGeneratorApollo {
             return Arrays.stream(methods)
                     .filter(it -> !it.getReturnType().equals(Void.TYPE)
                             && it.getParameterCount() == 0
-                            && !"marshaller".equals(it.getName())
-                            && !config.getGlobalIgnoredMethods().contains(it.getName()))
+                            && !"marshaller".equals(it.getName()))
                     .collect(Collectors.toList());
         }
 
@@ -113,8 +108,7 @@ public class AssertGeneratorApollo {
                         .filter(it -> !it.getReturnType().equals(Void.TYPE)
                                 && it.getParameterCount() == 0
                                 && !"marshaller".equals(it.getName())
-                                && !"__typename".equals(it.getName())
-                                && !config.getGlobalIgnoredMethods().contains(it.getName()))
+                                && !"__typename".equals(it.getName()))
                         .collect(Collectors.toList());
             }
         }

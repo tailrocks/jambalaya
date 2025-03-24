@@ -53,7 +53,7 @@ public class JambalayaAccessorNamingStrategy extends DefaultAccessorNamingStrate
             // has* methods
             "hasField", "hasOneof",
             // clear* methods
-            "clearField", "clearOneof",
+            "clearField", "clearOneof", "clearExtension",
             // set* methods
             "setUnknownFields",
             // get* methods

@@ -22,6 +22,8 @@ plugins {
 
     // https://plugins.gradle.org/plugin/com.google.protobuf
     id("com.google.protobuf") version "0.9.4" apply false
+
+    id("com.gradleup.nmcp") version "0.0.8"
 }
 
 val javaVersion = 21
@@ -57,4 +59,14 @@ subprojects {
     apply(plugin = "java")
 
     apply(plugin = "com.adarshr.test-logger")
+}
+
+nmcp {
+    publishAllProjectsProbablyBreakingProjectIsolation {
+        // use User Token's username and password
+        username = System.getenv("MAVEN_CENTRAL_USERNAME")
+        password = System.getenv("MAVEN_CENTRAL_PASSWORD")
+        // publish manually from the portal
+        publicationType = "USER_MANAGED"
+    }
 }

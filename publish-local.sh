@@ -4,4 +4,4 @@ cd "${ABSOLUTE_PATH}" || exit
 
 set -e
 
-./gradlew clean publishToMavenLocal --info --stacktrace
+./gradlew clean publishToMavenLocal --info --stacktrace -Dorg.gradle.internal.publish.checksums.insecure=true

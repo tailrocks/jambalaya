@@ -40,6 +40,7 @@ spock = "2.3-groovy-4.0"
 jooq = "3.20.2"
 opentelemetry = "1.48.0"
 opentelemetry-semconv = "1.30.0"
+opentelemetry-semconv-incubating = "1.30.0-alpha"
 jspecify = "1.0.0"
 junit = "5.12.1"
 flyway = "11.4.1"
@@ -69,6 +70,7 @@ micronaut-graphql = { module = "io.micronaut.graphql:micronaut-graphql", version
 jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
 opentelemetry-api = { module = "io.opentelemetry:opentelemetry-api", version.ref = "opentelemetry" }
 opentelemetry-semconv = { module = "io.opentelemetry.semconv:opentelemetry-semconv", version.ref = "opentelemetry-semconv" }
+opentelemetry-semconv-incubating = { module = "io.opentelemetry.semconv:opentelemetry-semconv-incubating", version.ref = "opentelemetry-semconv-incubating" }
 jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }

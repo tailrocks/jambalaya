@@ -5,7 +5,7 @@ plugins {
     id("com.apollographql.apollo3") version "3.8.5"
 }
 
-val javaVersion = 17
+val javaVersion = 21
 
 java {
     toolchain {

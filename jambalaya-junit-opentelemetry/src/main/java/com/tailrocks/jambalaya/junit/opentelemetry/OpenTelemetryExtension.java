@@ -33,10 +33,10 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.opentelemetry.semconv.incubating.CodeIncubatingAttributes.CODE_FUNCTION_NAME;
-import static io.opentelemetry.semconv.incubating.CodeIncubatingAttributes.CODE_NAMESPACE;
-import static io.opentelemetry.semconv.incubating.ThreadIncubatingAttributes.THREAD_ID;
-import static io.opentelemetry.semconv.incubating.ThreadIncubatingAttributes.THREAD_NAME;
+import static io.opentelemetry.semconv.SemanticAttributes.CODE_FUNCTION;
+import static io.opentelemetry.semconv.SemanticAttributes.CODE_NAMESPACE;
+import static io.opentelemetry.semconv.SemanticAttributes.THREAD_ID;
+import static io.opentelemetry.semconv.SemanticAttributes.THREAD_NAME;
 
 /**
  * @author Alexey Zhokhov
@@ -67,7 +67,7 @@ public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCall
 
         span.setAttribute(THREAD_ID, Thread.currentThread().getId());
         span.setAttribute(THREAD_NAME, Thread.currentThread().getName());
-        span.setAttribute(CODE_FUNCTION_NAME, context.getRequiredTestMethod().getName());
+        span.setAttribute(CODE_FUNCTION, context.getRequiredTestMethod().getName());
         span.setAttribute(CODE_NAMESPACE, context.getRequiredTestClass().getName());
 
         spans.put(context.getUniqueId(), span);
@@ -142,7 +142,7 @@ public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCall
 
         span.setAttribute(THREAD_ID, Thread.currentThread().getId());
         span.setAttribute(THREAD_NAME, Thread.currentThread().getName());
-        span.setAttribute(CODE_FUNCTION_NAME, invocationContext.getExecutable().getName());
+        span.setAttribute(CODE_FUNCTION, invocationContext.getExecutable().getName());
         span.setAttribute(CODE_NAMESPACE, invocationContext.getTargetClass().getName());
 
         logger.info(">>  {}", spanName);

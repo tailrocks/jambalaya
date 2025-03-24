@@ -6,7 +6,7 @@ jambalaya-graphql = "0.12.0"
 jambalaya-graphql-apollo = "0.13.0"
 jambalaya-graphql-jooq = "0.12.0"
 jambalaya-jsr310 = "0.12.0"
-jambalaya-junit-opentelemetry = "0.12.0"
+jambalaya-junit-opentelemetry = "0.13.0"
 jambalaya-kotlin-test = "0.13.0"
 jambalaya-mapstruct = "0.11.0"
 jambalaya-mapstruct-processor = "0.11.0"
@@ -15,12 +15,12 @@ jambalaya-micronaut-mapstruct-protobuf = "0.13.0"
 jambalaya-opentelemetry = "0.11.0"
 jambalaya-protobuf = "0.14.0"
 jambalaya-seo = "0.12.0"
-jambalaya-tenancy = "0.12.0"
-jambalaya-tenancy-flyway = "0.9.0"
-jambalaya-tenancy-grpc-api = "0.9.0"
-jambalaya-tenancy-jooq = "0.9.0"
-jambalaya-tenancy-junit = "0.9.0"
-jambalaya-tenancy-spock = "0.9.0"
+jambalaya-tenancy = "0.13.0"
+jambalaya-tenancy-flyway = "0.10.0"
+jambalaya-tenancy-grpc-api = "0.10.0"
+jambalaya-tenancy-jooq = "0.10.0"
+jambalaya-tenancy-junit = "0.10.0"
+jambalaya-tenancy-spock = "0.10.0"
 
 # Libraries
 apollo = "3.8.5"
@@ -38,11 +38,10 @@ error-prone = "2.37.0"
 icu4j = "77.1"
 spock = "2.3-groovy-4.0"
 jooq = "3.20.2"
-opentelemetry = "1.48.0"
-opentelemetry-semconv = "1.30.0"
-opentelemetry-semconv-incubating = "1.30.0-alpha"
+opentelemetry = "1.47.0"
+opentelemetry-semconv = "1.23.1-alpha"
 jspecify = "1.0.0"
-junit = "5.12.1"
+junit = "5.10.5"
 flyway = "11.4.1"
 slf4j = "2.0.17"
 
@@ -70,7 +69,6 @@ micronaut-graphql = { module = "io.micronaut.graphql:micronaut-graphql", version
 jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
 opentelemetry-api = { module = "io.opentelemetry:opentelemetry-api", version.ref = "opentelemetry" }
 opentelemetry-semconv = { module = "io.opentelemetry.semconv:opentelemetry-semconv", version.ref = "opentelemetry-semconv" }
-opentelemetry-semconv-incubating = { module = "io.opentelemetry.semconv:opentelemetry-semconv-incubating", version.ref = "opentelemetry-semconv-incubating" }
 jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }

@@ -14,5 +14,5 @@ dependencies {
 
     compileOnly("com.google.errorprone:error_prone_annotations:2.37.0")
 
-    implementation(jambalayaLibs.junit.jupiter.api)
+    testImplementation(jambalayaLibs.junit.jupiter.api)
 }

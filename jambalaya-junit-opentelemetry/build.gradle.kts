@@ -12,7 +12,6 @@ dependencies {
     // OpenTelemetry
     implementation(jambalayaLibs.opentelemetry.api)
     implementation(jambalayaLibs.opentelemetry.semconv)
-    implementation(jambalayaLibs.opentelemetry.semconv.incubating)
 
     // JSpecify
     api(jambalayaLibs.jspecify)

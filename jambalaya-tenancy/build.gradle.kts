@@ -12,7 +12,7 @@ dependencies {
     api(project(":jambalaya-checks"))
     api(project(":jambalaya-opentelemetry"))
 
-    compileOnly("com.google.errorprone:error_prone_annotations:2.37.0")
+    compileOnly("com.google.errorprone:error_prone_annotations:2.38.0")
 
     testImplementation(jambalayaLibs.junit.jupiter.api)
 }

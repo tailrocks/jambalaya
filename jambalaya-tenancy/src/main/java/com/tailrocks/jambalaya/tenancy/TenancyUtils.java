@@ -22,6 +22,8 @@ import io.opentelemetry.context.Context;
 import io.opentelemetry.context.Scope;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -36,6 +38,7 @@ import static com.tailrocks.jambalaya.checks.Preconditions.checkNotNull;
 public final class TenancyUtils {
 
     private static final String TENANT_KEY = "tenant";
+    private static final Logger log = LoggerFactory.getLogger(TenancyUtils.class);
 
     private TenancyUtils() {
     }
@@ -50,6 +53,10 @@ public final class TenancyUtils {
         return Tenant.parse(tenantString);
     }
 
+    @Deprecated(forRemoval = true, since = "Instead of using default tenant " +
+            "think about how your logic will work for UK and other countries. " +
+            "Either make sure you always have tenant in baggage or reimplement your logic for all/each tenants. " +
+            "Use TenancyUtils#getTenantOrThrow method instead and get ready for EmptyTenantException.")
     public static Tenant getTenantOrDefault() {
         String tenantString = getTenantString();
 
@@ -60,6 +67,10 @@ public final class TenancyUtils {
         return Tenant.parse(tenantString);
     }
 
+    @Deprecated(forRemoval = true, since = "Instead of using default tenant " +
+            "think about how your logic will work for UK and other countries. " +
+            "Either make sure you always have tenant in baggage or reimplement your logic for all/each tenants. " +
+            "Use TenancyUtils#getTenantOrThrow method instead and get ready for EmptyTenantException.")
     public static <T> T callWithDefaultTenant(@NonNull Supplier<T> callable) {
         return callWithTenant(Tenant.DEFAULT, callable);
     }
@@ -94,6 +105,10 @@ public final class TenancyUtils {
         }
     }
 
+    @Deprecated(forRemoval = true, since = "Instead of using default tenant " +
+            "think about how your logic will work for UK and other countries. " +
+            "Either make sure you always have tenant in baggage or reimplement your logic for all/each tenants. " +
+            "Use TenancyUtils#getTenantOrThrow method instead and get ready for EmptyTenantException.")
     public static void runWithDefaultTenant(@NonNull Runnable runnable) {
         runWithTenant(Tenant.DEFAULT, runnable);
     }
@@ -117,7 +132,7 @@ public final class TenancyUtils {
         runWithTenant(tenantString, runnable);
     }
 
-    public static void runWithTenant(@Nullable String tenantString, @NonNull Runnable runnable) {
+    public static void runWithTenant(String tenantString, @NonNull Runnable runnable) {
         checkNotNull(runnable, "runnable");
 
         if (tenantString == null || !StringUtils.hasText(tenantString)) {
@@ -133,6 +148,10 @@ public final class TenancyUtils {
         return decode(Baggage.current().getEntryValue(TENANT_KEY));
     }
 
+    @Deprecated(forRemoval = true, since = "Instead of using default tenant " +
+            "think about how your logic will work for UK and other countries. " +
+            "Either make sure you always have tenant in baggage or reimplement your logic for all/each tenants. " +
+            "Use TenancyUtils#getTenantOrThrow method instead and get ready for EmptyTenantException.")
     public static String getTenantStringOrDefault() {
         return getTenantStringOrElse(Tenant.DEFAULT);
     }
@@ -144,6 +163,7 @@ public final class TenancyUtils {
         if (StringUtils.hasText(tenantString)) {
             return tenantString;
         }
+        log.warn("Get default tenant detected!")
         return other;
     }
 

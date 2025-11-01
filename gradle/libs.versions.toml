@@ -23,7 +23,7 @@ jambalaya-tenancy-junit = "0.11.0"
 jambalaya-tenancy-spock = "0.11.0"
 
 # Libraries
-apollo = "3.8.6"
+apollo = "4.3.3"
 common-protos = "2.62.0"
 graphql-data-loader = "5.0.3"
 grpc = "1.76.0"
@@ -47,7 +47,7 @@ slf4j = "2.0.17"
 
 [libraries]
 # Libraries
-apollo-runtime = { module = "com.apollographql.apollo3:apollo-runtime", version.ref = "apollo" }
+apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "apollo" }
 apollo-rx3-support = { module = "com.apollographql.apollo3:apollo-rx3-support", version.ref = "apollo" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 java-dataloader = { module = "com.graphql-java:java-dataloader", version.ref = "graphql-data-loader" }

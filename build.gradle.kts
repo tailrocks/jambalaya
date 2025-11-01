@@ -1,21 +1,21 @@
 plugins {
     // https://plugins.gradle.org/plugin/com.tailrocks.java
-    id("com.tailrocks.java") version "0.5.1"
+    id("com.tailrocks.java") version "0.6.0"
 
     // https://plugins.gradle.org/plugin/com.tailrocks.spotless
-    id("com.tailrocks.spotless") version "0.5.2"
+    id("com.tailrocks.spotless") version "0.6.0"
 
     // https://plugins.gradle.org/plugin/com.tailrocks.idea
-    id("com.tailrocks.idea") version "0.5.1" apply false
+    id("com.tailrocks.idea") version "0.6.0" apply false
 
     // https://plugins.gradle.org/plugin/com.tailrocks.junit
-    id("com.tailrocks.junit") version "0.5.1" apply false
+    id("com.tailrocks.junit") version "0.6.0" apply false
 
     // https://plugins.gradle.org/plugin/com.tailrocks.versions
-    id("com.tailrocks.versions") version "0.5.2" apply false
+    id("com.tailrocks.versions") version "0.6.0" apply false
 
     // https://plugins.gradle.org/plugin/com.tailrocks.kotlin
-    id("com.tailrocks.kotlin") version "0.6.2" apply false
+    id("com.tailrocks.kotlin") version "0.7.0" apply false
 
     // https://plugins.gradle.org/plugin/com.adarshr.test-logger
     id("com.adarshr.test-logger") version "4.0.0" apply false
@@ -23,7 +23,7 @@ plugins {
     // https://plugins.gradle.org/plugin/com.google.protobuf
     id("com.google.protobuf") version "0.9.5" apply false
 
-    id("com.gradleup.nmcp") version "1.2.0"
+    id("com.gradleup.nmcp.aggregation") version "1.2.0"
 }
 
 val javaVersion = 21
@@ -61,12 +61,14 @@ subprojects {
     apply(plugin = "com.adarshr.test-logger")
 }
 
-nmcp {
-    publishAllProjectsProbablyBreakingProjectIsolation {
+nmcpAggregation {
+    centralPortal {
         // use User Token's username and password
         username = System.getenv("MAVEN_CENTRAL_USERNAME")
         password = System.getenv("MAVEN_CENTRAL_PASSWORD")
         // publish manually from the portal
-        publicationType = "USER_MANAGED"
+        publishingType = "USER_MANAGED"
     }
+
+    publishAllProjectsProbablyBreakingProjectIsolation()
 }

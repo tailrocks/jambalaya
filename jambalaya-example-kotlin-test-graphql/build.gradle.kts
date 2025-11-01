@@ -1,8 +1,8 @@
 plugins {
     `java-library`
 
-    // https://plugins.gradle.org/plugin/com.apollographql.apollo3
-    id("com.apollographql.apollo3") version "3.8.6"
+    // https://plugins.gradle.org/plugin/com.apollographql.apollo
+    id("com.apollographql.apollo") version "4.3.3"
 }
 
 val javaVersion = 21
@@ -17,6 +17,7 @@ dependencies {
     api(jambalayaLibs.apollo.runtime)
 }
 
+/*
 apollo {
     generateKotlinModels.set(false)
 
@@ -24,6 +25,7 @@ apollo {
 
     schemaFile.set(file("$projectDir/src/main/resources/graphql/dumper.graphqls"))
 }
+ */
 
 tasks {
     compileJava {

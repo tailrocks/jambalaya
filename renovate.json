@@ -2,5 +2,11 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:best-practices"],
   "prHourlyLimit": 0,
-  "prConcurrentLimit": 20
+  "prConcurrentLimit": 20,
+  "packageRules" : [
+    {
+      "matchPackagePrefixes": ["com.graphql-java:"],
+      "allowedVersions": "/^[0-9]+\\.[0-9]+(\\.[0-9]+)?$/"
+    }
+  ]
 }

@@ -7,5 +7,5 @@ dependencies {
     implementation("com.tailrocks.gradle:maven-publish-conventions:0.6.0")
 
     // https://plugins.gradle.org/plugin/com.tailrocks.signing
-    implementation("com.tailrocks.gradle:signing-conventions:0.5.1")
+    implementation("com.tailrocks.gradle:signing-conventions:0.6.0")
 }

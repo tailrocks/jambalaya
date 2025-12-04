@@ -33,10 +33,9 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.opentelemetry.semconv.SemanticAttributes.CODE_FUNCTION;
-import static io.opentelemetry.semconv.SemanticAttributes.CODE_NAMESPACE;
-import static io.opentelemetry.semconv.SemanticAttributes.THREAD_ID;
-import static io.opentelemetry.semconv.SemanticAttributes.THREAD_NAME;
+import static io.opentelemetry.semconv.CodeAttributes.CODE_FUNCTION_NAME;
+import static io.opentelemetry.semconv.incubating.ThreadIncubatingAttributes.THREAD_ID;
+import static io.opentelemetry.semconv.incubating.ThreadIncubatingAttributes.THREAD_NAME;
 
 /**
  * @author Alexey Zhokhov
@@ -67,8 +66,8 @@ public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCall
 
         span.setAttribute(THREAD_ID, Thread.currentThread().getId());
         span.setAttribute(THREAD_NAME, Thread.currentThread().getName());
-        span.setAttribute(CODE_FUNCTION, context.getRequiredTestMethod().getName());
-        span.setAttribute(CODE_NAMESPACE, context.getRequiredTestClass().getName());
+        span.setAttribute(CODE_FUNCTION_NAME,
+                context.getRequiredTestClass().getName() + "." + context.getRequiredTestMethod().getName());
 
         spans.put(context.getUniqueId(), span);
         scopes.put(context.getUniqueId(), span.makeCurrent());
@@ -103,30 +102,38 @@ public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCall
     }
 
     @Override
-    public void interceptBeforeAllMethod(Invocation<Void> invocation,
-                                         ReflectiveInvocationContext<Method> invocationContext,
-                                         ExtensionContext extensionContext) throws Throwable {
+    public void interceptBeforeAllMethod(
+            Invocation<Void> invocation,
+            ReflectiveInvocationContext<Method> invocationContext,
+            ExtensionContext extensionContext
+    ) throws Throwable {
         interceptMethod("@BeforeAll: ", invocation, invocationContext, extensionContext);
     }
 
     @Override
-    public void interceptAfterAllMethod(Invocation<Void> invocation,
-                                        ReflectiveInvocationContext<Method> invocationContext,
-                                        ExtensionContext extensionContext) throws Throwable {
+    public void interceptAfterAllMethod(
+            Invocation<Void> invocation,
+            ReflectiveInvocationContext<Method> invocationContext,
+            ExtensionContext extensionContext
+    ) throws Throwable {
         interceptMethod("@AfterAll: ", invocation, invocationContext, extensionContext);
     }
 
     @Override
-    public void interceptBeforeEachMethod(Invocation<Void> invocation,
-                                          ReflectiveInvocationContext<Method> invocationContext,
-                                          ExtensionContext extensionContext) throws Throwable {
+    public void interceptBeforeEachMethod(
+            Invocation<Void> invocation,
+            ReflectiveInvocationContext<Method> invocationContext,
+            ExtensionContext extensionContext
+    ) throws Throwable {
         interceptMethod("@BeforeEach: ", invocation, invocationContext, extensionContext);
     }
 
     @Override
-    public void interceptAfterEachMethod(Invocation<Void> invocation,
-                                         ReflectiveInvocationContext<Method> invocationContext,
-                                         ExtensionContext extensionContext) throws Throwable {
+    public void interceptAfterEachMethod(
+            Invocation<Void> invocation,
+            ReflectiveInvocationContext<Method> invocationContext,
+            ExtensionContext extensionContext
+    ) throws Throwable {
         interceptMethod("@AfterEach: ", invocation, invocationContext, extensionContext);
     }
 
@@ -142,8 +149,8 @@ public class OpenTelemetryExtension implements BeforeEachCallback, AfterEachCall
 
         span.setAttribute(THREAD_ID, Thread.currentThread().getId());
         span.setAttribute(THREAD_NAME, Thread.currentThread().getName());
-        span.setAttribute(CODE_FUNCTION, invocationContext.getExecutable().getName());
-        span.setAttribute(CODE_NAMESPACE, invocationContext.getTargetClass().getName());
+        span.setAttribute(CODE_FUNCTION_NAME,
+                invocationContext.getTargetClass().getName() + "." + invocationContext.getExecutable().getName());
 
         logger.info(">>  {}", spanName);
 

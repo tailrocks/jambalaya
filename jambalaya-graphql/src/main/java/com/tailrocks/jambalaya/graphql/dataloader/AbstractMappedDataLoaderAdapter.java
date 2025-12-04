@@ -116,7 +116,7 @@ public abstract class AbstractMappedDataLoaderAdapter<K, V> {
      * @return the data loader options
      */
     protected DataLoaderOptions getDataLoaderOptions() {
-        return DataLoaderOptions.newOptions();
+        return DataLoaderOptions.newOptions().build();
     }
 
     /**

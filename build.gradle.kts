@@ -52,11 +52,7 @@ allprojects {
 }
 
 subprojects {
-    // TODO restore me later
-    //apply(plugin = "com.tailrocks.java")
-
-    // TODO remove me later
-    apply(plugin = "java")
+    apply(plugin = "com.tailrocks.java")
 
     apply(plugin = "com.adarshr.test-logger")
 }

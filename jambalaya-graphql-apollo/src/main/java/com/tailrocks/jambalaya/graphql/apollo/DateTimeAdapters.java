@@ -15,11 +15,11 @@
  */
 package com.tailrocks.jambalaya.graphql.apollo;
 
-import com.apollographql.apollo3.api.Adapter;
-import com.apollographql.apollo3.api.CustomScalarAdapters;
-import com.apollographql.apollo3.api.CustomScalarType;
-import com.apollographql.apollo3.api.json.JsonReader;
-import com.apollographql.apollo3.api.json.JsonWriter;
+import com.apollographql.apollo.api.Adapter;
+import com.apollographql.apollo.api.CustomScalarAdapters;
+import com.apollographql.apollo.api.CustomScalarType;
+import com.apollographql.apollo.api.json.JsonReader;
+import com.apollographql.apollo.api.json.JsonWriter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -108,17 +108,21 @@ public final class DateTimeAdapters {
     private static final class DateAdapter implements Adapter<Date> {
 
         @Override
-        public Date fromJson(@NotNull JsonReader jsonReader,
-                             @NotNull CustomScalarAdapters customScalarAdapters) throws IOException {
+        public Date fromJson(
+                @NotNull JsonReader jsonReader,
+                @NotNull CustomScalarAdapters customScalarAdapters
+        ) throws IOException {
             LocalDateTime localDateTime = DateTimeHelper.parseDate(jsonReader.nextString());
 
             return DateTimeHelper.toDate(localDateTime);
         }
 
         @Override
-        public void toJson(@NotNull JsonWriter jsonWriter,
-                           @NotNull CustomScalarAdapters customScalarAdapters,
-                           Date date) throws IOException {
+        public void toJson(
+                @NotNull JsonWriter jsonWriter,
+                @NotNull CustomScalarAdapters customScalarAdapters,
+                Date date
+        ) throws IOException {
             jsonWriter.value(DateTimeHelper.toISOString(date));
         }
 
@@ -127,8 +131,10 @@ public final class DateTimeAdapters {
     private static final class LocalDateAdapter implements Adapter<LocalDate> {
 
         @Override
-        public LocalDate fromJson(@NotNull JsonReader jsonReader,
-                                  @NotNull CustomScalarAdapters customScalarAdapters) throws IOException {
+        public LocalDate fromJson(
+                @NotNull JsonReader jsonReader,
+                @NotNull CustomScalarAdapters customScalarAdapters
+        ) throws IOException {
             LocalDateTime localDateTime = converter.parseDate(jsonReader.nextString());
 
             if (localDateTime == null) {
@@ -139,9 +145,11 @@ public final class DateTimeAdapters {
         }
 
         @Override
-        public void toJson(@NotNull JsonWriter jsonWriter,
-                           @NotNull CustomScalarAdapters customScalarAdapters,
-                           LocalDate localDate) throws IOException {
+        public void toJson(
+                @NotNull JsonWriter jsonWriter,
+                @NotNull CustomScalarAdapters customScalarAdapters,
+                LocalDate localDate
+        ) throws IOException {
             jsonWriter.value(converter.formatDate(localDate, DateTimeFormatter.ISO_LOCAL_DATE));
         }
 
@@ -150,15 +158,19 @@ public final class DateTimeAdapters {
     private static final class LocalDateTimeAdapter implements Adapter<LocalDateTime> {
 
         @Override
-        public LocalDateTime fromJson(@NotNull JsonReader jsonReader,
-                                      @NotNull CustomScalarAdapters customScalarAdapters) throws IOException {
+        public LocalDateTime fromJson(
+                @NotNull JsonReader jsonReader,
+                @NotNull CustomScalarAdapters customScalarAdapters
+        ) throws IOException {
             return converter.parseDate(jsonReader.nextString());
         }
 
         @Override
-        public void toJson(@NotNull JsonWriter jsonWriter,
-                           @NotNull CustomScalarAdapters customScalarAdapters,
-                           LocalDateTime localDateTime) throws IOException {
+        public void toJson(
+                @NotNull JsonWriter jsonWriter,
+                @NotNull CustomScalarAdapters customScalarAdapters,
+                LocalDateTime localDateTime
+        ) throws IOException {
             jsonWriter.value(converter.formatDate(localDateTime, DateTimeFormatter.ISO_INSTANT));
         }
 
@@ -167,15 +179,19 @@ public final class DateTimeAdapters {
     private static final class LocalTimeAdapter implements Adapter<LocalTime> {
 
         @Override
-        public LocalTime fromJson(@NotNull JsonReader jsonReader,
-                                  @NotNull CustomScalarAdapters customScalarAdapters) throws IOException {
+        public LocalTime fromJson(
+                @NotNull JsonReader jsonReader,
+                @NotNull CustomScalarAdapters customScalarAdapters
+        ) throws IOException {
             return LocalTime.parse(jsonReader.nextString(), DateTimeFormatter.ISO_LOCAL_TIME.withZone(ZoneOffset.UTC));
         }
 
         @Override
-        public void toJson(@NotNull JsonWriter jsonWriter,
-                           @NotNull CustomScalarAdapters customScalarAdapters,
-                           LocalTime localTime) throws IOException {
+        public void toJson(
+                @NotNull JsonWriter jsonWriter,
+                @NotNull CustomScalarAdapters customScalarAdapters,
+                LocalTime localTime
+        ) throws IOException {
             jsonWriter.value(DateTimeHelper.toISOString(localTime));
         }
 
@@ -184,15 +200,19 @@ public final class DateTimeAdapters {
     private static final class OffsetDateTimeAdapter implements Adapter<OffsetDateTime> {
 
         @Override
-        public OffsetDateTime fromJson(@NotNull JsonReader jsonReader,
-                                       @NotNull CustomScalarAdapters customScalarAdapters) throws IOException {
+        public OffsetDateTime fromJson(
+                @NotNull JsonReader jsonReader,
+                @NotNull CustomScalarAdapters customScalarAdapters
+        ) throws IOException {
             return OffsetDateTime.parse(jsonReader.nextString(), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         }
 
         @Override
-        public void toJson(@NotNull JsonWriter jsonWriter,
-                           @NotNull CustomScalarAdapters customScalarAdapters,
-                           OffsetDateTime offsetDateTime) throws IOException {
+        public void toJson(
+                @NotNull JsonWriter jsonWriter,
+                @NotNull CustomScalarAdapters customScalarAdapters,
+                OffsetDateTime offsetDateTime
+        ) throws IOException {
             jsonWriter.value(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(offsetDateTime));
         }
 
@@ -201,8 +221,10 @@ public final class DateTimeAdapters {
     private static final class YearMonthAdapter implements Adapter<YearMonth> {
 
         @Override
-        public YearMonth fromJson(@NotNull JsonReader jsonReader,
-                                  @NotNull CustomScalarAdapters customScalarAdapters) throws IOException {
+        public YearMonth fromJson(
+                @NotNull JsonReader jsonReader,
+                @NotNull CustomScalarAdapters customScalarAdapters
+        ) throws IOException {
             String stringValue = jsonReader.nextString();
 
             Matcher m = YEAR_MONTH_PATTERN.matcher(stringValue);
@@ -215,9 +237,11 @@ public final class DateTimeAdapters {
         }
 
         @Override
-        public void toJson(@NotNull JsonWriter jsonWriter,
-                           @NotNull CustomScalarAdapters customScalarAdapters,
-                           YearMonth yearMonth) throws IOException {
+        public void toJson(
+                @NotNull JsonWriter jsonWriter,
+                @NotNull CustomScalarAdapters customScalarAdapters,
+                YearMonth yearMonth
+        ) throws IOException {
             jsonWriter.value(yearMonth.toString());
         }
 
@@ -226,15 +250,19 @@ public final class DateTimeAdapters {
     private static final class DurationAdapter implements Adapter<Duration> {
 
         @Override
-        public Duration fromJson(@NotNull JsonReader jsonReader,
-                                 @NotNull CustomScalarAdapters customScalarAdapters) throws IOException {
+        public Duration fromJson(
+                @NotNull JsonReader jsonReader,
+                @NotNull CustomScalarAdapters customScalarAdapters
+        ) throws IOException {
             return Duration.parse(jsonReader.nextString());
         }
 
         @Override
-        public void toJson(@NotNull JsonWriter jsonWriter,
-                           @NotNull CustomScalarAdapters customScalarAdapters,
-                           Duration duration) throws IOException {
+        public void toJson(
+                @NotNull JsonWriter jsonWriter,
+                @NotNull CustomScalarAdapters customScalarAdapters,
+                Duration duration
+        ) throws IOException {
             jsonWriter.value(duration.toString());
         }
 

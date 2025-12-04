@@ -15,16 +15,14 @@
  */
 package com.tailrocks.jambalaya.graphql.apollo;
 
-import com.apollographql.apollo3.ApolloClient;
-import com.apollographql.apollo3.api.ApolloResponse;
-import com.apollographql.apollo3.api.Mutation;
-import com.apollographql.apollo3.api.Operation;
-import com.apollographql.apollo3.api.Query;
-import com.apollographql.apollo3.api.ScalarType;
-import com.apollographql.apollo3.network.http.DefaultHttpEngine;
-import com.apollographql.apollo3.network.ws.WebSocketNetworkTransport;
-import com.apollographql.apollo3.rx3.Rx3Apollo;
-import io.reactivex.rxjava3.core.Scheduler;
+import com.apollographql.apollo.ApolloClient;
+import com.apollographql.apollo.api.ApolloResponse;
+import com.apollographql.apollo.api.Mutation;
+import com.apollographql.apollo.api.Operation;
+import com.apollographql.apollo.api.Query;
+import com.apollographql.apollo.api.ScalarType;
+import com.apollographql.apollo.network.http.DefaultHttpEngine;
+import com.apollographql.apollo.network.websocket.WebSocketNetworkTransport;
 import okhttp3.Call;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;

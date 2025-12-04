@@ -15,7 +15,7 @@
  */
 package com.zhokhov.jambalaya.kotlin.test
 
-import com.apollographql.apollo3.api.ApolloResponse
+import com.apollographql.apollo.api.ApolloResponse
 import com.zhokhov.jambalaya.test.sample.TestData
 import jambalaya.test.sample.apollo.TableCreateMutation
 import jambalaya.test.sample.apollo.TableListQuery

@@ -14,9 +14,6 @@ dependencies {
     // gRPC
     api("io.grpc:grpc-protobuf:${jambalayaLibs.versions.grpc.get()}")
     api("io.grpc:grpc-stub:${jambalayaLibs.versions.grpc.get()}")
-
-    // TODO remove me later
-    compileOnly("javax.annotation:javax.annotation-api:1.3.2")
 }
 
 protobuf {

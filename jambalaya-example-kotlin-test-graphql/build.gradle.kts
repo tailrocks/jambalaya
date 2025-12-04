@@ -17,15 +17,13 @@ dependencies {
     api(jambalayaLibs.apollo.runtime)
 }
 
-/*
 apollo {
-    generateKotlinModels.set(false)
+    service("service") {
+        packageName.set("jambalaya.test.sample.apollo")
 
-    packageName.set("jambalaya.test.sample.apollo")
-
-    schemaFile.set(file("$projectDir/src/main/resources/graphql/dumper.graphqls"))
+        schemaFile.set(file("$projectDir/src/main/resources/graphql/dumper.graphqls"))
+    }
 }
- */
 
 tasks {
     compileJava {

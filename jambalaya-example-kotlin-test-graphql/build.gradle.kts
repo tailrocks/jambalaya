@@ -19,6 +19,8 @@ dependencies {
 
 apollo {
     service("service") {
+        generateKotlinModels.set(false)
+
         packageName.set("jambalaya.test.sample.apollo")
 
         schemaFile.set(file("$projectDir/src/main/resources/graphql/dumper.graphqls"))

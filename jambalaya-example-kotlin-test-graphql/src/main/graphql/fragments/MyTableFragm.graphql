@@ -1,0 +1,4 @@
+fragment test on Table {
+  name
+  description(long: $test)
+}

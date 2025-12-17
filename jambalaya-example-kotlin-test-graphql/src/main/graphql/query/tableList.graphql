@@ -12,6 +12,9 @@ query tableList($input: TableListInput!) {
         code
         message
       }
+      ... on AnotherTypeError {
+        abc: someField
+      }
     }
   }
 }

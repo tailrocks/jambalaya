@@ -1,10 +1,9 @@
 mutation tableCreate($input: TableCreateInput!) {
-  tableCreate(input: $input) {
+  tableCreate(input: $input, additionalArgument2: "xyz") {
     data {
       name
       columns {
-        name
-        kind
+        ... tableColumnFragment
       }
     }
     error {

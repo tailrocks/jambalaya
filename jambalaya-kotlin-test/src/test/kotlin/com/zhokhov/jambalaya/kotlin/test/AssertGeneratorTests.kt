@@ -16,9 +16,11 @@
 package com.zhokhov.jambalaya.kotlin.test
 
 import com.apollographql.apollo.api.ApolloResponse
+import com.apollographql.apollo.api.Optional
 import com.zhokhov.jambalaya.test.sample.TestData
 import jambalaya.test.sample.apollo.TableCreateMutation
 import jambalaya.test.sample.apollo.TableListQuery
+import jambalaya.test.sample.apollo.fragment.TableColumnFragment
 import jambalaya.test.sample.apollo.type.TableCreateInput
 import jambalaya.test.sample.apollo.type.TableListInput
 import org.junit.jupiter.api.Test
@@ -81,7 +83,7 @@ class AssertGeneratorTests {
     @Test
     fun `apollo query test`() {
         // GIVEN:
-        val tableListQuery = TableListQuery(TableListInput("test"))
+        val tableListQuery = TableListQuery(TableListInput("test", Optional.absent()))
         val tableList = TableListQuery.TableList(
             listOf(
                 TableListQuery.Data1(
@@ -165,8 +167,8 @@ class AssertGeneratorTests {
             TableCreateMutation.Data1(
                 "account",
                 listOf(
-                    TableCreateMutation.Column("id", "int8"),
-                    TableCreateMutation.Column("created_date", "timestamp")
+                    TableCreateMutation.Column("_test", TableColumnFragment("id", "int8")),
+                    TableCreateMutation.Column("_test", TableColumnFragment("created_date", "timestamp"))
                 )
             ),
             null

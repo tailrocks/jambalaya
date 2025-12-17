@@ -5,14 +5,17 @@ schema {
 
 type Query {
   tableList(input: TableListInput!): TableListPayload!
+
+  hello: String
 }
 
 type Mutation {
-  tableCreate(input: TableCreateInput!): TableCreatePayload!
+  tableCreate(input: TableCreateInput!, additionalArgument: String, additionalArgument2: String!): TableCreatePayload!
 }
 
 input TableListInput {
   databaseName: String!
+  charset: String
 }
 
 input TableCreateInput {
@@ -21,6 +24,12 @@ input TableCreateInput {
 
 enum SecurityErrorCode {
   UNAUTHORIZED
+  DENIED
+}
+
+enum AnotherErrorCode {
+  TEST1
+  TEST2
 }
 
 type TableListPayload {
@@ -36,12 +45,13 @@ type TableCreatePayload {
 type Table {
   name: String!
   columns: [TableColumn!]!
+  description(long: Boolean): String
 }
 
 type TableColumn {
   name: String!
-  # column type
   kind: String!
+  description: String
 }
 
 type SecurityError {
@@ -49,5 +59,10 @@ type SecurityError {
   message: String!
 }
 
-union TableListPayloadError = SecurityError
+type AnotherTypeError {
+  code: AnotherErrorCode
+  someField: String @deprecated(reason: "Please avoid")
+}
+
+union TableListPayloadError = SecurityError | AnotherTypeError
 union TableCreatePayloadError = SecurityError

@@ -1,0 +1,10 @@
+query abc($test: Boolean) {
+  hello
+  tableList(input: {
+    databaseName: "test"
+  }) {
+    data {
+      ...test
+    }
+  }
+}

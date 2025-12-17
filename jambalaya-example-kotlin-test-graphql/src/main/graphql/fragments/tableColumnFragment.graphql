@@ -1,0 +1,4 @@
+fragment tableColumnFragment on TableColumn {
+  name
+  kind
+}

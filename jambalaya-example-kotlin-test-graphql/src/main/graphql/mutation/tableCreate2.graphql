@@ -1,0 +1,23 @@
+mutation TableCreateAnother($input: TableCreateInput!, $additionalArgumentTest2: String!) {
+  tableCreate(input: $input, additionalArgument2: $additionalArgumentTest2) {
+    data {
+      name
+      columns {
+        ... tableColumnFragment
+      }
+    }
+    error {
+      ... on SecurityError {securityCode: code message}
+    }
+  }
+  result2: tableCreate(
+    input: {
+      tableName: "test"
+    }
+    additionalArgument2: ""
+  ) {
+    data {
+      name
+    }
+  }
+}

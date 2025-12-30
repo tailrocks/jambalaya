@@ -23,7 +23,7 @@ plugins {
     // https://plugins.gradle.org/plugin/com.google.protobuf
     id("com.google.protobuf") version "0.9.6" apply false
 
-    id("com.gradleup.nmcp.aggregation") version "1.4.0"
+    id("com.gradleup.nmcp.aggregation") version "1.4.1"
 }
 
 val javaVersion = 21

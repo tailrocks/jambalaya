@@ -2,7 +2,7 @@ plugins {
     `java-library`
 
     // https://plugins.gradle.org/plugin/com.apollographql.apollo
-    id("com.apollographql.apollo") version "4.3.3"
+    id("com.apollographql.apollo") version "4.4.0"
 }
 
 val javaVersion = 21

@@ -23,7 +23,7 @@ jambalaya-tenancy-junit = "0.12.0"
 jambalaya-tenancy-spock = "0.12.0"
 
 # Libraries
-apollo = "4.3.3"
+apollo = "4.4.0"
 common-protos = "2.65.0"
 graphql-data-loader = "6.0.0"
 grpc = "1.78.0"

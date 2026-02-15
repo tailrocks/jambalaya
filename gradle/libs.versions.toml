@@ -42,7 +42,7 @@ opentelemetry = "1.58.0"
 opentelemetry-semconv = "1.39.0"
 opentelemetry-semconv-alpha = "1.37.0-alpha"
 jspecify = "1.0.0"
-junit = "6.0.2"
+junit = "6.0.3"
 flyway = "11.20.3"
 slf4j = "2.0.17"
 

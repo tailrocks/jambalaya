@@ -1,0 +1,77 @@
+name: Publish to Maven Central
+
+on:
+  workflow_dispatch:
+    inputs:
+      module:
+        description: >
+          Module to publish. Choose "all" to upload every module as a single
+          aggregated bundle (USER_MANAGED — you still release it manually from
+          the Maven Central Portal). Choose a specific module to upload only
+          that artifact as its own individual bundle.
+        required: true
+        type: choice
+        default: all
+        options:
+          - all
+          - jambalaya-checks
+          - jambalaya-checks-jooq
+          - jambalaya-example-grpc-interface
+          - jambalaya-example-jooq
+          - jambalaya-example-kotlin-test-graphql
+          - jambalaya-example-mapstruct-processors
+          - jambalaya-graphql
+          - jambalaya-graphql-apollo
+          - jambalaya-graphql-jooq
+          - jambalaya-jsr310
+          - jambalaya-junit-opentelemetry
+          - jambalaya-mapstruct
+          - jambalaya-mapstruct-processor
+          - jambalaya-micronaut-graphql
+          - jambalaya-micronaut-mapstruct-protobuf
+          - jambalaya-opentelemetry
+          - jambalaya-protobuf
+          - jambalaya-seo
+          - jambalaya-tenancy
+          - jambalaya-tenancy-flyway
+          - jambalaya-tenancy-grpc-interface
+          - jambalaya-tenancy-jooq
+          - jambalaya-tenancy-junit
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    # Prevent two publish jobs from running at the same time.
+    concurrency:
+      group: publish
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Set up mise
+        uses: jdx/mise-action@5228313ee0372e111a38da051671ca30fc5a96db # v3
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@0723195856401067f7a2779048b490ace7a47d7c # v5
+
+      # Publish all modules as a single aggregated bundle to Central Portal.
+      # The bundle is queued for manual release (USER_MANAGED publishing type).
+      - name: Publish all modules (aggregated bundle)
+        if: ${{ inputs.module == 'all' }}
+        run: ./gradlew publishAggregationToMavenCentral
+        env:
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_PRIVATE_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_PASSPHRASE }}
+
+      # Publish a single module as its own individual bundle to Central Portal.
+      # The publication name "mavenJava" is defined in jambalaya-library-conventions.gradle.kts.
+      - name: Publish single module — ${{ inputs.module }}
+        if: ${{ inputs.module != 'all' }}
+        run: ./gradlew :${{ inputs.module }}:publishMavenJavaPublicationToMavenCentralPortal
+        env:
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.GPG_PRIVATE_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_PASSPHRASE }}

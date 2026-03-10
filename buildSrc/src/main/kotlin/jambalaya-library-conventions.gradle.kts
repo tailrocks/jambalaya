@@ -3,6 +3,7 @@ plugins {
     `maven-publish`
     id("com.tailrocks.maven-publish")
     id("com.tailrocks.signing")
+    id("com.gradleup.nmcp")
 }
 
 val javaVersion = 21

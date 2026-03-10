@@ -24,7 +24,7 @@ plugins {
     id("com.google.protobuf") version "0.9.6" apply false
 
     // https://github.com/GradleUp/nmcp
-    id("com.gradleup.nmcp.aggregation") version "1.4.4"
+    id("com.gradleup.nmcp.aggregation")
 }
 
 val javaVersion = 21
@@ -58,14 +58,30 @@ subprojects {
     apply(plugin = "com.adarshr.test-logger")
 }
 
+// Credentials are read from MAVEN_CENTRAL_USERNAME / MAVEN_CENTRAL_PASSWORD env vars.
 nmcpAggregation {
     centralPortal {
-        // use User Token's username and password
-        username = System.getenv("MAVEN_CENTRAL_USERNAME")
-        password = System.getenv("MAVEN_CENTRAL_PASSWORD")
-        // publish manually from the portal
+        username = System.getenv("MAVEN_CENTRAL_USERNAME") ?: ""
+        password = System.getenv("MAVEN_CENTRAL_PASSWORD") ?: ""
+        // Publish manually from the Central Portal UI after upload.
         publishingType = "USER_MANAGED"
     }
+}
 
-    publishAllProjectsProbablyBreakingProjectIsolation()
+// Each subproject that applies jambalaya-library-conventions already has com.gradleup.nmcp
+// applied (which registers the nmcpProducer outgoing variant). Here we wire those variants
+// into the aggregation. When publishModule is set only that one module is included,
+// enabling per-module publishing from the CI workflow.
+val publishModule = providers.gradleProperty("publishModule").orNull
+if (publishModule != null) {
+    dependencies {
+        "nmcpAggregation"(project(":$publishModule"))
+    }
+} else {
+    subprojects {
+        val subproject = this
+        pluginManager.withPlugin("com.gradleup.nmcp") {
+            rootProject.dependencies.add("nmcpAggregation", subproject)
+        }
+    }
 }

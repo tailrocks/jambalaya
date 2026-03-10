@@ -8,4 +8,7 @@ dependencies {
 
     // https://plugins.gradle.org/plugin/com.tailrocks.signing
     implementation("com.tailrocks.gradle:signing-conventions:0.7.0")
+
+    // https://github.com/GradleUp/nmcp
+    implementation("com.gradleup.nmcp:nmcp:1.4.4")
 }

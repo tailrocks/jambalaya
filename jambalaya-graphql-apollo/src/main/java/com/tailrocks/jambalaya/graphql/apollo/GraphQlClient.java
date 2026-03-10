@@ -81,7 +81,7 @@ public class GraphQlClient {
 
         ApolloClient.Builder apolloClientBuilder = new ApolloClient.Builder()
                 .serverUrl(serverUrl)
-                .httpEngine(new DefaultHttpEngine(okHttpClient))
+                .httpEngine(DefaultHttpEngine.DefaultHttpEngine(okHttpClient))
                 .subscriptionNetworkTransport(
                         new WebSocketNetworkTransport.Builder()
                                 .serverUrl(webSocketUrl)

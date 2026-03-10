@@ -5,7 +5,9 @@ plugins {
     id("com.google.protobuf")
 }
 
-version = jambalayaLibs.versions.jambalaya.tenancy.grpc.api.get()
+version =
+    jambalayaLibs.versions.jambalaya.tenancy.grpc.api
+        .get()
 description = "Tenancy gRPC interface."
 
 apply(plugin = "jambalaya-library-conventions")
@@ -39,7 +41,7 @@ sourceSets {
         java {
             srcDirs(
                 "${protobuf.generatedFilesBaseDir}/main/grpc",
-                "${protobuf.generatedFilesBaseDir}/main/java"
+                "${protobuf.generatedFilesBaseDir}/main/java",
             )
         }
     }

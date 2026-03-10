@@ -3,7 +3,9 @@ plugins {
     id("com.tailrocks.junit")
 }
 
-version = jambalayaLibs.versions.jambalaya.opentelemetry.get()
+version =
+    jambalayaLibs.versions.jambalaya.opentelemetry
+        .get()
 description = "OpenTelemetry."
 
 apply(plugin = "jambalaya-library-conventions")

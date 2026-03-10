@@ -4,7 +4,9 @@ plugins {
     id("com.tailrocks.junit")
 }
 
-version = jambalayaLibs.versions.jambalaya.checks.jooq.get()
+version =
+    jambalayaLibs.versions.jambalaya.checks.jooq
+        .get()
 description = "jOOQ preconditions."
 
 apply(plugin = "jambalaya-library-conventions")

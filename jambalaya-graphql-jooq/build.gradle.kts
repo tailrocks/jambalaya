@@ -3,7 +3,9 @@ plugins {
     id("com.tailrocks.junit")
 }
 
-version = jambalayaLibs.versions.jambalaya.graphql.jooq.get()
+version =
+    jambalayaLibs.versions.jambalaya.graphql.jooq
+        .get()
 description = "GraphQL jOOQ utils."
 
 apply(plugin = "jambalaya-library-conventions")

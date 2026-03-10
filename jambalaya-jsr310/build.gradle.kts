@@ -4,7 +4,9 @@ plugins {
     id("com.tailrocks.junit")
 }
 
-version = jambalayaLibs.versions.jambalaya.jsr310.get()
+version =
+    jambalayaLibs.versions.jambalaya.jsr310
+        .get()
 description = "JSR 310 utils."
 
 apply(plugin = "jambalaya-library-conventions")

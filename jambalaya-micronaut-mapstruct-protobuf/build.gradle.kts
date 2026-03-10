@@ -4,7 +4,9 @@ plugins {
     id("com.tailrocks.junit")
 }
 
-version = jambalayaLibs.versions.jambalaya.micronaut.mapstruct.protobuf.get()
+version =
+    jambalayaLibs.versions.jambalaya.micronaut.mapstruct.protobuf
+        .get()
 description = "MapStruct protobuf utils."
 
 apply(plugin = "jambalaya-library-conventions")

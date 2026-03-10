@@ -3,7 +3,9 @@ plugins {
     id("com.tailrocks.junit")
 }
 
-version = jambalayaLibs.versions.jambalaya.tenancy.jooq.get()
+version =
+    jambalayaLibs.versions.jambalaya.tenancy.jooq
+        .get()
 description = "Tenancy jOOQ."
 
 apply(plugin = "jambalaya-library-conventions")

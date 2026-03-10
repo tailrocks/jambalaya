@@ -28,8 +28,8 @@ tasks {
             listOf(
                 "-Amapstruct.suppressGeneratorTimestamp=true",
                 "-Amapstruct.suppressGeneratorVersionInfoComment=true",
-                "-Amapstruct.verbose=true"
-            )
+                "-Amapstruct.verbose=true",
+            ),
         )
     }
 }

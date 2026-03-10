@@ -22,7 +22,7 @@ include(
     "jambalaya-graphql-jooq",
     "jambalaya-jsr310",
     "jambalaya-junit-opentelemetry",
-    //"jambalaya-kotlin-test",
+    // "jambalaya-kotlin-test",
     "jambalaya-mapstruct",
     "jambalaya-mapstruct-processor",
     "jambalaya-micronaut-graphql",
@@ -35,5 +35,5 @@ include(
     "jambalaya-tenancy-grpc-interface",
     "jambalaya-tenancy-jooq",
     "jambalaya-tenancy-junit",
-    //"jambalaya-tenancy-spock"
+    // "jambalaya-tenancy-spock"
 )

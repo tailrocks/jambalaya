@@ -46,7 +46,7 @@ sourceSets {
         java {
             srcDirs(
                 "${protobuf.generatedFilesBaseDir}/main/grpc",
-                "${protobuf.generatedFilesBaseDir}/main/java"
+                "${protobuf.generatedFilesBaseDir}/main/java",
             )
         }
     }

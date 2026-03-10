@@ -3,7 +3,10 @@ plugins {
     id("com.tailrocks.junit")
 }
 
-version = jambalayaLibs.versions.jambalaya.graphql.asProvider().get()
+version =
+    jambalayaLibs.versions.jambalaya.graphql
+        .asProvider()
+        .get()
 description = "GraphQL utils."
 
 apply(plugin = "jambalaya-library-conventions")

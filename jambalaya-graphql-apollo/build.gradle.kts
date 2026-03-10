@@ -4,7 +4,9 @@ plugins {
     id("com.tailrocks.junit")
 }
 
-version = jambalayaLibs.versions.jambalaya.graphql.apollo.get()
+version =
+    jambalayaLibs.versions.jambalaya.graphql.apollo
+        .get()
 description = "GraphQL Apollo client."
 
 apply(plugin = "jambalaya-library-conventions")

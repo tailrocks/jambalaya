@@ -4,7 +4,10 @@ plugins {
     id("com.tailrocks.junit")
 }
 
-version = jambalayaLibs.versions.jambalaya.checks.asProvider().get()
+version =
+    jambalayaLibs.versions.jambalaya.checks
+        .asProvider()
+        .get()
 description = "Preconditions."
 
 apply(plugin = "jambalaya-library-conventions")

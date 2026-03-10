@@ -4,7 +4,9 @@ plugins {
     id("com.tailrocks.junit")
 }
 
-version = jambalayaLibs.versions.jambalaya.seo.get()
+version =
+    jambalayaLibs.versions.jambalaya.seo
+        .get()
 description = "SEO utils."
 
 apply(plugin = "jambalaya-library-conventions")

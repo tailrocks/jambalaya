@@ -4,7 +4,9 @@ plugins {
     id("com.tailrocks.junit")
 }
 
-version = jambalayaLibs.versions.jambalaya.protobuf.get()
+version =
+    jambalayaLibs.versions.jambalaya.protobuf
+        .get()
 description = "Protobuf utils."
 
 apply(plugin = "jambalaya-library-conventions")

@@ -3,7 +3,9 @@ plugins {
     id("com.tailrocks.junit")
 }
 
-version = jambalayaLibs.versions.jambalaya.mapstruct.processor.get()
+version =
+    jambalayaLibs.versions.jambalaya.mapstruct.processor
+        .get()
 description = "MapStruct smart SPI."
 
 apply(plugin = "jambalaya-library-conventions")

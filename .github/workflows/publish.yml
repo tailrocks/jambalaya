@@ -47,7 +47,7 @@ jobs:
       cancel-in-progress: false
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Set up mise
         uses: jdx/mise-action@5228313ee0372e111a38da051671ca30fc5a96db # v3

@@ -24,6 +24,7 @@ jambalaya-tenancy-spock = "0.12.0"
 
 # Libraries
 apollo = "4.4.1"
+kotlinx-coroutines = "1.9.0"
 common-protos = "2.66.0"
 graphql-data-loader = "6.0.0"
 grpc = "1.79.0"
@@ -49,6 +50,8 @@ slf4j = "2.0.17"
 [libraries]
 # Libraries
 apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "apollo" }
+apollo-rx3-support = { module = "com.apollographql.apollo:apollo-rx3-support", version.ref = "apollo" }
+kotlinx-coroutines-rx3 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-rx3", version.ref = "kotlinx-coroutines" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 java-dataloader = { module = "com.graphql-java:java-dataloader", version.ref = "graphql-data-loader" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }

@@ -15,8 +15,8 @@
  */
 package com.tailrocks.jambalaya.graphql.apollo
 
-import com.apollographql.apollo3.api.json.MapJsonReader
-import com.apollographql.apollo3.api.json.MapJsonWriter
+import com.apollographql.apollo.api.json.MapJsonReader
+import com.apollographql.apollo.api.json.MapJsonWriter
 import com.tailrocks.jambalaya.graphql.apollo.DateTimeAdapters.CUSTOM_TYPE_ADAPTER_MAP
 import com.tailrocks.jambalaya.graphql.apollo.DateTimeAdapters.YEAR_MONTH
 import org.junit.jupiter.api.Test

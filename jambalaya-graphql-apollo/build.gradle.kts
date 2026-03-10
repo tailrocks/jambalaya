@@ -15,6 +15,9 @@ dependencies {
     // Apollo
     api(jambalayaLibs.apollo.runtime)
 
+    // Kotlin Coroutines
+    api(jambalayaLibs.kotlinx.coroutines.rx3)
+
     // OkHttp
     api(jambalayaLibs.okhttp.urlconnection)
     api(jambalayaLibs.logging.interceptor)

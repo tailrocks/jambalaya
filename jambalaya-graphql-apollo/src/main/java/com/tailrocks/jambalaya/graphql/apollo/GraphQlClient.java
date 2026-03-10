@@ -23,6 +23,7 @@ import com.apollographql.apollo.api.Query;
 import com.apollographql.apollo.api.ScalarType;
 import com.apollographql.apollo.network.http.DefaultHttpEngine;
 import com.apollographql.apollo.network.websocket.WebSocketNetworkTransport;
+import io.reactivex.rxjava3.core.Scheduler;
 import okhttp3.Call;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
@@ -102,25 +103,13 @@ public class GraphQlClient {
     public <D extends Operation.Data & Query.Data> ApolloResponse<D> blockingQuery(
             @NotNull Query<D> query
     ) {
-        var apolloCall = apolloClient.query(query);
-
-        if (queryScheduler != null) {
-            return Rx3Apollo.single(apolloCall, queryScheduler).blockingGet();
-        } else {
-            return Rx3Apollo.single(apolloCall).blockingGet();
-        }
+        return GraphQlClientCoroutinesKt.executeBlocking(apolloClient.query(query), queryScheduler);
     }
 
     public <D extends Operation.Data & Mutation.Data> ApolloResponse<D> blockingMutate(
             @NotNull Mutation<D> mutation
     ) {
-        var apolloCall = apolloClient.mutation(mutation);
-
-        if (mutationScheduler != null) {
-            return Rx3Apollo.single(apolloCall, mutationScheduler).blockingGet();
-        } else {
-            return Rx3Apollo.single(apolloCall).blockingGet();
-        }
+        return GraphQlClientCoroutinesKt.executeBlocking(apolloClient.mutation(mutation), mutationScheduler);
     }
 
 }

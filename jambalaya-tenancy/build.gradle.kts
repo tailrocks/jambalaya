@@ -18,4 +18,6 @@ dependencies {
     compileOnly("com.google.errorprone:error_prone_annotations:2.48.0")
 
     testImplementation(jambalayaLibs.junit.jupiter.api)
+    testRuntimeOnly(jambalayaLibs.junit.jupiter.engine)
+    testRuntimeOnly(jambalayaLibs.junit.platform.launcher)
 }

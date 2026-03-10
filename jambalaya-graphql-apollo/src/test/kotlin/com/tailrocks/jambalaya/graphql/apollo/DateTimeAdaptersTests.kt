@@ -30,7 +30,7 @@ class DateTimeAdaptersTests {
     fun `year month converter`() {
         assertEquals(
             YearMonth.of(2021, 1),
-            YEAR_MONTH.fromJson(MapJsonReader(mapOf(Pair("", "2021-01"))), CUSTOM_TYPE_ADAPTER_MAP)
+            YEAR_MONTH.fromJson(MapJsonReader("2021-01"), CUSTOM_TYPE_ADAPTER_MAP)
         )
 
         val writer = MapJsonWriter()
@@ -39,9 +39,9 @@ class DateTimeAdaptersTests {
         }
 
         assertThrows<RuntimeException> {
-            YEAR_MONTH.fromJson(MapJsonReader(mapOf(Pair("", "abc"))), CUSTOM_TYPE_ADAPTER_MAP)
+            YEAR_MONTH.fromJson(MapJsonReader("abc"), CUSTOM_TYPE_ADAPTER_MAP)
         }.apply {
-            assertEquals("Incorrect value: {=abc}", message)
+            assertEquals("Incorrect value: abc", message)
         }
     }
 

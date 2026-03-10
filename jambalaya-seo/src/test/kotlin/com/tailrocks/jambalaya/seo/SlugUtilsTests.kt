@@ -45,7 +45,7 @@ class SlugUtilsTests {
         )
         assertEquals("x-men-first-class", SlugUtils.generateSlug("X-Men: First Class"))
         assertEquals("ni-hao-ma", SlugUtils.generateSlug("你好吗？"))
-        assertEquals("shalopai", SlugUtils.generateSlug("шалопай"))
+        assertEquals("salopai", SlugUtils.generateSlug("шалопай"))
         assertEquals("zhe-ge-ren-shen-me-dou-bu-zhi-dao", SlugUtils.generateSlug("这个人什么都不知道"))
     }
 

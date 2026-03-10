@@ -1,27 +1,27 @@
 plugins {
     // https://plugins.gradle.org/plugin/com.tailrocks.java
-    id("com.tailrocks.java") version "0.7.0"
+    alias(jambalayaLibs.plugins.tailrocks.java)
 
     // https://plugins.gradle.org/plugin/com.tailrocks.spotless
-    id("com.tailrocks.spotless") version "0.7.0"
+    alias(jambalayaLibs.plugins.tailrocks.spotless)
 
     // https://plugins.gradle.org/plugin/com.tailrocks.idea
-    id("com.tailrocks.idea") version "0.7.0" apply false
+    alias(jambalayaLibs.plugins.tailrocks.idea) apply false
 
     // https://plugins.gradle.org/plugin/com.tailrocks.junit
-    id("com.tailrocks.junit") version "0.7.0" apply false
+    alias(jambalayaLibs.plugins.tailrocks.junit) apply false
 
     // https://plugins.gradle.org/plugin/com.tailrocks.versions
-    id("com.tailrocks.versions") version "0.7.0" apply false
+    alias(jambalayaLibs.plugins.tailrocks.versions) apply false
 
     // https://plugins.gradle.org/plugin/com.tailrocks.kotlin
-    id("com.tailrocks.kotlin") version "0.11.0" apply false
+    alias(jambalayaLibs.plugins.tailrocks.kotlin) apply false
 
     // https://plugins.gradle.org/plugin/com.adarshr.test-logger
-    id("com.adarshr.test-logger") version "4.0.0" apply false
+    alias(jambalayaLibs.plugins.test.logger) apply false
 
     // https://plugins.gradle.org/plugin/com.google.protobuf
-    id("com.google.protobuf") version "0.9.6" apply false
+    alias(jambalayaLibs.plugins.protobuf) apply false
 
     // https://github.com/GradleUp/nmcp
     id("com.gradleup.nmcp.aggregation")

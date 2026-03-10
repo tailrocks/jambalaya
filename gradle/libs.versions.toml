@@ -75,3 +75,14 @@ junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", vers
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+
+[plugins]
+tailrocks-java = { id = "com.tailrocks.java", version = "0.7.0" }
+tailrocks-spotless = { id = "com.tailrocks.spotless", version = "0.7.0" }
+tailrocks-idea = { id = "com.tailrocks.idea", version = "0.7.0" }
+tailrocks-junit = { id = "com.tailrocks.junit", version = "0.7.0" }
+tailrocks-versions = { id = "com.tailrocks.versions", version = "0.7.0" }
+tailrocks-kotlin = { id = "com.tailrocks.kotlin", version = "0.11.0" }
+test-logger = { id = "com.adarshr.test-logger", version = "4.0.0" }
+protobuf = { id = "com.google.protobuf", version = "0.9.6" }
+apollo = { id = "com.apollographql.apollo", version.ref = "apollo" }

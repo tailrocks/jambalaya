@@ -73,7 +73,7 @@ public class GraphQlClient {
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-            okHttpClient = (Call.Factory) new OkHttpClient.Builder()
+            okHttpClient = new OkHttpClient.Builder()
                     .cookieJar(new JavaNetCookieJar(cookieHandler))
                     .addInterceptor(logging)
                     .build();

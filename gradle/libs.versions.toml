@@ -24,7 +24,7 @@ jambalaya-tenancy-spock = "0.12.0"
 
 # Libraries
 apollo = "4.4.1"
-kotlinx-coroutines = "1.9.0"
+kotlinx-coroutines = "1.10.2"
 common-protos = "2.66.0"
 graphql-data-loader = "6.0.0"
 grpc = "1.79.0"

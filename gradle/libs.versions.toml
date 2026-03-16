@@ -23,7 +23,7 @@ jambalaya-tenancy-junit = "0.13.0"
 jambalaya-tenancy-spock = "0.13.0"
 
 # Libraries
-apollo = "4.4.1"
+apollo = "4.4.2"
 kotlinx-coroutines = "1.10.2"
 common-protos = "2.66.0"
 graphql-data-loader = "6.0.0"

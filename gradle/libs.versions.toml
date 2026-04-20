@@ -84,5 +84,5 @@ tailrocks-junit = { id = "com.tailrocks.junit", version = "0.7.0" }
 tailrocks-versions = { id = "com.tailrocks.versions", version = "0.7.0" }
 tailrocks-kotlin = { id = "com.tailrocks.kotlin", version = "0.11.0" }
 test-logger = { id = "com.adarshr.test-logger", version = "4.0.0" }
-protobuf = { id = "com.google.protobuf", version = "0.9.6" }
+protobuf = { id = "com.google.protobuf", version = "0.10.0" }
 apollo = { id = "com.apollographql.apollo", version.ref = "apollo" }

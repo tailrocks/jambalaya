@@ -64,9 +64,15 @@ opentelemetry-semconv = "1.41.1"
 >>>>>>> origin/main
 opentelemetry-semconv-alpha = "1.37.0-alpha"
 jspecify = "1.0.0"
+<<<<<<< HEAD
+junit = "6.0.3"
+flyway = "12.8.1"
+slf4j = "2.0.17"
+=======
 junit = "6.1.0"
 flyway = "11.20.3"
 slf4j = "2.0.18"
+>>>>>>> origin/main
 
 [libraries]
 # Libraries

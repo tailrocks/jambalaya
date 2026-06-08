@@ -53,9 +53,15 @@ slugify = "4.0.0"
 error-prone = "2.49.0"
 icu4j = "78.3"
 spock = "2.3-groovy-4.0"
+<<<<<<< HEAD
+jooq = "3.21.1"
+opentelemetry = "1.63.0"
+opentelemetry-semconv = "1.39.0"
+=======
 jooq = "3.21.5"
 opentelemetry = "1.58.0"
 opentelemetry-semconv = "1.41.1"
+>>>>>>> origin/main
 opentelemetry-semconv-alpha = "1.37.0-alpha"
 jspecify = "1.0.0"
 junit = "6.1.0"

@@ -10,5 +10,5 @@ dependencies {
     implementation("com.tailrocks.gradle:signing-conventions:0.7.0")
 
     // https://github.com/GradleUp/nmcp
-    implementation("com.gradleup.nmcp:nmcp:1.4.4")
+    implementation("com.gradleup.nmcp:nmcp:1.5.0")
 }

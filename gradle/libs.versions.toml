@@ -23,29 +23,34 @@ jambalaya-tenancy-junit = "0.13.0"
 jambalaya-tenancy-spock = "0.13.0"
 
 # Libraries
-apollo = "4.4.3"
+apollo = "5.0.0"
 kotlinx-coroutines = "1.10.2"
-common-protos = "2.70.0"
+common-protos = "2.72.0"
 graphql-data-loader = "6.0.0"
 grpc = "1.79.0"
 guava = "33.6.0-jre"
 mapstruct = "1.6.3"
+<<<<<<< HEAD
 micronaut = "5.0.2"
 micronaut-graphql = "4.8.0"
+=======
+micronaut = "4.10.21"
+micronaut-graphql = "5.0.1"
+>>>>>>> origin/main
 okhttp = "5.3.2"
-protobuf = "3.25.9"
+protobuf = "4.35.0"
 slugify = "4.0.0"
 error-prone = "2.49.0"
 icu4j = "78.3"
 spock = "2.3-groovy-4.0"
-jooq = "3.21.1"
+jooq = "3.21.5"
 opentelemetry = "1.58.0"
-opentelemetry-semconv = "1.39.0"
+opentelemetry-semconv = "1.41.1"
 opentelemetry-semconv-alpha = "1.37.0-alpha"
 jspecify = "1.0.0"
-junit = "6.0.3"
+junit = "6.1.0"
 flyway = "11.20.3"
-slf4j = "2.0.17"
+slf4j = "2.0.18"
 
 [libraries]
 # Libraries

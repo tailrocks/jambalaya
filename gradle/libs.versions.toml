@@ -37,7 +37,11 @@ grpc = "1.79.0"
 guava = "33.6.0-jre"
 mapstruct = "1.6.3"
 <<<<<<< HEAD
+micronaut = "4.10.25"
+=======
+<<<<<<< HEAD
 micronaut = "5.0.2"
+>>>>>>> origin/main
 micronaut-graphql = "4.8.0"
 =======
 micronaut = "4.10.21"

@@ -15,7 +15,7 @@ dependencies {
     api(project(":jambalaya-checks"))
     api(project(":jambalaya-opentelemetry"))
 
-    compileOnly("com.google.errorprone:error_prone_annotations:2.49.0")
+    compileOnly("com.google.errorprone:error_prone_annotations:2.50.0")
 
     testImplementation(jambalayaLibs.junit.jupiter.api)
     testRuntimeOnly(jambalayaLibs.junit.jupiter.engine)

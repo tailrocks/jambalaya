@@ -57,11 +57,11 @@ jobs:
           persist-credentials: false
       - name: Set up Velnor workflow runtime
         if: ${{ runner.environment == 'github-hosted' }}
-        uses: tailrocks/velnor/.github/actions/setup-velnor-workflow@e6fabca85499be62f939243d4452438449b69c53
+        uses: tailrocks/velnor/.github/actions/setup-velnor-workflow@e05aee6de1d1614d752b4d1b1d26a49ac2c5ef91
         with:
-          rev: e6fabca85499be62f939243d4452438449b69c53
+          rev: e05aee6de1d1614d752b4d1b1d26a49ac2c5ef91
       - name: Set trusted workflow policy revision
-        run: echo "VELNOR_WORKFLOW_POLICY_REVISION=e6fabca85499be62f939243d4452438449b69c53" >> "$GITHUB_ENV"
+        run: echo "VELNOR_WORKFLOW_POLICY_REVISION=e05aee6de1d1614d752b4d1b1d26a49ac2c5ef91" >> "$GITHUB_ENV"
       - name: Select affected units
         id: plan
         env:
@@ -78,7 +78,7 @@ jobs:
       - name: Prepare Velnor workflow runtime
         shell: bash
         env:
-          EXPECTED_REVISION: e6fabca85499be62f939243d4452438449b69c53
+          EXPECTED_REVISION: e05aee6de1d1614d752b4d1b1d26a49ac2c5ef91
         run: |
           set -euo pipefail
           stage="$RUNNER_TEMP/velnor-workflow-runtime"
@@ -87,11 +87,16 @@ jobs:
           src="$(command -v velnor-workflow)"
           install -m 0755 "$src" "$stage/velnor-workflow"
           digest="$(sha256sum "$stage/velnor-workflow" | awk '{print $1}')"
-          jq -n --arg repository "$GITHUB_REPOSITORY" --arg revision "$EXPECTED_REVISION" --arg head_branch "${{ github.ref_name }}" --arg platform "${{ runner.os }}-${{ runner.arch }}" --arg run_id "$GITHUB_RUN_ID" --arg job_id "${{ github.job }}" --arg binary_sha256 "$digest" '{repository: $repository, revision: $revision, head_branch: $head_branch, platform: $platform, run_id: $run_id, job_id: $job_id, binary_sha256: $binary_sha256}' > "$stage/manifest.json"
+          policy_src="${VELNOR_WORKFLOW_PINNED_BINARY:-$src}"
+          install -m 0755 "$policy_src" "$stage/velnor-workflow-policy"
+          policy_revision="$("$stage/velnor-workflow-policy" --revision)"
+          [[ "$policy_revision" == "$EXPECTED_REVISION" ]] || { echo "::error::policy runtime reports revision $policy_revision, expected $EXPECTED_REVISION" >&2; exit 1; }
+          policy_digest="$(sha256sum "$stage/velnor-workflow-policy" | awk '{print $1}')"
+          jq -n --arg repository "$GITHUB_REPOSITORY" --arg revision "$EXPECTED_REVISION" --arg head_branch "${{ github.ref_name }}" --arg platform "${{ runner.os }}-${{ runner.arch }}" --arg run_id "$GITHUB_RUN_ID" --arg job_id "${{ github.job }}" --arg binary_sha256 "$digest" --arg policy_revision "$policy_revision" --arg policy_binary_sha256 "$policy_digest" '{repository: $repository, revision: $revision, head_branch: $head_branch, platform: $platform, run_id: $run_id, job_id: $job_id, binary_sha256: $binary_sha256, policy_revision: $policy_revision, policy_binary_sha256: $policy_binary_sha256}' > "$stage/manifest.json"
       - name: Publish Velnor workflow runtime
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: velnor-workflow-runtime-e6fabca85499be62f939243d4452438449b69c53-${{ runner.os }}-${{ runner.arch }}
+          name: velnor-workflow-runtime-e05aee6de1d1614d752b4d1b1d26a49ac2c5ef91-${{ runner.os }}-${{ runner.arch }}
           path: ${{ runner.temp }}/velnor-workflow-runtime
           if-no-files-found: error
           retention-days: 7
@@ -108,7 +113,6 @@ jobs:
     name: "Gradle · Gradle"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle
@@ -118,11 +122,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle:
     name: "Gradle · Gradle"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle
@@ -132,11 +141,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-buildsrc:
     name: "Gradle · Gradle (buildSrc)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-buildsrc,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-buildsrc
@@ -146,11 +160,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        buildSrc/gradle/wrapper/gradle-wrapper.properties
+        buildSrc/gradle/libs.versions.toml
   velnor-gradle-buildsrc:
     name: "Gradle · Gradle (buildSrc)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-buildsrc,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-buildsrc
@@ -160,11 +179,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        buildSrc/gradle/wrapper/gradle-wrapper.properties
+        buildSrc/gradle/libs.versions.toml
   github-gradle-jambalaya-checks:
     name: "Gradle · Gradle (jambalaya-checks)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-checks,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-checks
@@ -174,11 +198,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-checks:
     name: "Gradle · Gradle (jambalaya-checks)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-checks,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-checks
@@ -188,11 +217,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-checks-jooq:
     name: "Gradle · Gradle (jambalaya-checks-jooq)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-checks-jooq,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-checks-jooq
@@ -202,11 +236,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-checks-jooq:
     name: "Gradle · Gradle (jambalaya-checks-jooq)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-checks-jooq,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-checks-jooq
@@ -216,11 +255,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-example-grpc-interface:
     name: "Gradle · Gradle (jambalaya-example-grpc-interface)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-example-grpc-interface,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-example-grpc-interface
@@ -230,11 +274,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-example-grpc-interface:
     name: "Gradle · Gradle (jambalaya-example-grpc-interface)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-example-grpc-interface,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-example-grpc-interface
@@ -244,11 +293,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-example-jooq:
     name: "Gradle · Gradle (jambalaya-example-jooq)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-example-jooq,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-example-jooq
@@ -258,11 +312,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-example-jooq:
     name: "Gradle · Gradle (jambalaya-example-jooq)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-example-jooq,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-example-jooq
@@ -272,11 +331,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-example-kotlin-test-graphql:
     name: "Gradle · Gradle (jambalaya-example-kotlin-test-graphql)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-example-kotlin-test-graphql,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-example-kotlin-test-graphql
@@ -286,11 +350,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-example-kotlin-test-graphql:
     name: "Gradle · Gradle (jambalaya-example-kotlin-test-graphql)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-example-kotlin-test-graphql,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-example-kotlin-test-graphql
@@ -300,11 +369,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-example-mapstruct-processors:
     name: "Gradle · Gradle (jambalaya-example-mapstruct-processors)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-example-mapstruct-processors,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-example-mapstruct-processors
@@ -314,11 +388,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-example-mapstruct-processors:
     name: "Gradle · Gradle (jambalaya-example-mapstruct-processors)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-example-mapstruct-processors,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-example-mapstruct-processors
@@ -328,11 +407,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-graphql:
     name: "Gradle · Gradle (jambalaya-graphql)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-graphql,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-graphql
@@ -342,11 +426,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-graphql:
     name: "Gradle · Gradle (jambalaya-graphql)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-graphql,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-graphql
@@ -356,11 +445,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-graphql-apollo:
     name: "Gradle · Gradle (jambalaya-graphql-apollo)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-graphql-apollo,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-graphql-apollo
@@ -370,11 +464,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-graphql-apollo:
     name: "Gradle · Gradle (jambalaya-graphql-apollo)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-graphql-apollo,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-graphql-apollo
@@ -384,11 +483,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-graphql-jooq:
     name: "Gradle · Gradle (jambalaya-graphql-jooq)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-graphql-jooq,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-graphql-jooq
@@ -398,11 +502,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-graphql-jooq:
     name: "Gradle · Gradle (jambalaya-graphql-jooq)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-graphql-jooq,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-graphql-jooq
@@ -412,11 +521,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-jsr310:
     name: "Gradle · Gradle (jambalaya-jsr310)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-jsr310,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-jsr310
@@ -426,11 +540,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-jsr310:
     name: "Gradle · Gradle (jambalaya-jsr310)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-jsr310,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-jsr310
@@ -440,11 +559,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-junit-opentelemetry:
     name: "Gradle · Gradle (jambalaya-junit-opentelemetry)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-junit-opentelemetry,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-junit-opentelemetry
@@ -454,11 +578,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-junit-opentelemetry:
     name: "Gradle · Gradle (jambalaya-junit-opentelemetry)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-junit-opentelemetry,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-junit-opentelemetry
@@ -468,11 +597,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-kotlin-test:
     name: "Gradle · Gradle (jambalaya-kotlin-test)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-kotlin-test,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-kotlin-test
@@ -482,11 +616,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        jambalaya-kotlin-test/gradle/wrapper/gradle-wrapper.properties
+        jambalaya-kotlin-test/gradle/libs.versions.toml
   velnor-gradle-jambalaya-kotlin-test:
     name: "Gradle · Gradle (jambalaya-kotlin-test)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-kotlin-test,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-kotlin-test
@@ -496,11 +635,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        jambalaya-kotlin-test/gradle/wrapper/gradle-wrapper.properties
+        jambalaya-kotlin-test/gradle/libs.versions.toml
   github-gradle-jambalaya-mapstruct:
     name: "Gradle · Gradle (jambalaya-mapstruct)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-mapstruct,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-mapstruct
@@ -510,11 +654,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-mapstruct:
     name: "Gradle · Gradle (jambalaya-mapstruct)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-mapstruct,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-mapstruct
@@ -524,11 +673,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-mapstruct-processor:
     name: "Gradle · Gradle (jambalaya-mapstruct-processor)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-mapstruct-processor,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-mapstruct-processor
@@ -538,11 +692,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-mapstruct-processor:
     name: "Gradle · Gradle (jambalaya-mapstruct-processor)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-mapstruct-processor,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-mapstruct-processor
@@ -552,11 +711,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-micronaut-graphql:
     name: "Gradle · Gradle (jambalaya-micronaut-graphql)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-micronaut-graphql,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-micronaut-graphql
@@ -566,11 +730,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-micronaut-graphql:
     name: "Gradle · Gradle (jambalaya-micronaut-graphql)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-micronaut-graphql,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-micronaut-graphql
@@ -580,11 +749,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-micronaut-mapstruct-protobuf:
     name: "Gradle · Gradle (jambalaya-micronaut-mapstruct-protobuf)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-micronaut-mapstruct-protobuf,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-micronaut-mapstruct-protobuf
@@ -594,11 +768,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-micronaut-mapstruct-protobuf:
     name: "Gradle · Gradle (jambalaya-micronaut-mapstruct-protobuf)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-micronaut-mapstruct-protobuf,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-micronaut-mapstruct-protobuf
@@ -608,11 +787,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-opentelemetry:
     name: "Gradle · Gradle (jambalaya-opentelemetry)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-opentelemetry,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-opentelemetry
@@ -622,11 +806,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-opentelemetry:
     name: "Gradle · Gradle (jambalaya-opentelemetry)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-opentelemetry,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-opentelemetry
@@ -636,11 +825,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-protobuf:
     name: "Gradle · Gradle (jambalaya-protobuf)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-protobuf,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-protobuf
@@ -650,11 +844,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-protobuf:
     name: "Gradle · Gradle (jambalaya-protobuf)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-protobuf,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-protobuf
@@ -664,11 +863,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-seo:
     name: "Gradle · Gradle (jambalaya-seo)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-seo,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-seo
@@ -678,11 +882,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-seo:
     name: "Gradle · Gradle (jambalaya-seo)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-seo,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-seo
@@ -692,11 +901,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-tenancy:
     name: "Gradle · Gradle (jambalaya-tenancy)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-tenancy,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-tenancy
@@ -706,11 +920,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-tenancy:
     name: "Gradle · Gradle (jambalaya-tenancy)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-tenancy,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-tenancy
@@ -720,11 +939,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-tenancy-flyway:
     name: "Gradle · Gradle (jambalaya-tenancy-flyway)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-tenancy-flyway,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-tenancy-flyway
@@ -734,11 +958,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-tenancy-flyway:
     name: "Gradle · Gradle (jambalaya-tenancy-flyway)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-tenancy-flyway,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-tenancy-flyway
@@ -748,11 +977,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-tenancy-grpc-interface:
     name: "Gradle · Gradle (jambalaya-tenancy-grpc-interface)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-tenancy-grpc-interface,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-tenancy-grpc-interface
@@ -762,11 +996,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-tenancy-grpc-interface:
     name: "Gradle · Gradle (jambalaya-tenancy-grpc-interface)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-tenancy-grpc-interface,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-tenancy-grpc-interface
@@ -776,11 +1015,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-tenancy-jooq:
     name: "Gradle · Gradle (jambalaya-tenancy-jooq)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-tenancy-jooq,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-tenancy-jooq
@@ -790,11 +1034,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-tenancy-jooq:
     name: "Gradle · Gradle (jambalaya-tenancy-jooq)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-tenancy-jooq,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-tenancy-jooq
@@ -804,11 +1053,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   github-gradle-jambalaya-tenancy-junit:
     name: "Gradle · Gradle (jambalaya-tenancy-junit)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-tenancy-junit,') }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-tenancy-junit
@@ -818,11 +1072,16 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   velnor-gradle-jambalaya-tenancy-junit:
     name: "Gradle · Gradle (jambalaya-tenancy-junit)"
     if: ${{ always() && needs.plan.result == 'success' && contains(format(',{0},', needs.plan.outputs.units), ',gradle-jambalaya-tenancy-junit,') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
     needs: [plan]
-    cache-mode: read
     uses: ./.github/workflows/ci-unit-gradle.yml
     with:
       unit: gradle-jambalaya-tenancy-junit
@@ -832,6 +1091,12 @@ jobs:
       full_units: ${{ needs.plan.outputs.full_units }}
       base_sha: ${{ needs.plan.outputs.base_sha }}
       head_sha: ${{ needs.plan.outputs.head_sha }}
+      cache_paths: |
+        ~/.gradle/caches
+        ~/.gradle/wrapper
+      cache_key_files: |
+        gradle/wrapper/gradle-wrapper.properties
+        gradle/libs.versions.toml
   ci-required:
     name: ci-required
     if: ${{ always() }}
@@ -863,17 +1128,10 @@ jobs:
           selected=",$SELECTED_UNITS,"
           if [[ "$selected" == *",gradle,"* ]]; then
             result="$(result_for_job github-gradle)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle)"
             case "$result" in
@@ -883,7 +1141,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle,"* ]]; then
             result="$(result_for_job velnor-gradle)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle did not pass: $result" >&2; exit 1 ;;
@@ -903,17 +1161,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-buildsrc,"* ]]; then
             result="$(result_for_job github-gradle-buildsrc)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-buildsrc did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-buildsrc did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-buildsrc did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-buildsrc)"
             case "$result" in
@@ -923,7 +1174,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-buildsrc,"* ]]; then
             result="$(result_for_job velnor-gradle-buildsrc)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-buildsrc did not pass: $result" >&2; exit 1 ;;
@@ -943,17 +1194,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-checks,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-checks)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-checks did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-checks did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-checks did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-checks)"
             case "$result" in
@@ -963,7 +1207,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-checks,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-checks)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-checks did not pass: $result" >&2; exit 1 ;;
@@ -983,17 +1227,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-checks-jooq,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-checks-jooq)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-checks-jooq did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-checks-jooq did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-checks-jooq did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-checks-jooq)"
             case "$result" in
@@ -1003,7 +1240,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-checks-jooq,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-checks-jooq)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-checks-jooq did not pass: $result" >&2; exit 1 ;;
@@ -1023,17 +1260,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-example-grpc-interface,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-example-grpc-interface)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-example-grpc-interface did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-example-grpc-interface did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-example-grpc-interface did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-example-grpc-interface)"
             case "$result" in
@@ -1043,7 +1273,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-example-grpc-interface,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-example-grpc-interface)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-example-grpc-interface did not pass: $result" >&2; exit 1 ;;
@@ -1063,17 +1293,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-example-jooq,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-example-jooq)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-example-jooq did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-example-jooq did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-example-jooq did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-example-jooq)"
             case "$result" in
@@ -1083,7 +1306,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-example-jooq,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-example-jooq)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-example-jooq did not pass: $result" >&2; exit 1 ;;
@@ -1103,17 +1326,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-example-kotlin-test-graphql,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-example-kotlin-test-graphql)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-example-kotlin-test-graphql did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-example-kotlin-test-graphql did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-example-kotlin-test-graphql did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-example-kotlin-test-graphql)"
             case "$result" in
@@ -1123,7 +1339,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-example-kotlin-test-graphql,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-example-kotlin-test-graphql)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-example-kotlin-test-graphql did not pass: $result" >&2; exit 1 ;;
@@ -1143,17 +1359,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-example-mapstruct-processors,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-example-mapstruct-processors)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-example-mapstruct-processors did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-example-mapstruct-processors did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-example-mapstruct-processors did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-example-mapstruct-processors)"
             case "$result" in
@@ -1163,7 +1372,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-example-mapstruct-processors,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-example-mapstruct-processors)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-example-mapstruct-processors did not pass: $result" >&2; exit 1 ;;
@@ -1183,17 +1392,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-graphql,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-graphql)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-graphql did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-graphql did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-graphql did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-graphql)"
             case "$result" in
@@ -1203,7 +1405,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-graphql,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-graphql)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-graphql did not pass: $result" >&2; exit 1 ;;
@@ -1223,17 +1425,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-graphql-apollo,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-graphql-apollo)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-graphql-apollo did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-graphql-apollo did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-graphql-apollo did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-graphql-apollo)"
             case "$result" in
@@ -1243,7 +1438,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-graphql-apollo,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-graphql-apollo)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-graphql-apollo did not pass: $result" >&2; exit 1 ;;
@@ -1263,17 +1458,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-graphql-jooq,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-graphql-jooq)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-graphql-jooq did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-graphql-jooq did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-graphql-jooq did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-graphql-jooq)"
             case "$result" in
@@ -1283,7 +1471,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-graphql-jooq,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-graphql-jooq)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-graphql-jooq did not pass: $result" >&2; exit 1 ;;
@@ -1303,17 +1491,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-jsr310,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-jsr310)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-jsr310 did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-jsr310 did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-jsr310 did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-jsr310)"
             case "$result" in
@@ -1323,7 +1504,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-jsr310,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-jsr310)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-jsr310 did not pass: $result" >&2; exit 1 ;;
@@ -1343,17 +1524,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-junit-opentelemetry,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-junit-opentelemetry)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-junit-opentelemetry did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-junit-opentelemetry did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-junit-opentelemetry did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-junit-opentelemetry)"
             case "$result" in
@@ -1363,7 +1537,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-junit-opentelemetry,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-junit-opentelemetry)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-junit-opentelemetry did not pass: $result" >&2; exit 1 ;;
@@ -1383,17 +1557,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-kotlin-test,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-kotlin-test)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-kotlin-test did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-kotlin-test did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-kotlin-test did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-kotlin-test)"
             case "$result" in
@@ -1403,7 +1570,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-kotlin-test,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-kotlin-test)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-kotlin-test did not pass: $result" >&2; exit 1 ;;
@@ -1423,17 +1590,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-mapstruct,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-mapstruct)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-mapstruct did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-mapstruct did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-mapstruct did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-mapstruct)"
             case "$result" in
@@ -1443,7 +1603,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-mapstruct,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-mapstruct)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-mapstruct did not pass: $result" >&2; exit 1 ;;
@@ -1463,17 +1623,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-mapstruct-processor,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-mapstruct-processor)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-mapstruct-processor did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-mapstruct-processor did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-mapstruct-processor did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-mapstruct-processor)"
             case "$result" in
@@ -1483,7 +1636,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-mapstruct-processor,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-mapstruct-processor)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-mapstruct-processor did not pass: $result" >&2; exit 1 ;;
@@ -1503,17 +1656,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-micronaut-graphql,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-micronaut-graphql)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-micronaut-graphql did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-micronaut-graphql did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-micronaut-graphql did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-micronaut-graphql)"
             case "$result" in
@@ -1523,7 +1669,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-micronaut-graphql,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-micronaut-graphql)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-micronaut-graphql did not pass: $result" >&2; exit 1 ;;
@@ -1543,17 +1689,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-micronaut-mapstruct-protobuf,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-micronaut-mapstruct-protobuf)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-micronaut-mapstruct-protobuf did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-micronaut-mapstruct-protobuf did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-micronaut-mapstruct-protobuf did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-micronaut-mapstruct-protobuf)"
             case "$result" in
@@ -1563,7 +1702,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-micronaut-mapstruct-protobuf,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-micronaut-mapstruct-protobuf)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-micronaut-mapstruct-protobuf did not pass: $result" >&2; exit 1 ;;
@@ -1583,17 +1722,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-opentelemetry,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-opentelemetry)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-opentelemetry did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-opentelemetry did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-opentelemetry did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-opentelemetry)"
             case "$result" in
@@ -1603,7 +1735,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-opentelemetry,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-opentelemetry)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-opentelemetry did not pass: $result" >&2; exit 1 ;;
@@ -1623,17 +1755,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-protobuf,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-protobuf)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-protobuf did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-protobuf did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-protobuf did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-protobuf)"
             case "$result" in
@@ -1643,7 +1768,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-protobuf,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-protobuf)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-protobuf did not pass: $result" >&2; exit 1 ;;
@@ -1663,17 +1788,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-seo,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-seo)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-seo did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-seo did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-seo did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-seo)"
             case "$result" in
@@ -1683,7 +1801,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-seo,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-seo)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-seo did not pass: $result" >&2; exit 1 ;;
@@ -1703,17 +1821,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-tenancy,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-tenancy)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-tenancy did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-tenancy did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-tenancy did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-tenancy)"
             case "$result" in
@@ -1723,7 +1834,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-tenancy,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-tenancy)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-tenancy did not pass: $result" >&2; exit 1 ;;
@@ -1743,17 +1854,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-tenancy-flyway,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-tenancy-flyway)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-tenancy-flyway did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-tenancy-flyway did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-tenancy-flyway did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-tenancy-flyway)"
             case "$result" in
@@ -1763,7 +1867,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-tenancy-flyway,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-tenancy-flyway)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-tenancy-flyway did not pass: $result" >&2; exit 1 ;;
@@ -1783,17 +1887,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-tenancy-grpc-interface,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-tenancy-grpc-interface)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-tenancy-grpc-interface did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-tenancy-grpc-interface did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-tenancy-grpc-interface did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-tenancy-grpc-interface)"
             case "$result" in
@@ -1803,7 +1900,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-tenancy-grpc-interface,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-tenancy-grpc-interface)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-tenancy-grpc-interface did not pass: $result" >&2; exit 1 ;;
@@ -1823,17 +1920,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-tenancy-jooq,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-tenancy-jooq)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-tenancy-jooq did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-tenancy-jooq did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-tenancy-jooq did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-tenancy-jooq)"
             case "$result" in
@@ -1843,7 +1933,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-tenancy-jooq,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-tenancy-jooq)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-tenancy-jooq did not pass: $result" >&2; exit 1 ;;
@@ -1863,17 +1953,10 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-tenancy-junit,"* ]]; then
             result="$(result_for_job github-gradle-jambalaya-tenancy-junit)"
-            if [[ "$FORK_PR" == true && false ]]; then
-              case "$result" in
-                success|skipped) ;;
-                *) echo "selected CI job github-gradle-jambalaya-tenancy-junit did not pass: $result" >&2; exit 1 ;;
-              esac
-            else
-              case "$result" in
-                success) ;;
-                *) echo "selected CI job github-gradle-jambalaya-tenancy-junit did not pass: $result" >&2; exit 1 ;;
-              esac
-            fi
+            case "$result" in
+              success) ;;
+              *) echo "selected CI job github-gradle-jambalaya-tenancy-junit did not pass: $result" >&2; exit 1 ;;
+            esac
           else
             result="$(result_for_job github-gradle-jambalaya-tenancy-junit)"
             case "$result" in
@@ -1883,7 +1966,7 @@ jobs:
           fi
           if [[ "$selected" == *",gradle-jambalaya-tenancy-junit,"* ]]; then
             result="$(result_for_job velnor-gradle-jambalaya-tenancy-junit)"
-            if [[ "$FORK_PR" == true && true ]]; then
+            if [[ "$FORK_PR" == true ]]; then
               case "$result" in
                 success|skipped) ;;
                 *) echo "selected CI job velnor-gradle-jambalaya-tenancy-junit did not pass: $result" >&2; exit 1 ;;

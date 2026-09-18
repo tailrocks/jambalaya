@@ -41,7 +41,7 @@ permissions:
 jobs:
   plan:
     name: "Control / Planning"
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     outputs:
       scope: ${{ steps.plan.outputs.scope }}
       base_sha: ${{ steps.plan.outputs.base_sha }}
@@ -103,7 +103,7 @@ jobs:
   velnor-lane-admission:
     name: "Control / Velnor admission"
     if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     steps:
       - name: Velnor lane omitted for fork
@@ -1101,7 +1101,7 @@ jobs:
     name: ci-required
     if: ${{ always() }}
     needs: [plan, velnor-lane-admission, github-gradle, velnor-gradle, github-gradle-buildsrc, velnor-gradle-buildsrc, github-gradle-jambalaya-checks, velnor-gradle-jambalaya-checks, github-gradle-jambalaya-checks-jooq, velnor-gradle-jambalaya-checks-jooq, github-gradle-jambalaya-example-grpc-interface, velnor-gradle-jambalaya-example-grpc-interface, github-gradle-jambalaya-example-jooq, velnor-gradle-jambalaya-example-jooq, github-gradle-jambalaya-example-kotlin-test-graphql, velnor-gradle-jambalaya-example-kotlin-test-graphql, github-gradle-jambalaya-example-mapstruct-processors, velnor-gradle-jambalaya-example-mapstruct-processors, github-gradle-jambalaya-graphql, velnor-gradle-jambalaya-graphql, github-gradle-jambalaya-graphql-apollo, velnor-gradle-jambalaya-graphql-apollo, github-gradle-jambalaya-graphql-jooq, velnor-gradle-jambalaya-graphql-jooq, github-gradle-jambalaya-jsr310, velnor-gradle-jambalaya-jsr310, github-gradle-jambalaya-junit-opentelemetry, velnor-gradle-jambalaya-junit-opentelemetry, github-gradle-jambalaya-kotlin-test, velnor-gradle-jambalaya-kotlin-test, github-gradle-jambalaya-mapstruct, velnor-gradle-jambalaya-mapstruct, github-gradle-jambalaya-mapstruct-processor, velnor-gradle-jambalaya-mapstruct-processor, github-gradle-jambalaya-micronaut-graphql, velnor-gradle-jambalaya-micronaut-graphql, github-gradle-jambalaya-micronaut-mapstruct-protobuf, velnor-gradle-jambalaya-micronaut-mapstruct-protobuf, github-gradle-jambalaya-opentelemetry, velnor-gradle-jambalaya-opentelemetry, github-gradle-jambalaya-protobuf, velnor-gradle-jambalaya-protobuf, github-gradle-jambalaya-seo, velnor-gradle-jambalaya-seo, github-gradle-jambalaya-tenancy, velnor-gradle-jambalaya-tenancy, github-gradle-jambalaya-tenancy-flyway, velnor-gradle-jambalaya-tenancy-flyway, github-gradle-jambalaya-tenancy-grpc-interface, velnor-gradle-jambalaya-tenancy-grpc-interface, github-gradle-jambalaya-tenancy-jooq, velnor-gradle-jambalaya-tenancy-jooq, github-gradle-jambalaya-tenancy-junit, velnor-gradle-jambalaya-tenancy-junit]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     steps:
       - name: Validate generated stack results
@@ -1988,7 +1988,7 @@ jobs:
     name: "Control / Required"
     if: ${{ always() }}
     needs: [ci-required]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     steps:
       - name: Mirror CI / Required
